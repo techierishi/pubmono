@@ -1,65 +1,164 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"palclip/pkg/clipm"
 	"palclip/pkg/config"
+	"strings"
 	"time"
 
-	"github.com/wailsapp/wails/v2/pkg/runtime"
-	wails_runtime "github.com/wailsapp/wails/v2/pkg/runtime"
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/widget"
 	"golang.design/x/clipboard"
 	"golang.design/x/hotkey"
 )
 
 // App struct
 type App struct {
-	ctx context.Context
+	window    fyne.Window
+	clipList  *widget.List
+	clipData  []clipm.ClipInfo
+	refreshCh chan bool
 }
 
 // NewApp creates a new App application struct
 func NewApp() *App {
-	return &App{}
+	return &App{
+		clipData:  make([]clipm.ClipInfo, 0),
+		refreshCh: make(chan bool, 1),
+	}
 }
 
-// startup is called when the app starts. The context is saved
-// so we can call the runtime methods
-func (a *App) startup(ctx context.Context) {
-	a.ctx = ctx
-	wails_runtime.EventsOn(ctx, "mark_secret", func(optionalData ...interface{}) {
-		clipDb := config.GetInstance()
+// setupUI creates and returns the main UI content
+func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
+	a.window = window
 
-		clipm := &clipm.ClipM{
-			DB: clipDb.DB,
-		}
-		clipm.MarkSecret(string(optionalData[0].(string)))
+	// Create the clip list widget
+	a.clipList = widget.NewList(
+		func() int {
+			return len(a.clipData)
+		},
+		func() fyne.CanvasObject {
+			// Create label with fixed width
+			label := widget.NewLabel("Template text here...")
+			label.Wrapping = fyne.TextWrapWord
 
-	})
+			// Create buttons with consistent sizing
+			copyBtn := widget.NewButton("Copy", nil)
+			secretBtn := widget.NewButton("Secret", nil)
 
-	wails_runtime.EventsOn(ctx, "menu_clear", func(optionalData ...interface{}) {
-		clipDb := config.GetInstance()
-		clipm := &clipm.ClipM{
-			DB: clipDb.DB,
-		}
-		clipm.DeleteBucket()
+			// Use grid layout for consistent sizing
+			buttonGrid := container.New(layout.NewGridLayout(2), copyBtn, secretBtn)
+			buttonGrid.Resize(fyne.NewSize(160, 32))
 
-	})
+			// Use border layout for proper alignment
+			return container.NewBorder(
+				nil, nil, nil, buttonGrid,
+				label,
+			)
+		},
+		func(id widget.ListItemID, item fyne.CanvasObject) {
+			if id >= len(a.clipData) {
+				return
+			}
 
-	wails_runtime.EventsOn(ctx, "menu_quit", func(optionalData ...interface{}) {
-		wails_runtime.Quit(ctx)
-	})
+			clip := a.clipData[id]
+			borderContainer := item.(*fyne.Container)
 
-	go clipm.Record(ctx)
-	// register hotkey on the app startup
-	// if you try to register it anywhere earlier - the app will hang on compile step
-	// mainthread.Init(a.RegisterHotKey)
-	a.RegisterHotKey()
+			// Get the label (center object)
+			label := borderContainer.Objects[0].(*widget.Label)
+			content := clip.Content
+
+			// Handle secret items
+			if clip.IsSecret {
+				content = "*** HIDDEN ***"
+			} else if len(content) > 80 {
+				content = content[:80] + "..."
+			}
+
+			// Replace newlines with spaces for display
+			content = strings.ReplaceAll(content, "\n", " ")
+			content = strings.ReplaceAll(content, "\r", " ")
+			content = strings.ReplaceAll(content, "\t", " ")
+			label.SetText(content)
+
+			// Get the button container (right object in border layout)
+			var buttonGrid *fyne.Container
+			for _, obj := range borderContainer.Objects {
+				if obj != label {
+					buttonGrid = obj.(*fyne.Container)
+					break
+				}
+			}
+
+			// Update copy button
+			copyBtn := buttonGrid.Objects[0].(*widget.Button)
+			currentClip := clip // Capture for closure
+			copyBtn.OnTapped = func() {
+				a.CopyItemContent(currentClip.Content)
+			}
+
+			// Update mark secret button
+			secretBtn := buttonGrid.Objects[1].(*widget.Button)
+			currentHash := clip.Hash // Capture for closure
+			if clip.IsSecret {
+				secretBtn.SetText("Shown")
+			} else {
+				secretBtn.SetText("Secret")
+			}
+			secretBtn.OnTapped = func() {
+				a.MarkSecret(currentHash)
+				a.refreshClipData()
+			}
+		},
+	)
+
+	// Create menu bar
+	menuBar := a.createMenuBar()
+
+	// Create main container
+	content := container.NewBorder(
+		menuBar,    // top
+		nil,        // bottom
+		nil,        // left
+		nil,        // right
+		a.clipList, // center
+	)
+
+	// Load initial data
+	go a.refreshClipData()
+
+	// Start refresh listener
+	go a.refreshListener()
+
+	return content
 }
 
+// createMenuBar creates the application menu bar
+func (a *App) createMenuBar() *fyne.Container {
+	clearBtn := widget.NewButton("Clear All", func() {
+		a.ClearAll()
+	})
+
+	quitBtn := widget.NewButton("Quit", func() {
+		a.window.Close()
+	})
+
+	return container.NewHBox(clearBtn, quitBtn)
+}
+
+// refreshListener listens for refresh events
+func (a *App) refreshListener() {
+	for range a.refreshCh {
+		a.refreshClipData()
+	}
+}
+
+// GetClipData returns clipboard data as JSON string (keeping for compatibility)
 func (a *App) GetClipData(name string) string {
-
 	clipDb := config.GetInstance()
 
 	clipm := &clipm.ClipM{
@@ -74,47 +173,102 @@ func (a *App) GetClipData(name string) string {
 	clipm.SortByTimestamp(*clipList)
 	jsonClipList, err := json.Marshal(clipList)
 	if err != nil {
-		fmt.Println("Reverse", err)
+		fmt.Println("Marshal", err)
 	}
 	return string(jsonClipList)
 }
 
+// refreshClipData refreshes the clipboard data in the UI
+func (a *App) refreshClipData() {
+	clipDb := config.GetInstance()
+
+	clipm := &clipm.ClipM{
+		DB: clipDb.DB,
+	}
+
+	clipList, err := clipm.ReadAll()
+	if err != nil {
+		fmt.Println("ReadAll", err)
+		return
+	}
+	clipm.SortByTimestamp(*clipList)
+
+	a.clipData = *clipList
+	a.clipList.Refresh()
+}
+
+// CopyItemContent copies content to clipboard
 func (a *App) CopyItemContent(content string) {
 	fmt.Println("Copied the content...")
 	clipboard.Write(clipboard.FmtText, []byte(content))
 }
 
-// just a wrapper to have access to App functions
-// not necessary if you don't plan to do anything with your App on shortcut use
-func (a *App) RegisterHotKey() {
-	registerHotkey(a)
+// MarkSecret marks an item as secret
+func (a *App) MarkSecret(hash string) {
+	clipDb := config.GetInstance()
+
+	clipm := &clipm.ClipM{
+		DB: clipDb.DB,
+	}
+	clipm.MarkSecret(hash)
 }
 
-func registerHotkey(a *App) {
+// ClearAll clears all clipboard data
+func (a *App) ClearAll() {
+	clipDb := config.GetInstance()
+	clipm := &clipm.ClipM{
+		DB: clipDb.DB,
+	}
+	clipm.DeleteBucket()
+	a.refreshClipData()
+}
+
+// RegisterHotKey registers global hotkey
+func (a *App) RegisterHotKey(window fyne.Window) {
+	go func() {
+		defer func() {
+			if r := recover(); r != nil {
+				fmt.Printf("Hotkey registration failed: %v\n", r)
+			}
+		}()
+		registerHotkey(a, window)
+	}()
+}
+
+func registerHotkey(a *App, window fyne.Window) {
 	// the actual shortcut keybind - Ctrl + Shift + Space
-	// for more info - refer to the golang.design/x/hotkey documentation
 	hk := hotkey.New([]hotkey.Modifier{hotkey.ModCtrl, hotkey.ModShift}, hotkey.KeySpace)
 	err := hk.Register()
 	if err != nil {
+		fmt.Printf("Failed to register hotkey: %v\n", err)
 		return
 	}
 
-	// you have 2 events available - Keyup and Keydown
-	// you can either or neither, or both
 	fmt.Printf("hotkey: %v is registered\n", hk)
-	<-hk.Keydown()
-	// do anything you want on Key down event
-	fmt.Printf("hotkey: %v is down\n", hk)
 
-	<-hk.Keyup()
-	// do anything you want on Key up event
-	fmt.Printf("hotkey: %v is up\n", hk)
+	for {
+		select {
+		case <-hk.Keydown():
+			fmt.Printf("hotkey: %v is down\n", hk)
+		case <-hk.Keyup():
+			fmt.Printf("hotkey: %v is up\n", hk)
 
-	runtime.EventsEmit(a.ctx, "Backend:GlobalHotkeyEvent", time.Now().String())
+			// Show/hide window on hotkey
+			if window.Content().Visible() {
+				window.Hide()
+			} else {
+				window.Show()
+				window.RequestFocus()
+			}
 
-	hk.Unregister()
-	fmt.Printf("hotkey: %v is unregistered\n", hk)
-
-	// reattach listener
-	registerHotkey(a)
+			// Refresh clip data when hotkey is pressed
+			select {
+			case a.refreshCh <- true:
+			default:
+			}
+		case <-time.After(time.Second * 30):
+			// Periodic check to ensure hotkey is still registered
+			continue
+		}
+	}
 }

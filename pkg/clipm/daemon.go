@@ -7,7 +7,6 @@ import (
 
 	"palclip/pkg/util"
 
-	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"golang.design/x/clipboard"
 )
 
@@ -54,7 +53,6 @@ func Record(ctx context.Context) error {
 
 		str := util.CleanStr(copiedStr).StandardizeSpaces().TruncateText(10).ReplaceNewLine()
 		logger.Info().Msg(string(str + "... COPIED!"))
-		runtime.EventsEmit(ctx, "copy_event", nil)
 
 	}
 
