@@ -18,17 +18,19 @@ import (
 
 // App struct
 type App struct {
-	window    fyne.Window
-	clipList  *widget.List
-	clipData  []clipm.ClipInfo
-	refreshCh chan bool
+	window       fyne.Window
+	clipList     *widget.List
+	clipData     []clipm.ClipInfo
+	filteredData []clipm.ClipInfo
+	refreshCh    chan bool
 }
 
 // NewApp creates a new App application struct
 func NewApp() *App {
 	return &App{
-		clipData:  make([]clipm.ClipInfo, 0),
-		refreshCh: make(chan bool, 1),
+		clipData:     make([]clipm.ClipInfo, 0),
+		filteredData: make([]clipm.ClipInfo, 0),
+		refreshCh:    make(chan bool, 1),
 	}
 }
 
@@ -39,7 +41,7 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 	// Create the clip list widget
 	a.clipList = widget.NewList(
 		func() int {
-			return len(a.clipData)
+			return len(a.filteredData)
 		},
 		func() fyne.CanvasObject {
 			// Create label with fixed width
@@ -61,11 +63,11 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 			)
 		},
 		func(id widget.ListItemID, item fyne.CanvasObject) {
-			if id >= len(a.clipData) {
+			if id >= len(a.filteredData) {
 				return
 			}
 
-			clip := a.clipData[id]
+			clip := a.filteredData[id]
 			borderContainer := item.(*fyne.Container)
 
 			// Get the label (center object)
@@ -75,14 +77,15 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 			// Handle secret items
 			if clip.IsSecret {
 				content = "*** HIDDEN ***"
-			} else if len(content) > 80 {
-				content = content[:80] + "..."
+			} else if len(content) > 40 {
+				content = content[:40] + "..."
 			}
 
 			// Replace newlines with spaces for display
 			content = strings.ReplaceAll(content, "\n", " ")
 			content = strings.ReplaceAll(content, "\r", " ")
 			content = strings.ReplaceAll(content, "\t", " ")
+			content = strings.TrimLeft(content, " ")
 			label.SetText(content)
 
 			// Get the button container (right object in border layout)
@@ -137,17 +140,50 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 	return content
 }
 
-// createMenuBar creates the application menu bar
+// createMenuBar creates the application menu bar with search and three-dot menu
 func (a *App) createMenuBar() *fyne.Container {
-	clearBtn := widget.NewButton("Clear All", func() {
+	// Create search input
+	searchEntry := widget.NewEntry()
+	searchEntry.SetPlaceHolder("Search clipboard...")
+	searchEntry.OnChanged = func(text string) {
+		a.filterClipData(text)
+	}
+
+	// Create three-dot menu with better styling
+	menuButton := widget.NewButton("⋮", nil)
+	menuButton.Resize(fyne.NewSize(40, 32))
+	menuButton.Importance = widget.MediumImportance
+
+	// Create popup menu items
+	clearItem := fyne.NewMenuItem("Clear All", func() {
 		a.ClearAll()
 	})
 
-	quitBtn := widget.NewButton("Quit", func() {
+	settingsItem := fyne.NewMenuItem("Settings", func() {
+		// TODO: Implement settings dialog
+		fmt.Println("Settings clicked")
+	})
+
+	quitItem := fyne.NewMenuItem("Quit", func() {
 		a.window.Close()
 	})
 
-	return container.NewHBox(clearBtn, quitBtn)
+	menu := fyne.NewMenu("", clearItem, settingsItem, quitItem)
+
+	menuButton.OnTapped = func() {
+		// Position menu below the button
+		pos := fyne.NewPos(
+			menuButton.Position().X,
+			menuButton.Position().Y+menuButton.Size().Height,
+		)
+		widget.ShowPopUpMenuAtPosition(menu, a.window.Canvas(), pos)
+	}
+
+	// Use border layout for proper 80/20 distribution
+	return container.NewBorder(
+		nil, nil, nil, menuButton,
+		searchEntry,
+	)
 }
 
 // refreshListener listens for refresh events
@@ -178,6 +214,22 @@ func (a *App) GetClipData(name string) string {
 	return string(jsonClipList)
 }
 
+// filterClipData filters clipboard data based on search text
+func (a *App) filterClipData(searchText string) {
+	if searchText == "" {
+		a.filteredData = a.clipData
+	} else {
+		filtered := make([]clipm.ClipInfo, 0)
+		for _, clip := range a.clipData {
+			if strings.Contains(strings.ToLower(clip.Content), strings.ToLower(searchText)) {
+				filtered = append(filtered, clip)
+			}
+		}
+		a.filteredData = filtered
+	}
+	a.clipList.Refresh()
+}
+
 // refreshClipData refreshes the clipboard data in the UI
 func (a *App) refreshClipData() {
 	clipDb := config.GetInstance()
@@ -194,6 +246,16 @@ func (a *App) refreshClipData() {
 	clipm.SortByTimestamp(*clipList)
 
 	a.clipData = *clipList
+
+	// Maintain current search filter if any
+	if len(a.filteredData) != len(a.clipData) {
+		// Get current search text from the search entry if possible
+		// For now, reset to show all data
+		a.filteredData = *clipList
+	} else {
+		a.filteredData = *clipList
+	}
+
 	a.clipList.Refresh()
 }
 
