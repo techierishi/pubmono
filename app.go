@@ -11,7 +11,6 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	"golang.design/x/clipboard"
 	"golang.design/x/hotkey"
@@ -49,17 +48,16 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 			label := widget.NewLabel("Template text here...")
 			label.Wrapping = fyne.TextWrapWord
 
-			// Create buttons with consistent sizing
-			copyBtn := widget.NewButton("Copy", nil)
-			secretBtn := widget.NewButton("Secret", nil)
+			// Create only secret button - copy button removed
+			secretBtn := widget.NewButton("👁", nil)  // Eye symbol for visible
 
-			// Use grid layout for consistent sizing
-			buttonGrid := container.New(layout.NewGridLayout(2), copyBtn, secretBtn)
-			buttonGrid.Resize(fyne.NewSize(160, 32))
+			// Single button layout
+			buttonContainer := container.NewHBox(secretBtn)
+			buttonContainer.Resize(fyne.NewSize(60, 28))
 
 			// Use border layout for proper alignment
 			return container.NewBorder(
-				nil, nil, nil, buttonGrid,
+				nil, nil, nil, buttonContainer,
 				label,
 			)
 		},
@@ -90,28 +88,21 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 			label.SetText(content)
 
 			// Get the button container (right object in border layout)
-			var buttonGrid *fyne.Container
+			var buttonContainer *fyne.Container
 			for _, obj := range borderContainer.Objects {
 				if obj != label {
-					buttonGrid = obj.(*fyne.Container)
+					buttonContainer = obj.(*fyne.Container)
 					break
 				}
 			}
 
-			// Update copy button
-			copyBtn := buttonGrid.Objects[0].(*widget.Button)
-			currentClip := clip // Capture for closure
-			copyBtn.OnTapped = func() {
-				a.CopyItemContent(currentClip.Content)
-			}
-
-			// Update mark secret button
-			secretBtn := buttonGrid.Objects[1].(*widget.Button)
+			// Update mark secret button (now the only button)
+			secretBtn := buttonContainer.Objects[0].(*widget.Button)
 			currentHash := clip.Hash // Capture for closure
 			if clip.IsSecret {
-				secretBtn.SetText("Shown")
+				secretBtn.SetText("🔒") // Lock symbol for hidden/secret
 			} else {
-				secretBtn.SetText("Secret")
+				secretBtn.SetText("👁") // Eye symbol for visible
 			}
 			secretBtn.OnTapped = func() {
 				a.MarkSecret(currentHash)
@@ -120,12 +111,32 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 		},
 	)
 
-	// Add tap handler to show full content popup
+	// Add double tap handler for popup and single tap for copy
+	var lastTapTime time.Time
+	var lastTapID widget.ListItemID
+
 	a.clipList.OnSelected = func(id widget.ListItemID) {
-		if id < len(a.filteredData) {
-			clip := a.filteredData[id]
-			a.showContentPopup(clip.Content, clip.IsSecret)
+		now := time.Now()
+
+		// Check if this is a double tap (within 500ms of same item)
+		if id == lastTapID && now.Sub(lastTapTime) < 500*time.Millisecond {
+			// Double tap - show popup
+			if id < len(a.filteredData) {
+				clip := a.filteredData[id]
+				a.showContentPopup(clip.Content, clip.IsSecret)
+			}
+		} else {
+			// Single tap - copy to clipboard
+			if id < len(a.filteredData) {
+				clip := a.filteredData[id]
+				if !clip.IsSecret {
+					a.CopyItemContent(clip.Content)
+				}
+			}
 		}
+
+		lastTapTime = now
+		lastTapID = id
 		// Deselect immediately to allow re-tapping the same item
 		a.clipList.UnselectAll()
 	}
@@ -286,7 +297,7 @@ func (a *App) CopyItemContent(content string) {
 	clipboard.Write(clipboard.FmtText, []byte(content))
 }
 
-// MarkSecret marks an item as secret
+// MarkSecret marks an item as secret or visible
 func (a *App) MarkSecret(hash string) {
 	clipDb := config.GetInstance()
 
@@ -294,6 +305,14 @@ func (a *App) MarkSecret(hash string) {
 		DB: clipDb.DB,
 	}
 	clipm.MarkSecret(hash)
+
+	// Refresh the UI to reflect changes
+	go func() {
+		select {
+		case a.refreshCh <- true:
+		default:
+		}
+	}()
 }
 
 // ClearAll clears all clipboard data
