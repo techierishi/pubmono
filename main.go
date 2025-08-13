@@ -6,6 +6,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/driver/desktop"
 )
 
 func main() {
@@ -13,24 +14,37 @@ func main() {
 	myApp := app.New()
 	myApp.SetIcon(nil) // You can set an icon here if you have one
 
-	// Create window
-	myWindow := myApp.NewWindow("PalClip")
-	myWindow.Resize(fyne.Size{Width: 500, Height: 400})
+	// Create window with no title for borderless effect
+	drv := myApp.Driver()
+		if drv, ok := drv.(desktop.Driver); ok {
+			myWindow := drv.CreateSplashWindow()
+			myWindow.Resize(fyne.Size{Width: 500, Height: 400})
+			myWindow.SetFixedSize(false)
+			myWindow.CenterOnScreen()
 
-	// Create app instance
-	appInstance := NewApp()
+			// Remove padding to make window content fill completely
+			myWindow.SetPadded(true)
 
-	// Set up the UI
-	content := appInstance.setupUI(myWindow)
-	myWindow.SetContent(content)
+			// Disable close window button by intercepting close action
+			myWindow.SetCloseIntercept(func() {
 
-	// Start clipboard monitoring in background
-	ctx := context.Background()
-	go clipm.Record(ctx)
+			})
 
-	// Register global hotkey
-	go appInstance.RegisterHotKey(myWindow)
+			// Create app instance
+			appInstance := NewApp()
 
-	// Show window and run
-	myWindow.ShowAndRun()
+			// Set up the UI
+			content := appInstance.setupUI(myWindow)
+			myWindow.SetContent(content)
+
+			// Start clipboard monitoring in background
+			ctx := context.Background()
+			go clipm.Record(ctx)
+
+			// Register global hotkey
+			go appInstance.RegisterHotKey(myWindow)
+
+			// Show window and run
+			myWindow.ShowAndRun()
+	}
 }
