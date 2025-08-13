@@ -16,46 +16,38 @@ import (
 	"golang.design/x/hotkey"
 )
 
-// App struct
 type App struct {
 	window       fyne.Window
 	clipList     *widget.List
 	clipData     []clipm.ClipInfo
 	filteredData []clipm.ClipInfo
 	refreshCh    chan bool
+	currentPopup *widget.PopUp
 }
 
-// NewApp creates a new App application struct
 func NewApp() *App {
 	return &App{
 		clipData:     make([]clipm.ClipInfo, 0),
 		filteredData: make([]clipm.ClipInfo, 0),
 		refreshCh:    make(chan bool, 1),
+		currentPopup: nil,
 	}
 }
 
-// setupUI creates and returns the main UI content
 func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 	a.window = window
-
-	// Create the clip list widget
 	a.clipList = widget.NewList(
 		func() int {
 			return len(a.filteredData)
 		},
 		func() fyne.CanvasObject {
-			// Create label with fixed width
 			label := widget.NewLabel("Template text here...")
 			label.Wrapping = fyne.TextWrapWord
 
-			// Create only secret button - copy button removed
-			secretBtn := widget.NewButton("👁", nil)  // Eye symbol for visible
-
-			// Single button layout
+			secretBtn := widget.NewButton("👁", nil)
 			buttonContainer := container.NewHBox(secretBtn)
 			buttonContainer.Resize(fyne.NewSize(60, 28))
 
-			// Use border layout for proper alignment
 			return container.NewBorder(
 				nil, nil, nil, buttonContainer,
 				label,
@@ -69,25 +61,19 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 			clip := a.filteredData[id]
 			borderContainer := item.(*fyne.Container)
 
-			// Get the label (center object)
 			label := borderContainer.Objects[0].(*widget.Label)
 			content := clip.Content
-
-			// Handle secret items
 			if clip.IsSecret {
 				content = "*** HIDDEN ***"
 			} else if len(content) > 40 {
 				content = content[:40] + "..."
 			}
 
-			// Replace newlines with spaces for display
 			content = strings.ReplaceAll(content, "\n", " ")
 			content = strings.ReplaceAll(content, "\r", " ")
 			content = strings.ReplaceAll(content, "\t", " ")
 			content = strings.TrimLeft(content, " ")
 			label.SetText(content)
-
-			// Get the button container (right object in border layout)
 			var buttonContainer *fyne.Container
 			for _, obj := range borderContainer.Objects {
 				if obj != label {
@@ -96,13 +82,12 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 				}
 			}
 
-			// Update mark secret button (now the only button)
 			secretBtn := buttonContainer.Objects[0].(*widget.Button)
-			currentHash := clip.Hash // Capture for closure
+			currentHash := clip.Hash
 			if clip.IsSecret {
-				secretBtn.SetText("🔒") // Lock symbol for hidden/secret
+				secretBtn.SetText("🔒")
 			} else {
-				secretBtn.SetText("👁") // Eye symbol for visible
+				secretBtn.SetText("👁")
 			}
 			secretBtn.OnTapped = func() {
 				a.MarkSecret(currentHash)
@@ -111,22 +96,20 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 		},
 	)
 
-	// Add double tap handler for popup and single tap for copy
+	// Double tap for popup, single tap for copy
 	var lastTapTime time.Time
 	var lastTapID widget.ListItemID
 
 	a.clipList.OnSelected = func(id widget.ListItemID) {
 		now := time.Now()
 
-		// Check if this is a double tap (within 500ms of same item)
+		// Double tap detection (within 500ms of same item)
 		if id == lastTapID && now.Sub(lastTapTime) < 500*time.Millisecond {
-			// Double tap - show popup
 			if id < len(a.filteredData) {
 				clip := a.filteredData[id]
 				a.showContentPopup(clip.Content, clip.IsSecret)
 			}
 		} else {
-			// Single tap - copy to clipboard
 			if id < len(a.filteredData) {
 				clip := a.filteredData[id]
 				if !clip.IsSecret {
@@ -137,62 +120,45 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 
 		lastTapTime = now
 		lastTapID = id
-		// Deselect immediately to allow re-tapping the same item
 		a.clipList.UnselectAll()
 	}
 
-	// Create menu bar
 	menuBar := a.createMenuBar()
-
-	// Create main container
 	content := container.NewBorder(
-		menuBar,    // top
-		nil,        // bottom
-		nil,        // left
-		nil,        // right
-		a.clipList, // center
+		menuBar,
+		nil,
+		nil,
+		nil,
+		a.clipList,
 	)
 
-	// Load initial data
 	go a.refreshClipData()
-
-	// Start refresh listener
 	go a.refreshListener()
-
-	// Setup clipboard event callback for auto-refresh
 	clipm.SetRefreshCallback(func() {
-		// Trigger refresh when clipboard changes
 		select {
 		case a.refreshCh <- true:
 		default:
-			// Channel full, skip refresh
 		}
 	})
 
 	return content
 }
 
-// createMenuBar creates the application menu bar with search and three-dot menu
 func (a *App) createMenuBar() *fyne.Container {
-	// Create search input
 	searchEntry := widget.NewEntry()
 	searchEntry.SetPlaceHolder("Search clipboard...")
 	searchEntry.OnChanged = func(text string) {
 		a.filterClipData(text)
 	}
 
-	// Create three-dot menu with better styling (using safer character)
 	menuButton := widget.NewButton("...", nil)
 	menuButton.Resize(fyne.NewSize(40, 32))
 	menuButton.Importance = widget.MediumImportance
-
-	// Create popup menu items
 	clearItem := fyne.NewMenuItem("Clear All", func() {
 		a.ClearAll()
 	})
 
 	settingsItem := fyne.NewMenuItem("Settings", func() {
-		// TODO: Implement settings dialog
 		fmt.Println("Settings clicked")
 	})
 
@@ -203,29 +169,24 @@ func (a *App) createMenuBar() *fyne.Container {
 	menu := fyne.NewMenu("", clearItem, settingsItem, quitItem)
 
 	menuButton.OnTapped = func() {
-		// Position menu below the button
 		pos := fyne.NewPos(
 			menuButton.Position().X,
 			menuButton.Position().Y+menuButton.Size().Height,
 		)
 		widget.ShowPopUpMenuAtPosition(menu, a.window.Canvas(), pos)
 	}
-
-	// Use border layout for proper 80/20 distribution
 	return container.NewBorder(
 		nil, nil, nil, menuButton,
 		searchEntry,
 	)
 }
 
-// refreshListener listens for refresh events
 func (a *App) refreshListener() {
 	for range a.refreshCh {
 		a.refreshClipData()
 	}
 }
 
-// GetClipData returns clipboard data as JSON string (keeping for compatibility)
 func (a *App) GetClipData(name string) string {
 	clipDb := config.GetInstance()
 
@@ -246,7 +207,6 @@ func (a *App) GetClipData(name string) string {
 	return string(jsonClipList)
 }
 
-// filterClipData filters clipboard data based on search text
 func (a *App) filterClipData(searchText string) {
 	if searchText == "" {
 		a.filteredData = a.clipData
@@ -262,7 +222,6 @@ func (a *App) filterClipData(searchText string) {
 	a.clipList.Refresh()
 }
 
-// refreshClipData refreshes the clipboard data in the UI
 func (a *App) refreshClipData() {
 	clipDb := config.GetInstance()
 
@@ -279,10 +238,7 @@ func (a *App) refreshClipData() {
 
 	a.clipData = *clipList
 
-	// Maintain current search filter if any
 	if len(a.filteredData) != len(a.clipData) {
-		// Get current search text from the search entry if possible
-		// For now, reset to show all data
 		a.filteredData = *clipList
 	} else {
 		a.filteredData = *clipList
@@ -291,13 +247,11 @@ func (a *App) refreshClipData() {
 	a.clipList.Refresh()
 }
 
-// CopyItemContent copies content to clipboard
 func (a *App) CopyItemContent(content string) {
 	fmt.Println("Copied the content...")
 	clipboard.Write(clipboard.FmtText, []byte(content))
 }
 
-// MarkSecret marks an item as secret or visible
 func (a *App) MarkSecret(hash string) {
 	clipDb := config.GetInstance()
 
@@ -306,7 +260,6 @@ func (a *App) MarkSecret(hash string) {
 	}
 	clipm.MarkSecret(hash)
 
-	// Refresh the UI to reflect changes
 	go func() {
 		select {
 		case a.refreshCh <- true:
@@ -315,7 +268,6 @@ func (a *App) MarkSecret(hash string) {
 	}()
 }
 
-// ClearAll clears all clipboard data
 func (a *App) ClearAll() {
 	clipDb := config.GetInstance()
 	clipm := &clipm.ClipM{
@@ -325,7 +277,6 @@ func (a *App) ClearAll() {
 	a.refreshClipData()
 }
 
-// RegisterHotKey registers global hotkey
 func (a *App) RegisterHotKey(window fyne.Window) {
 	go func() {
 		defer func() {
@@ -340,7 +291,6 @@ func (a *App) RegisterHotKey(window fyne.Window) {
 }
 
 func registerHotkey(a *App, window fyne.Window) {
-	// the actual shortcut keybind - Ctrl + Shift + Space
 	hk := hotkey.New([]hotkey.Modifier{hotkey.ModCtrl, hotkey.ModShift}, hotkey.KeySpace)
 	err := hk.Register()
 	if err != nil {
@@ -371,25 +321,20 @@ func registerHotkey(a *App, window fyne.Window) {
 			default:
 			}
 		case <-time.After(time.Second * 30):
-			// Periodic check to ensure hotkey is still registered
 			continue
 		}
 	}
 }
 
-// showContentPopup displays the full content in a popup dialog
 func (a *App) showContentPopup(content string, isSecret bool) {
 	displayContent := content
 	if isSecret {
 		displayContent = "*** HIDDEN ***"
 	}
 
-	// Get window size for large popup
 	mainWindowSize := a.window.Canvas().Size()
 	popupWidth := mainWindowSize.Width - 40
 	popupHeight := mainWindowSize.Height - 80
-
-	// Create a scrollable text widget for long content
 	textEntry := widget.NewEntry()
 	textEntry.SetText(displayContent)
 	textEntry.MultiLine = true
@@ -399,10 +344,9 @@ func (a *App) showContentPopup(content string, isSecret bool) {
 	// Create scroll container
 	scroll := container.NewScroll(textEntry)
 
-	// Create close button
+
 	closeBtn := widget.NewButton("Close", nil)
 
-	// Create main container with border layout
 	mainContainer := container.NewBorder(
 		nil,
 		closeBtn,
@@ -410,22 +354,17 @@ func (a *App) showContentPopup(content string, isSecret bool) {
 		scroll,
 	)
 
-	// Set the size of the main container
 	mainContainer.Resize(fyne.NewSize(popupWidth, popupHeight))
 
-	// Create popup using regular popup for better size control
 	var popup *widget.PopUp
 	popup = widget.NewPopUp(mainContainer, a.window.Canvas())
 
-	// Set close button action after popup is created
 	closeBtn.OnTapped = func() {
 		popup.Hide()
 	}
 
-	// Resize the popup itself to ensure it takes the space
 	popup.Resize(fyne.NewSize(popupWidth, popupHeight))
 
-	// Move popup to center of window
 	windowSize := a.window.Canvas().Size()
 	x := (windowSize.Width - popupWidth) / 2
 	y := (windowSize.Height - popupHeight) / 2
