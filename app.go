@@ -137,6 +137,16 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 	// Start refresh listener
 	go a.refreshListener()
 
+	// Setup clipboard event callback for auto-refresh
+	clipm.SetRefreshCallback(func() {
+		// Trigger refresh when clipboard changes
+		select {
+		case a.refreshCh <- true:
+		default:
+			// Channel full, skip refresh
+		}
+	})
+
 	return content
 }
 
@@ -149,8 +159,8 @@ func (a *App) createMenuBar() *fyne.Container {
 		a.filterClipData(text)
 	}
 
-	// Create three-dot menu with better styling
-	menuButton := widget.NewButton("⋮", nil)
+	// Create three-dot menu with better styling (using safer character)
+	menuButton := widget.NewButton("...", nil)
 	menuButton.Resize(fyne.NewSize(40, 32))
 	menuButton.Importance = widget.MediumImportance
 
@@ -293,7 +303,7 @@ func (a *App) RegisterHotKey(window fyne.Window) {
 				fmt.Printf("Hotkey registration failed: %v\n", r)
 			}
 		}()
-		registerHotkey(a, window)
+		// registerHotkey(a, window)
 	}()
 }
 

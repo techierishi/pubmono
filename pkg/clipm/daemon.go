@@ -3,12 +3,19 @@ package clipm
 import (
 	"context"
 	"encoding/binary"
+	"fmt"
 	"palclip/pkg/config"
 
 	"palclip/pkg/util"
 
 	"golang.design/x/clipboard"
 )
+
+// ClipboardEventCallback is a function type for clipboard event notifications
+type ClipboardEventCallback func()
+
+// Global callback for UI refresh
+var refreshCallback ClipboardEventCallback
 
 type Clip struct {
 	ID      int
@@ -20,6 +27,10 @@ func itob(v int) []byte {
 	b := make([]byte, 8)
 	binary.BigEndian.PutUint64(b, uint64(v))
 	return b
+}
+
+func SetRefreshCallback(callback ClipboardEventCallback) {
+	refreshCallback = callback
 }
 
 func Record(ctx context.Context) error {
@@ -53,6 +64,12 @@ func Record(ctx context.Context) error {
 
 		str := util.CleanStr(copiedStr).StandardizeSpaces().TruncateText(10).ReplaceNewLine()
 		logger.Info().Msg(string(str + "... COPIED!"))
+		fmt.Printf("📋 Saving to clipdb: %s...\n", string(str))
+
+		// Trigger UI refresh if callback is set
+		if refreshCallback != nil {
+			refreshCallback()
+		}
 
 	}
 
