@@ -129,7 +129,7 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 		a.clipList,
 	)
 
-	go a.refreshClipData()
+	go a.refreshClipDataDoAndWait()
 	go a.refreshListener()
 	clipm.SetRefreshCallback(func() {
 		select {
@@ -180,7 +180,7 @@ func (a *App) createMenuBar() *fyne.Container {
 
 func (a *App) refreshListener() {
 	for range a.refreshCh {
-		a.refreshClipData()
+		a.refreshClipDataDoAndWait()
 	}
 }
 
@@ -222,6 +222,12 @@ func (a *App) filterClipData(searchText string) {
 	})
 }
 
+func (a *App) refreshClipDataDoAndWait() {
+	fyne.DoAndWait(func(){
+		a.refreshClipData()
+	})
+}
+
 func (a *App) refreshClipData() {
 	clipDb := config.GetInstance()
 
@@ -244,10 +250,7 @@ func (a *App) refreshClipData() {
 		a.filteredData = *clipList
 	}
 
-	fyne.DoAndWait(func(){
-		a.clipList.Refresh()
-	})
-
+	a.clipList.Refresh()
 }
 
 func (a *App) CopyItemContent(content string) {
