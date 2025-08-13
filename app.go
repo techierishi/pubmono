@@ -23,6 +23,7 @@ type App struct {
 	filteredData []clipm.ClipInfo
 	refreshCh    chan bool
 	currentPopup *widget.PopUp
+	isVisible    bool
 }
 
 func NewApp() *App {
@@ -31,6 +32,7 @@ func NewApp() *App {
 		filteredData: make([]clipm.ClipInfo, 0),
 		refreshCh:    make(chan bool, 1),
 		currentPopup: nil,
+		isVisible:    true,
 	}
 }
 
@@ -44,9 +46,10 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 			label := widget.NewLabel("Template text here...")
 			label.Wrapping = fyne.TextWrapWord
 
+			popupBtn := widget.NewButton("📄", nil)
 			secretBtn := widget.NewButton("👁", nil)
-			buttonContainer := container.NewHBox(secretBtn)
-			buttonContainer.Resize(fyne.NewSize(60, 28))
+			buttonContainer := container.NewHBox(popupBtn, secretBtn)
+			buttonContainer.Resize(fyne.NewSize(100, 28))
 
 			return container.NewBorder(
 				nil, nil, nil, buttonContainer,
@@ -82,13 +85,22 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 				}
 			}
 
-			secretBtn := buttonContainer.Objects[0].(*widget.Button)
+			popupBtn := buttonContainer.Objects[0].(*widget.Button)
+			secretBtn := buttonContainer.Objects[1].(*widget.Button)
 			currentHash := clip.Hash
+			currentContent := clip.Content
+			currentIsSecret := clip.IsSecret
+
 			if clip.IsSecret {
 				secretBtn.SetText("🔒")
 			} else {
 				secretBtn.SetText("👁")
 			}
+
+			popupBtn.OnTapped = func() {
+				a.showContentPopup(currentContent, currentIsSecret)
+			}
+
 			secretBtn.OnTapped = func() {
 				a.MarkSecret(currentHash)
 				a.refreshClipData()
@@ -96,30 +108,15 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 		},
 	)
 
-	// Double tap for popup, single tap for copy
-	var lastTapTime time.Time
-	var lastTapID widget.ListItemID
-
+	// Single tap to copy
 	a.clipList.OnSelected = func(id widget.ListItemID) {
-		now := time.Now()
-
-		// Double tap detection (within 500ms of same item)
-		if id == lastTapID && now.Sub(lastTapTime) < 500*time.Millisecond {
-			if id < len(a.filteredData) {
-				clip := a.filteredData[id]
-				a.showContentPopup(clip.Content, clip.IsSecret)
-			}
-		} else {
-			if id < len(a.filteredData) {
-				clip := a.filteredData[id]
-				if !clip.IsSecret {
-					a.CopyItemContent(clip.Content)
-				}
+		if id < len(a.filteredData) {
+			clip := a.filteredData[id]
+			if !clip.IsSecret {
+				a.CopyItemContent(clip.Content)
+				a.hideWindow()
 			}
 		}
-
-		lastTapTime = now
-		lastTapID = id
 		a.clipList.UnselectAll()
 	}
 
@@ -219,7 +216,10 @@ func (a *App) filterClipData(searchText string) {
 		}
 		a.filteredData = filtered
 	}
-	a.clipList.Refresh()
+
+	fyne.DoAndWait(func(){
+		a.clipList.Refresh()
+	})
 }
 
 func (a *App) refreshClipData() {
@@ -244,7 +244,10 @@ func (a *App) refreshClipData() {
 		a.filteredData = *clipList
 	}
 
-	a.clipList.Refresh()
+	fyne.DoAndWait(func(){
+		a.clipList.Refresh()
+	})
+
 }
 
 func (a *App) CopyItemContent(content string) {
@@ -307,13 +310,13 @@ func registerHotkey(a *App, window fyne.Window) {
 		case <-hk.Keyup():
 			fmt.Printf("hotkey: %v is up\n", hk)
 
-			// Show/hide window on hotkey
-			if window.Content().Visible() {
-				window.Hide()
-			} else {
-				window.Show()
-				window.RequestFocus()
-			}
+			fyne.DoAndWait(func(){
+				if a.isVisible {
+					a.hideWindow()
+				} else {
+					a.showWindow()
+				}
+			})
 
 			// Refresh clip data when hotkey is pressed
 			select {
@@ -341,7 +344,6 @@ func (a *App) showContentPopup(content string, isSecret bool) {
 	textEntry.Wrapping = fyne.TextWrapWord
 	textEntry.Disable() // Make it read-only
 
-	// Create scroll container
 	scroll := container.NewScroll(textEntry)
 
 
@@ -371,4 +373,15 @@ func (a *App) showContentPopup(content string, isSecret bool) {
 	popup.Move(fyne.NewPos(x, y))
 
 	popup.Show()
+}
+
+func (a *App) showWindow() {
+	a.isVisible = true
+	a.window.Show()
+	a.window.RequestFocus()
+}
+
+func (a *App) hideWindow() {
+	a.isVisible = false
+	a.window.Hide()
 }
