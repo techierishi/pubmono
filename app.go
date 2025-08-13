@@ -120,6 +120,16 @@ func (a *App) setupUI(window fyne.Window) fyne.CanvasObject {
 		},
 	)
 
+	// Add tap handler to show full content popup
+	a.clipList.OnSelected = func(id widget.ListItemID) {
+		if id < len(a.filteredData) {
+			clip := a.filteredData[id]
+			a.showContentPopup(clip.Content, clip.IsSecret)
+		}
+		// Deselect immediately to allow re-tapping the same item
+		a.clipList.UnselectAll()
+	}
+
 	// Create menu bar
 	menuBar := a.createMenuBar()
 
@@ -346,4 +356,61 @@ func registerHotkey(a *App, window fyne.Window) {
 			continue
 		}
 	}
+}
+
+// showContentPopup displays the full content in a popup dialog
+func (a *App) showContentPopup(content string, isSecret bool) {
+	displayContent := content
+	if isSecret {
+		displayContent = "*** HIDDEN ***"
+	}
+
+	// Get window size for large popup
+	mainWindowSize := a.window.Canvas().Size()
+	popupWidth := mainWindowSize.Width - 40
+	popupHeight := mainWindowSize.Height - 80
+
+	// Create a scrollable text widget for long content
+	textEntry := widget.NewEntry()
+	textEntry.SetText(displayContent)
+	textEntry.MultiLine = true
+	textEntry.Wrapping = fyne.TextWrapWord
+	textEntry.Disable() // Make it read-only
+
+	// Create scroll container
+	scroll := container.NewScroll(textEntry)
+
+	// Create close button
+	closeBtn := widget.NewButton("Close", nil)
+
+	// Create main container with border layout
+	mainContainer := container.NewBorder(
+		nil,
+		closeBtn,
+		nil, nil,
+		scroll,
+	)
+
+	// Set the size of the main container
+	mainContainer.Resize(fyne.NewSize(popupWidth, popupHeight))
+
+	// Create popup using regular popup for better size control
+	var popup *widget.PopUp
+	popup = widget.NewPopUp(mainContainer, a.window.Canvas())
+
+	// Set close button action after popup is created
+	closeBtn.OnTapped = func() {
+		popup.Hide()
+	}
+
+	// Resize the popup itself to ensure it takes the space
+	popup.Resize(fyne.NewSize(popupWidth, popupHeight))
+
+	// Move popup to center of window
+	windowSize := a.window.Canvas().Size()
+	x := (windowSize.Width - popupWidth) / 2
+	y := (windowSize.Height - popupHeight) / 2
+	popup.Move(fyne.NewPos(x, y))
+
+	popup.Show()
 }
