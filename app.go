@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"palclip/pkg/clipm"
 	"palclip/pkg/config"
+	"runtime"
 	"strings"
 	"time"
 
@@ -303,7 +304,9 @@ func (a *App) RegisterHotKey(window fyne.Window) {
 				fmt.Printf("Hotkey registration failed: %v\n", r)
 			}
 		}()
-		// registerHotkey(a, window)
+		if runtime.GOOS == "windows" || runtime.GOOS == "darwin" {
+			registerHotkey(a, window)
+		}
 	}()
 }
 
