@@ -1,53 +1,40 @@
 package main
 
 import (
-	"embed"
-	"runtime"
+	"context"
+	"palclip/pkg/clipm"
 
-	"github.com/wailsapp/wails/v2"
-	"github.com/wailsapp/wails/v2/pkg/options"
-	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
-	"github.com/wailsapp/wails/v2/pkg/options/mac"
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/driver/desktop"
 )
 
-//go:embed all:frontend/dist
-var assets embed.FS
-
 func main() {
-	// Create an instance of the app structure
-	app := NewApp()
+	myApp := app.New()
+	myApp.SetIcon(nil)
 
-	isFramelss := runtime.GOOS == "windows"
+	// Create window with no title for borderless effect
+	drv := myApp.Driver()
+		if drv, ok := drv.(desktop.Driver); ok {
+			myWindow := drv.CreateSplashWindow()
+			myWindow.Resize(fyne.Size{Width: 500, Height: 400})
+			myWindow.SetFixedSize(false)
+			myWindow.CenterOnScreen()
 
-	// Create application with options
-	err := wails.Run(&options.App{
-		Title:  "PalClip",
-		Width:  500,
-		Height: 400,
-		AssetServer: &assetserver.Options{
-			Assets: assets,
-		},
-		Frameless: isFramelss,
-		Mac: &mac.Options{
-			TitleBar: &mac.TitleBar{
-				TitlebarAppearsTransparent: true,
-				HideTitle:                  true,
-				HideTitleBar:               true,
-				FullSizeContent:            true,
-				UseToolbar:                 true,
-				HideToolbarSeparator:       true,
-			},
-			WebviewIsTransparent: true,
-			WindowIsTranslucent:  false,
-		},
-		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		OnStartup:        app.startup,
-		Bind: []interface{}{
-			app,
-		},
-	})
+			myWindow.SetPadded(true)
 
-	if err != nil {
-		println("Error:", err.Error())
+
+
+			appInstance := NewApp()
+
+			content := appInstance.setupUI(myWindow)
+			myWindow.SetContent(content)
+
+			ctx := context.Background()
+			go clipm.Record(ctx)
+
+			go appInstance.RegisterHotKey(myWindow)
+
+			myWindow.ShowAndRun()
 	}
 }

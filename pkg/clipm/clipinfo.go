@@ -109,8 +109,7 @@ func (clipm *ClipM) MarkSecret(key string) error {
 		if err != nil {
 			return err
 		}
-		clipInfo.IsSecret = true
-		fmt.Println("MarkSecret.clipInfo", clipInfo)
+		clipInfo.IsSecret = !clipInfo.IsSecret
 		data, err = json.Marshal(clipInfo)
 		if err != nil {
 			return err
