@@ -78,3 +78,5 @@ Generates `.apkg` files (Anki packages) with:
 
 See `data/kids_learning.yaml` for a complete example with 250+ questions covering planets, geography, flags, animals, fish, birds, plants, body parts, and world leaders.
 
+
+<!-- Updated by multi-gitter -->
