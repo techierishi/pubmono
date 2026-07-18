@@ -88,7 +88,8 @@ class QuizFlashcardGenerator:
                     if a_lang == self.question_lang
                     else AudioService(self.output_dir, language=a_lang)
                 )
-                answer_audio_path = audio_service.generate_audio(answer)
+                audio_text = quiz_data.get("answer_audio_text", answer)
+                answer_audio_path = audio_service.generate_audio(audio_text)
                 if answer_audio_path:
                     print(f"  ✓ Answer audio generated")
                 else:

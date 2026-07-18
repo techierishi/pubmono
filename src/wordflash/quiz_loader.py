@@ -115,6 +115,8 @@ class QuizLoader:
             # Store original language configuration if specified
             "question_lang": question_data.get("question_lang", "en"),
             "answer_lang": question_data.get("answer_lang", "en"),
+            # Separate text for audio pronunciation (when different from answer display text)
+            "answer_audio_text": question_data.get("answer_audio_text"),
         }
 
         return processed_question
