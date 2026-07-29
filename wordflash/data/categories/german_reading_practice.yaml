@@ -1,0 +1,4575 @@
+quizzes:
+- category: German Reading Practice
+  questions:
+  - question: rein
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: pure
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rein
+    answer_lang: de
+  - question: kuh
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: cow
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kuh
+    answer_lang: de
+  - question: weit
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: far
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: weit
+    answer_lang: de
+  - question: spät
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: late
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: spät
+    answer_lang: de
+  - question: wachs
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: grow
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wachs
+    answer_lang: de
+  - question: wenn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: if
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wenn
+    answer_lang: de
+  - question: rufen
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: call
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rufen
+    answer_lang: de
+  - question: nie
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: never
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nie
+    answer_lang: de
+  - question: hart
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: hard
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hart
+    answer_lang: de
+  - question: knie
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: knee
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: knie
+    answer_lang: de
+  - question: wahl
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: choice
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wahl
+    answer_lang: de
+  - question: gern
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: gladly
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: gern
+    answer_lang: de
+  - question: kenn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: know
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kenn
+    answer_lang: de
+  - question: zahl
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: number
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zahl
+    answer_lang: de
+  - question: staat
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: state
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: staat
+    answer_lang: de
+  - question: ware
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: goods
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ware
+    answer_lang: de
+  - question: lamm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: lamb
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lamm
+    answer_lang: de
+  - question: pilz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: mushroom
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: pilz
+    answer_lang: de
+  - question: rede
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: speech
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rede
+    answer_lang: de
+  - question: wert
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: worth
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wert
+    answer_lang: de
+  - question: seite
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: page
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: seite
+    answer_lang: de
+  - question: strom
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: current
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: strom
+    answer_lang: de
+  - question: stier
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: bull
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stier
+    answer_lang: de
+  - question: sechs
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: six
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sechs
+    answer_lang: de
+  - question: rost
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: rust
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rost
+    answer_lang: de
+  - question: eben
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: just
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: eben
+    answer_lang: de
+  - question: grab
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: grave
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: grab
+    answer_lang: de
+  - question: trick
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: trick
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: trick
+    answer_lang: de
+  - question: laden
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: shop
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: laden
+    answer_lang: de
+  - question: lass
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: let
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lass
+    answer_lang: de
+  - question: jahr
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: year
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: jahr
+    answer_lang: de
+  - question: wald
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: forest
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wald
+    answer_lang: de
+  - question: katz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: cat
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: katz
+    answer_lang: de
+  - question: kann
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: can
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kann
+    answer_lang: de
+  - question: satt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: full
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: satt
+    answer_lang: de
+  - question: find
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: find
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: find
+    answer_lang: de
+  - question: den
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: the
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: den
+    answer_lang: de
+  - question: leise
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: quiet
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: leise
+    answer_lang: de
+  - question: heute
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: today
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: heute
+    answer_lang: de
+  - question: ihn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: him
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ihn
+    answer_lang: de
+  - question: schön
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: beautiful
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: schön
+    answer_lang: de
+  - question: milch
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: milk
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: milch
+    answer_lang: de
+  - question: sport
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sport
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sport
+    answer_lang: de
+  - question: saft
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: juice
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: saft
+    answer_lang: de
+  - question: stein
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: stone
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stein
+    answer_lang: de
+  - question: nord
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: north
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nord
+    answer_lang: de
+  - question: stumm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: mute
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stumm
+    answer_lang: de
+  - question: kalt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: cold
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kalt
+    answer_lang: de
+  - question: meist
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: most
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: meist
+    answer_lang: de
+  - question: öl
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: oil
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: öl
+    answer_lang: de
+  - question: ort
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: place
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ort
+    answer_lang: de
+  - question: dann
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: then
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: dann
+    answer_lang: de
+  - question: neben
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: next
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: neben
+    answer_lang: de
+  - question: sache
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: thing
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sache
+    answer_lang: de
+  - question: du
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: you
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: du
+    answer_lang: de
+  - question: fahl
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: pale
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: fahl
+    answer_lang: de
+  - question: ries
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: giant
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ries
+    answer_lang: de
+  - question: tier
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: animal
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tier
+    answer_lang: de
+  - question: jung
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: young
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: jung
+    answer_lang: de
+  - question: nett
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: nice
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nett
+    answer_lang: de
+  - question: ring
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: ring
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ring
+    answer_lang: de
+  - question: reich
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: rich
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: reich
+    answer_lang: de
+  - question: lesen
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: read
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lesen
+    answer_lang: de
+  - question: zone
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: zone
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zone
+    answer_lang: de
+  - question: spaß
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: fun
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: spaß
+    answer_lang: de
+  - question: müde
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: tired
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: müde
+    answer_lang: de
+  - question: mann
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: man
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mann
+    answer_lang: de
+  - question: um
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: around
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: um
+    answer_lang: de
+  - question: hand
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: hand
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hand
+    answer_lang: de
+  - question: setz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: set
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: setz
+    answer_lang: de
+  - question: stück
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: piece
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stück
+    answer_lang: de
+  - question: opa
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: grandpa
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: opa
+    answer_lang: de
+  - question: halt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: stop
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: halt
+    answer_lang: de
+  - question: kern
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: core
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kern
+    answer_lang: de
+  - question: nicht
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: not
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nicht
+    answer_lang: de
+  - question: holz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: wood
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: holz
+    answer_lang: de
+  - question: sende
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: send
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sende
+    answer_lang: de
+  - question: huhn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: chicken
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: huhn
+    answer_lang: de
+  - question: ton
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: tone
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ton
+    answer_lang: de
+  - question: hirn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: brain
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hirn
+    answer_lang: de
+  - question: mal
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: time
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mal
+    answer_lang: de
+  - question: uhr
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: clock
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: uhr
+    answer_lang: de
+  - question: erst
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: first
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: erst
+    answer_lang: de
+  - question: stern
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: star
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stern
+    answer_lang: de
+  - question: auf
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: 'on'
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: auf
+    answer_lang: de
+  - question: kind
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: child
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kind
+    answer_lang: de
+  - question: möwe
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: seagull
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: möwe
+    answer_lang: de
+  - question: mild
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: mild
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mild
+    answer_lang: de
+  - question: lang
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: long
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lang
+    answer_lang: de
+  - question: tinte
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: ink
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tinte
+    answer_lang: de
+  - question: musik
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: music
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: musik
+    answer_lang: de
+  - question: tür
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: door
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tür
+    answer_lang: de
+  - question: leer
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: empty
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: leer
+    answer_lang: de
+  - question: stell
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: place
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stell
+    answer_lang: de
+  - question: tritt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: step
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tritt
+    answer_lang: de
+  - question: wie
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: how
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wie
+    answer_lang: de
+  - question: ja
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: 'yes'
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ja
+    answer_lang: de
+  - question: sehen
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: see
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sehen
+    answer_lang: de
+  - question: welt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: world
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: welt
+    answer_lang: de
+  - question: recht
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: right
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: recht
+    answer_lang: de
+  - question: reif
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: ripe
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: reif
+    answer_lang: de
+  - question: warm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: warm
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: warm
+    answer_lang: de
+  - question: werk
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: work
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: werk
+    answer_lang: de
+  - question: weich
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: soft
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: weich
+    answer_lang: de
+  - question: kein
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: 'no'
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kein
+    answer_lang: de
+  - question: wo
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: where
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wo
+    answer_lang: de
+  - question: sand
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sand
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sand
+    answer_lang: de
+  - question: heer
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: army
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: heer
+    answer_lang: de
+  - question: welle
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: wave
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: welle
+    answer_lang: de
+  - question: in
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: in
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: in
+    answer_lang: de
+  - question: zweck
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: purpose
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zweck
+    answer_lang: de
+  - question: stark
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: strong
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stark
+    answer_lang: de
+  - question: kraft
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: strength
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kraft
+    answer_lang: de
+  - question: luft
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: air
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: luft
+    answer_lang: de
+  - question: mit
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: with
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mit
+    answer_lang: de
+  - question: sind
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: are
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sind
+    answer_lang: de
+  - question: so
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: so
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: so
+    answer_lang: de
+  - question: senk
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: lower
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: senk
+    answer_lang: de
+  - question: die
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: the
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: die
+    answer_lang: de
+  - question: gruß
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: greeting
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: gruß
+    answer_lang: de
+  - question: vater
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: father
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: vater
+    answer_lang: de
+  - question: üben
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: practice
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: üben
+    answer_lang: de
+  - question: name
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: name
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: name
+    answer_lang: de
+  - question: mund
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: mouth
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mund
+    answer_lang: de
+  - question: warum
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: why
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: warum
+    answer_lang: de
+  - question: haus
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: house
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: haus
+    answer_lang: de
+  - question: vom
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: from
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: vom
+    answer_lang: de
+  - question: wand
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: wall
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wand
+    answer_lang: de
+  - question: nenn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: call
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nenn
+    answer_lang: de
+  - question: vorn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: front
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: vorn
+    answer_lang: de
+  - question: neffe
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: nephew
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: neffe
+    answer_lang: de
+  - question: kleid
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: dress
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kleid
+    answer_lang: de
+  - question: taste
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: key
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: taste
+    answer_lang: de
+  - question: bus
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: bus
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: bus
+    answer_lang: de
+  - question: west
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: west
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: west
+    answer_lang: de
+  - question: unter
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: under
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: unter
+    answer_lang: de
+  - question: klug
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: clever
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: klug
+    answer_lang: de
+  - question: ohne
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: without
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ohne
+    answer_lang: de
+  - question: junge
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: boy
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: junge
+    answer_lang: de
+  - question: was
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: what
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: was
+    answer_lang: de
+  - question: nass
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: wet
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nass
+    answer_lang: de
+  - question: spitz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: pointed
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: spitz
+    answer_lang: de
+  - question: gans
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: goose
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: gans
+    answer_lang: de
+  - question: klein
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: small
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: klein
+    answer_lang: de
+  - question: mehr
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: more
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mehr
+    answer_lang: de
+  - question: haar
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: hair
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: haar
+    answer_lang: de
+  - question: platz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: place
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: platz
+    answer_lang: de
+  - question: meer
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sea
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: meer
+    answer_lang: de
+  - question: stopp
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: stop
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stopp
+    answer_lang: de
+  - question: treu
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: loyal
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: treu
+    answer_lang: de
+  - question: rad
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: wheel
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rad
+    answer_lang: de
+  - question: still
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: quiet
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: still
+    answer_lang: de
+  - question: wer
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: who
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wer
+    answer_lang: de
+  - question: gurt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: belt
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: gurt
+    answer_lang: de
+  - question: lenk
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: steer
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lenk
+    answer_lang: de
+  - question: nach
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: after
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nach
+    answer_lang: de
+  - question: ihm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: him
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ihm
+    answer_lang: de
+  - question: ob
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: whether
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ob
+    answer_lang: de
+  - question: punkt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: point
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: punkt
+    answer_lang: de
+  - question: noch
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: still
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: noch
+    answer_lang: de
+  - question: wir
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: we
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wir
+    answer_lang: de
+  - question: stoff
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: material
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stoff
+    answer_lang: de
+  - question: art
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: kind
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: art
+    answer_lang: de
+  - question: am
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: on the
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: am
+    answer_lang: de
+  - question: spiel
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: game
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: spiel
+    answer_lang: de
+  - question: sehr
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: very
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sehr
+    answer_lang: de
+  - question: sitz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: seat
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sitz
+    answer_lang: de
+  - question: mach
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: make
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mach
+    answer_lang: de
+  - question: zwerg
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: dwarf
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zwerg
+    answer_lang: de
+  - question: sofa
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sofa
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sofa
+    answer_lang: de
+  - question: ihr
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: her
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ihr
+    answer_lang: de
+  - question: stuhl
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: chair
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stuhl
+    answer_lang: de
+  - question: zwei
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: two
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zwei
+    answer_lang: de
+  - question: von
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: from
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: von
+    answer_lang: de
+  - question: der
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: the
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: der
+    answer_lang: de
+  - question: kurz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: short
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kurz
+    answer_lang: de
+  - question: lern
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: learn
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lern
+    answer_lang: de
+  - question: statt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: instead
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: statt
+    answer_lang: de
+  - question: rund
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: round
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rund
+    answer_lang: de
+  - question: und
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: and
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: und
+    answer_lang: de
+  - question: nehm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: take
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nehm
+    answer_lang: de
+  - question: klang
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sound
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: klang
+    answer_lang: de
+  - question: weder
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: neither
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: weder
+    answer_lang: de
+  - question: 'null'
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: zero
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: 'null'
+    answer_lang: de
+  - question: trotz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: despite
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: trotz
+    answer_lang: de
+  - question: wahr
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: 'true'
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wahr
+    answer_lang: de
+  - question: vogel
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: bird
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: vogel
+    answer_lang: de
+  - question: glas
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: glass
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: glas
+    answer_lang: de
+  - question: süß
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sweet
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: süß
+    answer_lang: de
+  - question: sage
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: saying
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sage
+    answer_lang: de
+  - question: rolle
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: roll
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rolle
+    answer_lang: de
+  - question: see
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: lake
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: see
+    answer_lang: de
+  - question: feur
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: fire
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: feur
+    answer_lang: de
+  - question: zum
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: to
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zum
+    answer_lang: de
+  - question: land
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: land
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: land
+    answer_lang: de
+  - question: nebel
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: fog
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nebel
+    answer_lang: de
+  - question: sonst
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: otherwise
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sonst
+    answer_lang: de
+  - question: sorge
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: worry
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sorge
+    answer_lang: de
+  - question: sing
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sing
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sing
+    answer_lang: de
+  - question: stirn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: forehead
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stirn
+    answer_lang: de
+  - question: tanz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: dance
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tanz
+    answer_lang: de
+  - question: arm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: poor
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: arm
+    answer_lang: de
+  - question: lauf
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: run
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lauf
+    answer_lang: de
+  - question: offen
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: open
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: offen
+    answer_lang: de
+  - question: bad
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: bath
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: bad
+    answer_lang: de
+  - question: aus
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: out
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: aus
+    answer_lang: de
+  - question: maus
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: mouse
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: maus
+    answer_lang: de
+  - question: regen
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: rain
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: regen
+    answer_lang: de
+  - question: ei
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: egg
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ei
+    answer_lang: de
+  - question: gut
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: good
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: gut
+    answer_lang: de
+  - question: spatz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sparrow
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: spatz
+    answer_lang: de
+  - question: raum
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: room
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: raum
+    answer_lang: de
+  - question: reim
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: rhyme
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: reim
+    answer_lang: de
+  - question: kamm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: comb
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kamm
+    answer_lang: de
+  - question: sich
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: self
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sich
+    answer_lang: de
+  - question: es
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: it
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: es
+    answer_lang: de
+  - question: wort
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: word
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wort
+    answer_lang: de
+  - question: hut
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: hat
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hut
+    answer_lang: de
+  - question: mir
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: me
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mir
+    answer_lang: de
+  - question: sein
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: his
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sein
+    answer_lang: de
+  - question: stiel
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: stem
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stiel
+    answer_lang: de
+  - question: plan
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: plan
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: plan
+    answer_lang: de
+  - question: tal
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: valley
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tal
+    answer_lang: de
+  - question: fest
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: firm
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: fest
+    answer_lang: de
+  - question: soll
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: should
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: soll
+    answer_lang: de
+  - question: kauf
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: buy
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kauf
+    answer_lang: de
+  - question: fang
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: catch
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: fang
+    answer_lang: de
+  - question: garn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: yarn
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: garn
+    answer_lang: de
+  - question: mögen
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: like
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mögen
+    answer_lang: de
+  - question: schon
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: already
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: schon
+    answer_lang: de
+  - question: nacht
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: night
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nacht
+    answer_lang: de
+  - question: rennt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: runs
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rennt
+    answer_lang: de
+  - question: hof
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: yard
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hof
+    answer_lang: de
+  - question: muss
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: must
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: muss
+    answer_lang: de
+  - question: rot
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: red
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rot
+    answer_lang: de
+  - question: das
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: the
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: das
+    answer_lang: de
+  - question: sauer
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sour
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sauer
+    answer_lang: de
+  - question: leid
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sorrow
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: leid
+    answer_lang: de
+  - question: früh
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: early
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: früh
+    answer_lang: de
+  - question: stadt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: city
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stadt
+    answer_lang: de
+  - question: wiese
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: meadow
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wiese
+    answer_lang: de
+  - question: hase
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: hare
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hase
+    answer_lang: de
+  - question: seil
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: rope
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: seil
+    answer_lang: de
+  - question: ruhe
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: rest
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ruhe
+    answer_lang: de
+  - question: nuss
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: nut
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nuss
+    answer_lang: de
+  - question: seife
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: soap
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: seife
+    answer_lang: de
+  - question: an
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: at
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: an
+    answer_lang: de
+  - question: turm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: tower
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: turm
+    answer_lang: de
+  - question: tun
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: do
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tun
+    answer_lang: de
+  - question: will
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: want
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: will
+    answer_lang: de
+  - question: hoch
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: high
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hoch
+    answer_lang: de
+  - question: sturm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: storm
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sturm
+    answer_lang: de
+  - question: tiger
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: tiger
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tiger
+    answer_lang: de
+  - question: nähe
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: near
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nähe
+    answer_lang: de
+  - question: pause
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: break
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: pause
+    answer_lang: de
+  - question: tisch
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: table
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tisch
+    answer_lang: de
+  - question: grün
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: green
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: grün
+    answer_lang: de
+  - question: im
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: in the
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: im
+    answer_lang: de
+  - question: leib
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: body
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: leib
+    answer_lang: de
+  - question: schuh
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: shoe
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: schuh
+    answer_lang: de
+  - question: pack
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: pack
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: pack
+    answer_lang: de
+  - question: pferd
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: horse
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: pferd
+    answer_lang: de
+  - question: dort
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: there
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: dort
+    answer_lang: de
+  - question: weil
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: because
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: weil
+    answer_lang: de
+  - question: weise
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: wise
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: weise
+    answer_lang: de
+  - question: horn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: horn
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: horn
+    answer_lang: de
+  - question: gras
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: grass
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: gras
+    answer_lang: de
+  - question: bis
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: until
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: bis
+    answer_lang: de
+  - question: fünf
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: five
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: fünf
+    answer_lang: de
+  - question: sie
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: she
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sie
+    answer_lang: de
+  - question: sonne
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sun
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sonne
+    answer_lang: de
+  - question: heiß
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: hot
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: heiß
+    answer_lang: de
+  - question: süden
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: south
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: süden
+    answer_lang: de
+  - question: unten
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: below
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: unten
+    answer_lang: de
+  - question: rast
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: rest
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rast
+    answer_lang: de
+  - question: roh
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: raw
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: roh
+    answer_lang: de
+  - question: licht
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: light
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: licht
+    answer_lang: de
+  - question: steig
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: climb
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: steig
+    answer_lang: de
+  - question: leben
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: live
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: leben
+    answer_lang: de
+  - question: zoll
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: inch
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zoll
+    answer_lang: de
+  - question: wagen
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: car
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wagen
+    answer_lang: de
+  - question: hier
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: here
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hier
+    answer_lang: de
+  - question: schaf
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sheep
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: schaf
+    answer_lang: de
+  - question: quer
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: across
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: quer
+    answer_lang: de
+  - question: sinn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sense
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sinn
+    answer_lang: de
+  - question: wesen
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: being
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wesen
+    answer_lang: de
+  - question: stufe
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: step
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stufe
+    answer_lang: de
+  - question: korb
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: basket
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: korb
+    answer_lang: de
+  - question: dumm
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: stupid
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: dumm
+    answer_lang: de
+  - question: links
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: left
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: links
+    answer_lang: de
+  - question: rat
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: advice
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rat
+    answer_lang: de
+  - question: mut
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: courage
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mut
+    answer_lang: de
+  - question: wohl
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: well
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wohl
+    answer_lang: de
+  - question: lach
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: laugh
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lach
+    answer_lang: de
+  - question: dem
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: the
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: dem
+    answer_lang: de
+  - question: nase
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: nose
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nase
+    answer_lang: de
+  - question: wenig
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: little
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wenig
+    answer_lang: de
+  - question: stock
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: stick
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stock
+    answer_lang: de
+  - question: löwe
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: lion
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: löwe
+    answer_lang: de
+  - question: trost
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: comfort
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: trost
+    answer_lang: de
+  - question: schau
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: look
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: schau
+    answer_lang: de
+  - question: traum
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: dream
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: traum
+    answer_lang: de
+  - question: zug
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: train
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zug
+    answer_lang: de
+  - question: staub
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: dust
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: staub
+    answer_lang: de
+  - question: insel
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: island
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: insel
+    answer_lang: de
+  - question: ende
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: end
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ende
+    answer_lang: de
+  - question: lied
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: song
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lied
+    answer_lang: de
+  - question: kopf
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: head
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kopf
+    answer_lang: de
+  - question: note
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: grade
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: note
+    answer_lang: de
+  - question: ohr
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: ear
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ohr
+    answer_lang: de
+  - question: igel
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: hedgehog
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: igel
+    answer_lang: de
+  - question: oder
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: or
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: oder
+    answer_lang: de
+  - question: sau
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: pig
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sau
+    answer_lang: de
+  - question: zehn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: ten
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zehn
+    answer_lang: de
+  - question: wann
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: when
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wann
+    answer_lang: de
+  - question: gast
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: guest
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: gast
+    answer_lang: de
+  - question: wild
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: wild
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wild
+    answer_lang: de
+  - question: voll
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: full
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: voll
+    answer_lang: de
+  - question: mein
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: my
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mein
+    answer_lang: de
+  - question: kuss
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: kiss
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kuss
+    answer_lang: de
+  - question: bei
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: at
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: bei
+    answer_lang: de
+  - question: eins
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: one
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: eins
+    answer_lang: de
+  - question: kerl
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: guy
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kerl
+    answer_lang: de
+  - question: sturz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: fall
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sturz
+    answer_lang: de
+  - question: obst
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: fruit
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: obst
+    answer_lang: de
+  - question: tuch
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: cloth
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tuch
+    answer_lang: de
+  - question: über
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: over
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: über
+    answer_lang: de
+  - question: mich
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: me
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mich
+    answer_lang: de
+  - question: stift
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: pen
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stift
+    answer_lang: de
+  - question: fast
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: almost
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: fast
+    answer_lang: de
+  - question: ost
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: east
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ost
+    answer_lang: de
+  - question: halb
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: half
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: halb
+    answer_lang: de
+  - question: steh
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: stand
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: steh
+    answer_lang: de
+  - question: schal
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: scarf
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: schal
+    answer_lang: de
+  - question: bar
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: bar
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: bar
+    answer_lang: de
+  - question: lieb
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: dear
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lieb
+    answer_lang: de
+  - question: tor
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: gate
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tor
+    answer_lang: de
+  - question: neun
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: nine
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: neun
+    answer_lang: de
+  - question: nur
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: only
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nur
+    answer_lang: de
+  - question: ganz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: whole
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: ganz
+    answer_lang: de
+  - question: paar
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: pair
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: paar
+    answer_lang: de
+  - question: wind
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: wind
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wind
+    answer_lang: de
+  - question: zeit
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: time
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zeit
+    answer_lang: de
+  - question: nein
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: 'no'
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nein
+    answer_lang: de
+  - question: krank
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: sick
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: krank
+    answer_lang: de
+  - question: hufe
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: hoofs
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hufe
+    answer_lang: de
+  - question: welch
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: which
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: welch
+    answer_lang: de
+  - question: nerv
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: nerve
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: nerv
+    answer_lang: de
+  - question: wolke
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: cloud
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: wolke
+    answer_lang: de
+  - question: hund
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: dog
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: hund
+    answer_lang: de
+  - question: er
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: he
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: er
+    answer_lang: de
+  - question: mag
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: like
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: mag
+    answer_lang: de
+  - question: taub
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: deaf
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: taub
+    answer_lang: de
+  - question: salz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: salt
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: salz
+    answer_lang: de
+  - question: kugel
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: ball
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kugel
+    answer_lang: de
+  - question: reise
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: trip
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: reise
+    answer_lang: de
+  - question: zahn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: tooth
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zahn
+    answer_lang: de
+  - question: vor
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: before
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: vor
+    answer_lang: de
+  - question: kinn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: chin
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kinn
+    answer_lang: de
+  - question: stolz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: proud
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stolz
+    answer_lang: de
+  - question: da
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: there
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: da
+    answer_lang: de
+  - question: topf
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: pot
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: topf
+    answer_lang: de
+  - question: sohn
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: son
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: sohn
+    answer_lang: de
+  - question: lage
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: position
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lage
+    answer_lang: de
+  - question: krieg
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: war
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: krieg
+    answer_lang: de
+  - question: gang
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: walk
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: gang
+    answer_lang: de
+  - question: au
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: ow
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: au
+    answer_lang: de
+  - question: alt
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: old
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: alt
+    answer_lang: de
+  - question: rest
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: rest
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: rest
+    answer_lang: de
+  - question: tief
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: deep
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: tief
+    answer_lang: de
+  - question: flug
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: flight
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: flug
+    answer_lang: de
+  - question: stets
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: always
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: stets
+    answer_lang: de
+  - question: weg
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: away
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: weg
+    answer_lang: de
+  - question: geld
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: money
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: geld
+    answer_lang: de
+  - question: herz
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: heart
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: herz
+    answer_lang: de
+  - question: kühl
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: cool
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: kühl
+    answer_lang: de
+  - question: laut
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: loud
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: laut
+    answer_lang: de
+  - question: lust
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: fun
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: lust
+    answer_lang: de
+  - question: zu
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: to
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: zu
+    answer_lang: de
+  - question: groß
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: big
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: groß
+    answer_lang: de
+  - question: viel
+    question_media:
+      text: true
+      audio: false
+      image: false
+    answer: much
+    answer_media:
+      text: true
+      audio: true
+      image: false
+    answer_audio_text: viel
+    answer_lang: de
