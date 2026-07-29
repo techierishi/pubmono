@@ -1,0 +1,35 @@
+env:
+    flush_interval: 1
+
+service:
+    flush:       ${flush_interval}
+    log_level:   info
+    http_server: on
+pipeline:
+  inputs:
+    - name: tail
+      path:  C:\Users\techi\AppData\Roaming\pal\pal.log
+      tag: windows
+
+  outputs:
+    - name: http
+      match: windows
+      host: localhost 
+      port: 9200
+      tls: off
+      uri: /fb_index_1/_doc
+      format: json_lines
+      http_user: admin
+      http_passwd: admin
+   # OR 
+   outputs:
+    - name: opensearch
+      match: windows
+      host: localhost 
+      port: 9200
+      tls: off
+      tls.verify: off
+      index: fb_index_1
+      type: _doc
+      http_user: admin
+      http_passwd: admin
