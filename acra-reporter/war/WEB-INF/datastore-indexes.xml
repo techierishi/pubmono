@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes autoGenerate="true">
+	<datastore-index kind="AppPackage" ancestor="false">
+		<property name="Owner" direction="asc" />
+		<property name="PACKAGE_NAME" direction="asc" />
+	</datastore-index>
+
+
+
+
+	<datastore-index kind="BasicErrorInfo" ancestor="false"
+		source="manual">
+		<property name="PACKAGE_NAME" direction="asc" />
+		<property name="Timestamp" direction="asc" />
+	</datastore-index>
+
+
+
+	<datastore-index kind="DailyCounts" ancestor="false">
+		<property name="Owner" direction="asc" />
+		<property name="PACKAGE_NAME" direction="asc" />
+		<property name="date" direction="asc" />
+	</datastore-index>
+
+	<!-- Used 4 times in query history -->
+	<datastore-index kind="DailyCounts" ancestor="false">
+		<property name="PACKAGE_NAME" direction="asc" />
+		<property name="date" direction="asc" />
+	</datastore-index>
+
+
+
+	<datastore-index kind="MappingFileInfo" ancestor="false">
+		<property name="PACKAGE_NAME" direction="asc" />
+		<property name="version" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="MappingFileInfo" ancestor="false">
+		<property name="PACKAGE_NAME" direction="asc" />
+		<property name="uploadDate" direction="desc" />
+	</datastore-index>
+
+	<datastore-index kind="MappingFileInfo" ancestor="false">
+		<property name="PACKAGE_NAME" direction="asc" />
+		<property name="uploadDate" direction="asc" />
+	</datastore-index>
+	
+</datastore-indexes>
