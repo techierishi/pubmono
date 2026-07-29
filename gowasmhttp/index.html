@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Go WebAssembly: Multiply Two Numbers</title>
+  <script src="wasm_exec.js"></script>
+</head>
+<body>
+  <h1>Multiply Two Numbers with Go WebAssembly</h1>
+  <textarea id="luacode" placeholder="Enter lua code">
+    
+    local json = require("json")
+    local http = require("http")
+       
+    function main()
+       local response, err = http.request("GET", "https://reqres.in/api/users?page=2")
+       if err then
+          return nil, err
+       end
+       local res = response.body
+    
+       local jsonObj = json.decode(res)
+       local jsonStr = json.encode(jsonObj["data"])
+    
+       return jsonStr
+    end
+    
+  </textarea>
+
+  <button id="runlua">Run</button>
+  <p id="result"></p>
+
+  <script>
+    const go = new Go();
+    WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
+      go.run(result.instance);
+
+      const runlua = document.getElementById("runlua");
+      const luacode = document.getElementById("luacode");
+      const resultElement = document.getElementById("result");
+
+      runlua.addEventListener("click", () => {
+        const result = window.runlua(luacode.value);
+        resultElement.textContent = `${result}`;
+      });
+    });
+  </script>
+</body>
+</html>
