@@ -1,0 +1,68 @@
+#!/usr/bin/env groovy
+import hudson.model.*
+
+/**
+* Helper function to validation JSON and MD files
+* param {String} lintType Lint type eg. json, md
+* param {String} inputDir Input Dir
+* param {String} reportDir Output Dir
+*/
+def docsLintCheck(lintType, inputDir, reportDir) {
+  sh """
+    pwd
+    ls -la ${WORKSPACE};
+    ls -la ${WORKSPACE}/app;
+    """
+
+  sh """
+    cd app;
+    """
+
+  sh """
+    pwd
+    ls -la
+    cd app;
+    pwd
+    ls -la
+    """
+
+  sh(script: "export PATH=$PATH:/usr/local/bin && docs-linter ${lintType} ${inputDir} ${reportDir}");
+  sh "cat ${WORKSPACE}/app/docs-linter-report.xml"
+} // end docsLintCheck
+
+node {
+    String repoUrl = 'git@github.com:techierishi/jsoncheck.git'
+    String WORKSPACE = pwd()
+
+    
+
+    stage('Checkout') {
+        sh 'echo "Checkout"'
+
+        checkout changelog: true, poll: false, scm: [$class: 'GitSCM',
+            branches: [[name: 'origin/master']],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [[$class: 'CloneOption',
+            depth: 10,
+            noTags: true,
+            reference: '',
+            shallow: false],
+            [$class: 'RelativeTargetDirectory',
+            relativeTargetDir: 'app']],
+            submoduleCfg: [],
+            userRemoteConfigs: [[url: repoUrl]]]
+    }
+
+    stage('Build') {
+
+        docsLintCheck('json', "${WORKSPACE}/app/", "${WORKSPACE}/app/");
+
+
+    }
+    stage('Test') {
+            sh 'echo "Test"'
+    }
+    stage('Deploy') {
+            sh 'echo "Deploy"'
+    }
+}
