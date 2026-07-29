@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	
+     
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.i18n.encoding" value="UTF-8" /> 
+    
+    
+    <constant name="struts.enable.SlashesInActionNames" value="true"/> 
+    <constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/>
+ 
+    <constant name="struts.custom.i18n.resources" value="messageResource" />      
+    <constant name="struts.multipart.maxSize" value="1024102400" />       
+    <constant name="struts.multipart.saveDir" value="d:/test" />  
+    
+    <package name="default" extends="json-default">
+        
+        
+        <action name="user*" method="{1}" class="com.rishi.onlinestore.controller.UserAction">
+            <result name="register">/frontend/register.jsp</result>
+            <result name="login">/frontend/register.jsp</result>
+            <result name="profile">/frontend/customer-account.jsp</result>
+        </action>
+        
+        <action name="products" class="com.rishi.onlinestore.controller.ProductsAction" method="list">
+            <result name="products">/frontend/products.jsp</result>
+        </action> 
+        <action name="productsJson" class="com.rishi.onlinestore.controller.ProductsAction" method="productsJson">
+            <result type="stream">
+                <param name="contentType">application/json</param>
+                <param name="inputName">productJson</param>
+            </result>
+        </action>
+        
+        <action name="product/*" class="com.rishi.onlinestore.controller.ProductsAction" method="detail">
+            <param name="product_id">{1}</param>  
+            <result name="product">/frontend/product.jsp</result>
+        </action> 
+        <action name="cart" class="com.rishi.onlinestore.controller.CartAction" method="showcart">
+            <result name="success">
+                /frontend/cart.jsp
+            </result>   
+        </action>
+        
+        <action name="addtocart" class="com.rishi.onlinestore.controller.CartAction" method="addtocart">
+            <result type="json" />
+        </action>
+        
+        <action name="checkout*" class="com.rishi.onlinestore.controller.CheckoutAction" method="checkout{1}">
+            <result name="success">
+                /frontend/checkout{1}.jsp
+            </result>   
+        </action> 
+        <action name="category" class="com.rishi.onlinestore.controller.CategoryAction" method="category">
+            <result name="success">
+                /frontend/products.jsp
+            </result>   
+        </action> 
+
+        
+    </package>
+    
+    <package name="backend" namespace="/backend" extends="struts-default">	
+        <action name="login" class="com.rishi.onlinestore.admin.controller.LoginAction" method="login">
+            <result name="success">
+                /backend/dashboard.jsp
+            </result>  
+        </action>
+        <action name="category*" class="com.rishi.onlinestore.admin.controller.CategoryAction" method="category{1}">
+            <result name="success">
+                /backend/category.jsp
+            </result>  
+            <result name="redirect" type="redirect">
+                /backend/category.jsp
+            </result>  
+        </action>
+        <action name="product*" class="com.rishi.onlinestore.admin.controller.ProductAction" method="{1}">
+            <interceptor-ref name="fileUpload">  
+                <param name="maximumSize">2097152</param>  
+  
+                <param name="allowedTypes">  
+                    image/png,image/gif,image/jpeg,image/pjpeg,text/plain
+                </param>  
+            </interceptor-ref>  
+            <interceptor-ref name="defaultStack"></interceptor-ref>  
+            <result name="success">
+                /backend/addproduct.jsp
+            </result>  
+        </action>
+    </package>
+</struts>

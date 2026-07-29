@@ -1,0 +1,9 @@
+/** Your theme modifications here **/
+.ui-widget-content.ui-corner-all.ui-floating-message {
+    background-color: #fb5446;
+    border: 1px solid #ffffff;
+    box-shadow: 2px 2px 5px #666;
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 0 5px #999;
+}
