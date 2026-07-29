@@ -1,0 +1,60 @@
+# Base
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    username: "sa"
+    password: ""
+    driver-class-name: "org.h2.Driver"
+  sql:
+    init:
+      mode: always
+      platform: h2
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    ddl-auto: none
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: "org.hibernate.dialect.H2Dialect"
+
+server:
+  port: 8080
+  application.name: aws-ip-search
+  servlet:
+    context-path: /
+
+management:
+  endpoints.web.exposure.include:
+    - '*'
+  endpoint.health.show-details: always
+  health.circuitbreakers.enabled: true
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 5
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+resilience4j.ratelimiter:
+  instances:
+    getIpRange:
+      registerHealthIndicator: true
+      limitRefreshPeriod: 1s
+      limitForPeriod: 2
+      timeoutDuration: 0s
+  metrics:
+    enabled: 'true'
+
+rishi:
+  config:
+    ip_range_api: "https://ip-ranges.amazonaws.com/ip-ranges.json"
