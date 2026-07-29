@@ -1,0 +1,298 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#signin-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Open Sans", sans-serif;
+}
+
+.app-signin {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.signin-bg {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-panel {
+    position: relative;
+    width: 21rem;
+    height: 21rem;
+}
+
+.bg-panel>img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: .1;
+}
+
+.signin-panel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    background-color: rgba(255, 255, 255, .75)
+}
+
+.signin-logo-box {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin-logo {
+    position: relative;
+    width: 5rem;
+    height: auto;
+    transition: all .4s;
+}
+
+
+.signin-logo>img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.signin-box {
+    flex: 1 1 auto;
+    order: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.signin-insider {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 2rem 1rem;
+    width: 100%;
+    align-items: center;
+}
+
+.gp-control {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-radius: .6rem;
+    border: solid 1px rgba(136, 152, 170, .5);
+}
+
+.input-icon-box {
+    display: flex;
+}
+
+.input-ico {
+    position: relative;
+    height: 100%;
+    display: flex;
+    padding: .8rem .8rem;
+}
+
+input {
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+    outline: none;
+    border: none;
+    /* border: solid 1px rgba(136, 152, 170, .5); */
+    border-radius: .6rem;
+    padding: .6rem .6rem .6rem 0rem;
+    margin-top: .1rem;
+    margin-bottom: .1rem;
+    font-size: 1.2rem;
+}
+
+.input-ico>i {
+    font-size: 1.2rem;
+    color: #636363;
+}
+
+.gp-control>label {
+    position: absolute;
+    left: 2.6rem;
+    transition: all .2s;
+    pointer-events: none;
+    color: #636363;
+    font-size: 1.2rem;
+}
+
+.gp-control>input:focus+label {
+    transform: translateY(-2.2rem);
+    font-size: 1rem;
+    color: #474747;
+    left: .6rem;
+    color: rgba(226, 19, 19, 0.698);
+}
+
+.gp-control> .floating-top {
+    transform: translateY(-2.2rem);
+    font-size: 1rem;
+    color: #474747;
+    left: .6rem;
+    color: rgba(226, 19, 19, 0.698);
+}
+
+.btn-login {
+    position: relative;
+    width: 100%;
+    height: 2.8rem;
+    outline: none;
+    border: solid 1px rgba(226, 19, 19, .4);
+    border-radius: .6rem;
+    background-color: rgba(226, 19, 19, 0.698);
+    color: white;
+    transition: all .2s;
+    font-size: 1.2rem;
+}
+
+.btn-login:active {
+    color: rgba(226, 19, 19, 0.698);
+    background-color: white;
+}
+
+
+.btn-login-desktop {
+    position: relative;
+    width: 100%;
+    height: 2.8rem;
+    outline: none;
+    border: solid 1px rgba(226, 19, 19, .4);
+    border-radius: .6rem;
+    background-color: rgba(226, 19, 19, 0.698);
+    color: white;
+    transition: all .2s;
+    font-size: 1.2rem;
+}
+
+.btn-login-desktop {
+    margin-top: 3rem;
+    width: 30%;
+}
+
+.btn-login-desktop {
+    box-shadow: 0rem .4rem .4rem -.4rem rgba(255, 0, 0, 1);
+    transform: translateY(0rem);
+    color: rgba(226, 19, 19, 0.698);
+    background-color: white;
+    border-radius: 2rem;
+}
+
+.btn-login-desktop:hover {
+    box-shadow: 0rem .65rem .65rem -.3rem rgba(255, 0, 0, 1);
+    /* box-shadow: 0rem .4rem .8rem -.3rem rgba(97, 96, 96, .35); */
+    transform: translateY(-.3rem)
+}
+
+.btn-login-desktop:active {
+    box-shadow: 0rem .4rem .4rem -.4rem rgba(255, 0, 0, 1);
+    transform: translateY(0rem);
+    color: rgba(226, 19, 19, 0.698);
+    background-color: white;
+}
+
+
+
+#signin-footer {
+    position: relative;
+    order: 3;
+    min-height: 2.5rem;
+}
+
+.footer-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #B5B5B5;
+    font-size: .8rem;
+}
+
+.copyright {
+    margin-right: .3rem;
+}
+
+.band {
+    margin-left: .3rem;
+}
+
+@media screen and (min-width: 760px) {
+    .bg-panel {
+        position: relative;
+        width: 45rem;
+        height: 45rem;
+    }
+
+    .signin-box {
+        flex: 2 2 auto;
+    }
+
+    .signin-insider {
+        width: 30rem;
+        padding: 2rem 2rem;
+    }
+}
+
+@media screen and (min-height: 300px) {
+    .signin-logo {
+        position: relative;
+        width: 10rem;
+        height: auto;
+    }
+
+    .signin-insider {
+        width: 30rem;
+        padding: 2rem 1rem;
+    }
+}
+
+@media screen and (min-height: 640px) {
+    .signin-logo {
+        position: relative;
+        width: 16rem;
+        height: auto;
+    }
+}
+
+@media screen and (min-height: 812px) {
+    .signin-logo {
+        position: relative;
+        width: 20rem;
+        height: auto;
+    }
+}
+
+[role="button"] {
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+}

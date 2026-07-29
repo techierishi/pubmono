@@ -1,0 +1,197 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans", sans-serif
+}
+
+.chatroom-container{
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ========================================================= */
+
+.room-header{
+   position: relative;
+   background-color: #f7fafc;
+   height: 3.688rem; 
+   border-bottom: solid 0.063rem rgba(136,152,170, .12);
+   display: flex;
+   box-sizing: border-box;
+   padding: 0.625rem 1rem;
+}
+
+.avatar-box{
+    position: relative;
+    padding: 0 15px 0 0;
+    margin-top: -1px;
+    flex: none;
+}
+
+.avatar{
+    border-radius: 50%;
+    width: 2.500rem;
+    height: 2.500em;
+    background-color: #dfe5e7;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar img{
+    border-radius: 50%;
+    opacity: 1;
+    display: block;
+    position: relative;
+    transition: opacity 150ms ease-out;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.avatar .avatar-default{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.avatar-default svg {
+    width: 100%;
+    height: 100%;
+}
+
+.user-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start; 
+}
+
+.user-box .user-name{
+    color: #3f3f3f;
+}
+
+.user-box .user-status{
+    color: #3cb450;
+    font-size: .8rem;
+}
+
+/* ========================================================= */
+.room-body{
+    flex: 1 1 auto;
+    background-color: white;
+    order: 2;
+}
+
+/* ========================================================= */
+.room-footer{
+    min-height: 3.875rem;
+    order: 3;
+    position: relative;
+    flex: none;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1;
+}
+.footer-box{
+    background-color: #f7fafc;
+    padding: 0.313rem 0.625rem;
+    display: flex;
+    position: relative;
+    max-width: 100%;
+    min-height: 3.875rem;
+    align-items: flex-end;
+    box-sizing: border-box;
+    z-index: 2;
+}
+.input-box{
+    background-color: white;
+    border: 0.063rem solid #fff;
+    border: solid 0.063rem rgba(136,152,170,.1);
+    box-shadow: 0rem 0.313rem 0.625rem -0.625rem rgba(136,152,170,.5);
+    border-radius: 2rem;
+    padding: 0.563rem 0.750rem 0.688rem;
+    margin: 0.313rem 0.625rem;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    font-size: 0.938rem;
+    font-weight: 400;
+    line-height: 1.250rem;
+    min-height: 1.250rem;
+    min-width: 0;
+    outline: none;
+    width: inherit;
+    will-change: width;
+    transition: all .5s;
+}
+
+@media screen and (min-width: 760px){
+    .input-box{
+        border-radius: .6rem;
+    }
+}
+
+.input-inside{
+    position: relative;
+    /* flex: 1;
+    display: flex; */
+    overflow: hidden;
+}
+.input{
+    font-size: 0.938rem;
+    font-weight: 400;
+    max-height: 6.250rem;
+    min-height: 1.250rem;
+    outline: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    z-index: 1;
+    padding-right: 0.750rem;
+    border-left: .1px solid transparent;
+}
+.emo-box{
+    position: relative;
+    padding: 0.313rem 0.625rem;
+}
+.emo-ico{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 2.625rem;
+    width: 1.625rem;
+    transition: width .3s;
+    font-size: 1.6rem;
+    color: rgba(38, 50, 56, 0.45);
+}
+
+.hint{
+    color: #a0a0a0;
+    font-size: 0.938rem;
+    line-height: 1.250rem;
+    pointer-events: none;
+    position: absolute;
+    top: 0px;
+    transition: opacity .08s linear;
+    user-select: none;
+    z-index: 2;
+}
+
+
+
+[role="button"]{
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+}

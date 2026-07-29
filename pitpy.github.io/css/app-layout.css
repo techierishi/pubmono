@@ -1,0 +1,139 @@
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#app-root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.part{
+    position: relative;
+    overflow: hidden;
+}
+
+.app-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+.app-inside {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.app-drawer {
+    display: flex;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 200;
+}
+
+.app-sidebar {
+    position: relative;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.panel{
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.sidebar{
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: aliceblue;
+    pointer-events: auto;
+    animation: slideRight .2s;
+}
+
+.app-content {
+    top: 0;
+    left: 0;
+    position: relative;
+    width: 0%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.app-info{
+    position: relative;
+    width:100%;
+}
+
+.info{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: aliceblue;
+    z-index: 2;
+    pointer-events: auto;
+    animation: slideRight;
+}
+
+@keyframes slideRight{
+    from{
+        transform: translateX(-100%);
+    }
+    to{
+        transform: translateX(0%);
+    }
+}
+
+@media screen and (min-width: 760px){
+    .two .app-sidebar {
+        flex: 0 0 35%;
+        flex-shrink: 0;
+    }
+    
+    .two .app-content {
+        flex: 1 1 auto;
+    }
+}
+
+@media screen and (min-width: 760px){
+    .three .app-sidebar {
+        flex: 0 0 30%;
+        flex-shrink: 0;
+    }
+    
+    .three .app-content {
+        flex: 0 0 40%;
+    }
+
+    .three .app-info {
+        flex: 30%;
+    }
+}

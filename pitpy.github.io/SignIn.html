@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="./css/SignIn.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <title>Sign In</title>
+</head>
+
+<body>
+    <div id="signin-wrapper">
+        <div class="app-signin" class="animated zoomIn" style="animation-duration: .4s;">
+            <div class="signin-bg">
+                <div class="bg-panel">
+                    <img src="./img/bcel.png" alt="">
+                </div>
+            </div>
+            <div class="signin-panel">
+                <div class="signin-logo-box">
+                    <div class="signin-logo">
+                        <img src="./img/logo.png" alt="">
+                    </div>
+                </div>
+                <div class="signin-box">
+                    <div class="signin-insider">
+                        <div class="gp-control">
+                            <div class="input-icon-box">
+                                <span class="input-ico">
+                                    <i class="fas fa-user" for="u568"></i>
+                                </span>
+                            </div>
+                            <input type="text" id="u568" v-model="userId">
+                            <label for="u568" :class="floatUser">User ID</label>
+                        </div>
+                        <div class="gp-control">
+                            <div class="input-icon-box">
+                                <span class="input-ico">
+                                    <i class="fas fa-unlock-alt" for="p568"></i>
+                                </span>
+                            </div>
+                            <input type="password" id="p568" v-model="pwd">
+                            <label for="p568" :class="floatPwd">Password</label>
+                        </div>
+                        <button :class="[mobileMode ? 'btn-login' : 'btn-login-desktop']" role="button">Sign In</button>
+                    </div>
+                </div>
+                <div id="signin-footer">
+                    <div class="footer-panel">
+                        <span class="copyright">Copyright &copy; 2019 </span> | <span class="band">BCEL IT CENTER</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    new Vue({
+        el: '#signin-wrapper',
+        data() {
+            return {
+                mobileMode: true,
+                userId: '',
+                pwd: '',
+                floatUser: '',
+                floatPwd: ''
+            }
+        },
+        watch: {
+            userId(){
+                if(this.userId != '')
+                    this.floatUser = 'floating-top'
+                else
+                    this.floatUser = ''
+            },
+            pwd(){
+                if(this.pwd != '')
+                    this.floatPwd = 'floating-top'
+                else
+                    this.floatPwd = ''
+            }
+        },
+        mounted() {
+            this.mobileMode = this.detectMobile
+            window.addEventListener('resize', () => {
+                this.mobileMode = this.detectMobile        
+            });
+        },
+        computed: {
+            detectMobile() {
+                if (navigator.userAgent.match(/Android/i) ||
+                    navigator.userAgent.match(/webOS/i) ||
+                    navigator.userAgent.match(/iPhone/i) ||
+                    navigator.userAgent.match(/iPad/i) ||
+                    navigator.userAgent.match(/iPod/i) ||
+                    navigator.userAgent.match(/BlackBerry/i) ||
+                    navigator.userAgent.match(/Windows Phone/i)
+                ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+    })
+</script>

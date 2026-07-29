@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <link rel="stylesheet" href="./css/app-layout.css">
+    <title>App Layout</title>
+</head>
+
+<body>
+    <div id="app-root">
+        <div class="app-wrapper">
+            <div class="app-inside two">
+                <div class="app-drawer">
+                    <div class="part app-sidebar">
+                        <span class="panel">
+                            <div class="sidebar" v-if="sidebar" tabindex="-1">
+                                <button @click="sideChange(false)"> Close </button>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="part app-content">
+                        <span class="panel"></span>
+                    </div>
+                    <div class="part app-info">
+                        <div class="info" v-if="info">
+                            <span class="panel">
+                                <button @click="infoChange(false)"> Slide bar </button> 
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="part app-sidebar">
+                    <button @click="sideChange(true)">Open</button>
+                </div>
+                <div class="part app-content">
+                    <button @click="infoChange(true)">Info</button>
+                    <button @click="infoChange(true)">Info</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    new Vue({
+        el: '#app-root',
+        data() {
+            return {
+                sidebar: false,
+                info: false
+            }
+        },
+        methods: {
+            sideChange(e) {
+                this.sidebar = e
+            },
+            infoChange(e) {
+                this.info = e
+            }
+        },
+    })
+</script>
+
+<style>
+    .slide-sidebar-enter-active {
+        transition: all .1s ease;
+    }
+
+    .slide-sidebar-leave-active {
+        transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+
+    .slide-sidebar-enter {
+        transform: translateX(-300px);
+    }
+
+    .slide-sidebar-leave-to {
+        transform: translateX(-250px);
+    }
+</style>

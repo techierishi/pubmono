@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv=" X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="./css/Home.css">
+    <title>Home</title>
+</head>
+
+<body>
+    <div id="home-wrapper">
+        <div :class="['home-container', mobileMode ? 'mobile' : 'desktop']">
+            <div class="header">
+                <div class="header-box">
+                    <div class="avatar-box" role="button">
+                        <img class="avatar" src="./img/tony.jpg" alt="" draggable="false">
+                        <div class="avatar-defaul-box">
+
+                        </div>
+                    </div>
+                    <div class="user-detail-box">
+                        <div class="name-box" role="button">
+                            <span>Tony Stark</span>
+                        </div>
+                        <div class="status-box" role="button">
+                            <span>I am Iron Man</span>
+                        </div>
+                    </div>
+                    <div class="control-box">
+                        <div class="button-box">
+                            <div class="ico-box" role="button" @click="searchToggle(true)">
+                                <i class="material-icons">search</i>
+                            </div>
+                        </div>
+                        <div class="button-box">
+                            <div class="ico-box" role="button">
+                                <i class="material-icons">chat</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <transition tag="span" class="icbox" name="bounce-edit" enter-active-class="animated zoomIn"
+                    leave-active-class="animated zoomOut">
+                    <div class="search-box" style="animation-duration: 0.4s" v-if="searchBox">
+                        <div class="header-box">
+                            <div class="search-icon-box" role="button" @click="searchToggle(false)">
+                                <i class="material-icons">arrow_back</i>
+                            </div>
+                            <div class="search-input-box">
+                                <input type="text" ref="search" placeholder="Search" autofocus v-model="txtSearch"
+                                    class="search">
+                            </div>
+                            <div class="search-icon-box" v-if="txtSearch" @click="clearSearch" role="button">
+                                <i class="material-icons">clear</i>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+            <div class="content">
+                <div class="content-box">
+                    <div :class="['content-group', detectMobile ? 'mobile-enter' : 'desktop-enter']">
+                        <div class="item-inbox" role="button" ref="itemInbox" @click="Lollipop">
+                            <div class="avatar-inbox-panel">
+                                <div class="avatar-inbox">
+                                    <img src="./img/thanos.jpg" class="avatar" alt="" srcset="">
+                                </div>
+                            </div>
+                            <div class="inbox-detail">
+                                <div class="name-time-box">
+                                    <div class="sender-name-box">Thanos</div>
+                                    <div class="time-box">Today</div>
+                                </div>
+                                <div class="msg-box">
+                                    <div class="msg">Hello, how are you?</div>
+                                    <div class="msg-counter-box">
+                                        <span>
+                                            <div class="counter-box">
+                                                <span class="counter">5</span>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="lollipop-effect" :style="lollipopStyle" ref="lollipopEffect" v-if="lollipop"></div> -->
+                        </div>
+                        <div class="item-inbox" role="button">
+                            <div class="avatar-inbox-panel">
+                                <div class="avatar-inbox">
+                                    <img src="./img/groot.jpg" class="avatar" alt="" srcset="">
+                                </div>
+                            </div>
+                            <div class="inbox-detail">
+                                <div class="name-time-box">
+                                    <div class="sender-name-box">Groot</div>
+                                    <div class="time-box">Today</div>
+                                </div>
+                                <div class="msg-box">
+                                    <div class="msg">Hello, how are you?</div>
+                                    <div class="msg-counter-box">
+                                        <span>
+                                            <div class="counter-box">
+                                                <span class="counter">10</span>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="lollipop-effect" :style="lollipopStyle" ref="lollipopEffect" v-if="lollipop"></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab">
+                <div class="tab-box">
+                    <template v-for="(item, index) in items">
+                        <div @click="activeTab(index)" role="button"
+                            :class="['tab-items', tabActive == index ? 'tab-active' : '']" :key="index">
+                            <div class="item" role="button">
+                                <i class="material-icons">{{item.icon}}</i>
+                                <label role="button">{{item.name}}</label>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    new Vue({
+        el: '#home-wrapper',
+        data() {
+            return {
+                items: [{
+                    name: 'Chats',
+                    icon: 'chat_bubble_outline',
+                }, {
+                    name: 'Contact',
+                    icon: 'contact_mail',
+                }, {
+                    name: 'Extension',
+                    icon: 'extension',
+                }, {
+                    name: 'Notification',
+                    icon: 'notification_important',
+                }],
+                mobileMode: true,
+                tabActive: 0,
+                txtSearch: '',
+                searchBox: false,
+                lollipop: false,
+                lollipopStyle: ''
+            }
+        },
+        mounted() {
+            this.mobileMode = this.detectMobile
+            window.addEventListener('resize', () => {
+                this.mobileMode = this.detectMobile
+            });
+
+            this.Lollipop()
+        },
+        computed: {
+            detectMobile() {
+                if (navigator.userAgent.match(/Android/i) ||
+                    navigator.userAgent.match(/webOS/i) ||
+                    navigator.userAgent.match(/iPhone/i) ||
+                    navigator.userAgent.match(/iPad/i) ||
+                    navigator.userAgent.match(/iPod/i) ||
+                    navigator.userAgent.match(/BlackBerry/i) ||
+                    navigator.userAgent.match(/Windows Phone/i)
+                ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+        methods: {
+            activeTab(index) {
+                this.tabActive = index
+            },
+            searchToggle(e) {
+                this.searchBox = e
+                this.$nextTick(() => {
+                    this.clearSearch()
+                })
+            },
+            clearSearch() {
+                this.txtSearch = ''
+                this.$refs.search.focus()
+            },
+            Lollipop() {
+                const item = this.$refs.itemInbox
+                let effect = this.$refs.$lollipopEffect
+                item.onmousedown = e => {
+                    let x = (e.offsetX == undefined) ? e.layerX : e.offsetX;
+                    let y = (e.offsetY == undefined) ? e.layerY : e.offsetY;
+                    this.lollipop = true
+
+                    this.lollipopStyle = {
+                        top: `${y}px`,
+                        left: `${x}px`
+                    }
+
+                    setTimeout(() => {
+                        this.lollipop = false
+                    }, 500);
+                }
+            }
+        },
+    })
+</script>
+
+<style lang="scss" scoped>
+    @import "@/assets/scss/SignIn.scss";
+</style>

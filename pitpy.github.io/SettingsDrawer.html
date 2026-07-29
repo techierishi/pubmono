@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <link rel="stylesheet" href="./css/SettingsDrawer.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <title>Settings</title>
+</head>
+
+<body>
+    <div id="setting-wrapper">
+        <div class="setting-container" @scroll="Scrolling" ref="scl">
+            <div :class="['header-box-fixed', nav ? 'color-fixed' : '']">
+                <div class="back-button" role="button">
+                    <i class="material-icons">arrow_back</i>
+                </div>
+                <span class="title">Settings</span>
+            </div>
+            <div class="header">
+                <div class="header-cover">
+                    <img class="cover" src="./img/ironman.jpg" alt="" draggable="false">
+                    <span class="behigh"></span>
+                </div>
+                <div class="header-box"></div>
+                <div class="profile-content">
+                    <div class="profile-box">
+                        <img class="profile" src="./img/tony.jpg" alt="" draggable="false">
+                        <span class="behigh"></span>
+                        <label for="profile" class="brows-icon-box-desktop" role="button"></label>
+                        <label for="profile" class="brows-icon-box" role="button">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                        <input type="file" id="profile" accept=".jpeg,.jpg,.png,.gif,.bmp,.ico,.svg" />
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="panel">
+                    <div class="username-box">
+                        <div class="username">
+                            <div class="name">Tony Stark</div>
+                        </div>
+                        <div class="about">
+                            I am Iron Man
+                        </div>
+                    </div>
+                    <div class="control-content">
+                        <div class="control-inside">
+                            <div class="control-box" @click="floating(true)">
+                                <div class="_title-box">
+                                    <span>Name</span>
+                                </div>
+                                <div class="_control _edit-able">
+                                    <div :class="['input-box', inputName ? 'input-border' : '']">
+                                        <div class="input" id="input-name" v-text="name" ref="inputName"
+                                            :contenteditable="inputName" @keydown="preventA">Tony Stark</div>
+                                        <transition-group tag="span" class="icbox" name="bounce-edit"
+                                            enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
+                                            <div class="ico-box" style="animation-duration: 0.2s" v-if="inputName"
+                                                :key="1">
+                                                <i class="fas fa-check" role="button" @click="editText(1)"></i>
+                                            </div>
+                                            <div class="ico-box" style="animation-duration: 0.2s" v-else :key="2">
+                                                <i class="fas fa-pencil-alt" role="button" @click="editText(1)"></i>
+                                            </div>
+                                        </transition-group>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-box" @click="floating(true)">
+                                <div class="_title-box">
+                                    <span>About</span>
+                                </div>
+                                <div class="_control _edit-able">
+                                    <div :class="['input-box', inputAbout ? 'input-border' : '']">
+                                        <div class="input" id="input-about" v-text="about" ref="inputAbout"
+                                            :contenteditable="inputAbout" @keydown="preventB">I am Iron Man</div>
+                                        <transition-group tag="span" class="icbox" name="bounce-edit"
+                                            enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
+                                            <div class="ico-box" style="animation-duration: 0.2s" v-if="inputAbout"
+                                                :key="1">
+                                                <i class="fas fa-check" role="button" @click="editText(2)"></i>
+                                            </div>
+                                            <div class="ico-box" style="animation-duration: 0.2s" v-else :key="2">
+                                                <i class="fas fa-pencil-alt" role="button" @click="editText(2)"></i>
+                                            </div>
+                                        </transition-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="signout-box">
+                        <button :class="[edit ? 'btn-signout' : 'btn-signout-desktop']" role="button">Sign out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="edit-panel" id="dismise" v-if="editPanel">
+            <div class="dismise" @click="floating(false)"></div>
+            <div class="edit-box">
+                <div class="_title-box">
+                    <span>Enter your name</span>
+                </div>
+                <div class="_control edit-able">
+                    <div :class="['input-box', focused ? 'input-border' : '']">
+                        <div class="input" ref="input" id="input" @focus="_focus" @blur="focused = false"
+                            contenteditable="true">Tony Stark</div>
+                        <div class="ico-box">
+                            <span>25</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit-box">
+                    <button role="button" @click="floating(false)">CANCEL</button>
+                    <button role="button" @click="floating(false)">SAVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    new Vue({
+        el: '#setting-wrapper',
+        data() {
+            return {
+                editPanel: false,
+                focused: false,
+                edit: false,
+                inputName: false,
+                inputAbout: false,
+                nav: false,
+                name: 'Tony Stark',
+                about: 'I am Iron Man'
+            }
+        },
+        mounted() {
+            this.edit = this.detectMobile
+            window.addEventListener('resize', () => {
+                this.edit = this.detectMobile
+            });
+        },
+        computed: {
+            detectMobile() {
+                if (navigator.userAgent.match(/Android/i) ||
+                    navigator.userAgent.match(/webOS/i) ||
+                    navigator.userAgent.match(/iPhone/i) ||
+                    navigator.userAgent.match(/iPad/i) ||
+                    navigator.userAgent.match(/iPod/i) ||
+                    navigator.userAgent.match(/BlackBerry/i) ||
+                    navigator.userAgent.match(/Windows Phone/i)
+                ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+        methods: {
+            preventA(e) {
+                let value = this.$refs.inputName.innerText
+                if (value.length > 25 && event.keyCode != 8)
+                    event.preventDefault()
+            },
+            preventB(e) {
+                let value = this.$refs.inputAbout.innerText
+                if (value.length > 25 && event.keyCode != 8)
+                    event.preventDefault()
+            },
+            floating(e) {
+                if (this.detectMobile) {
+                    this.editPanel = e
+                    if (e) this._focus()
+                } else {
+                    return
+                }
+            },
+            editText(e) {
+                if (this.detectMobile) {
+                    this.inputName = false
+                    this.inputAbout = false
+                } else {
+                    if (e == 1) {
+                        if (this.inputName)
+                            this.inputName = false
+                        else
+                            this.inputName = true
+                        this.$nextTick(() => {
+                            this.$refs.inputName.focus()
+                        })
+                    } else {
+                        if (this.inputAbout)
+                            this.inputAbout = false
+                        else
+                            this.inputAbout = true
+                        this.$nextTick(() => {
+                            this.$refs.inputAbout.focus()
+                        })
+                    }
+                }
+            },
+            _focus() {
+                this.$nextTick(() => {
+                    this.focused = true
+                    this.$refs.input.focus()
+                });
+                var cell = this.$refs.input;
+                var range, selection;
+                if (document.body.createTextRange) {
+                    range = document.body.createTextRange();
+                    range.moveToElementText(cell);
+                    range.select();
+                } else if (window.getSelection) {
+                    selection = window.getSelection();
+                    range = document.createRange();
+                    range.selectNodeContents(cell);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+            },
+            Scrolling(){
+                if(this.$refs.scl.scrollTop >= 58)
+                    this.nav = true
+                else
+                    this.nav = false
+            }
+        },
+    })
+</script>
