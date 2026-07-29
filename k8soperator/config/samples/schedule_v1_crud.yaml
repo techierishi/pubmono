@@ -1,0 +1,39 @@
+apiVersion: schedule.rs/v1
+kind: Crud
+metadata:
+  labels:
+    app.kubernetes.io/name: crud
+    app.kubernetes.io/instance: crud-sample
+    app.kubernetes.io/part-of: k8soperator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: k8soperator
+  name: crud-sample
+  namespace: default
+spec:
+  app:
+    image: "ghcr.io/techierishi/mongocrud:latest"
+    name: "mongocrud"
+    port: 8060
+    env:
+      DBPATH: "mongodb://mongodb:27017"
+      VOLPATH: "/data/db"
+    svc:
+      name: "mongocrud"
+      port: 8060
+      targetPort: 8060
+      nodePort: 30685
+  db:
+    image: "mongo:latest"
+    name: "mongodb"
+    port: 27017
+    svc:
+      name: "mongodb"
+      port: 27017
+      targetPort: 27017
+      nodePort: 30686
+  volume:
+    pvName: "crud-pv"
+    pvcName: "crud-pvc"
+    capacity: "1000Mi"
+    path: "/data"
+    storage: "240Mi"
