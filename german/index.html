@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>German A1-A2 Conversation Practice</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  padding: 20px;
+}
+.container {
+  max-width: 700px;
+  margin: auto;
+}
+h1,
+h2 {
+  text-align: center;
+}
+h1 {
+  margin-bottom: 8px;
+}
+h2 {
+  margin-top: 34px;
+}
+p {
+  text-align: center;
+  color: #555555;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  background: #ffffff;
+  margin: 8px 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.speaker {
+  font-weight: bold;
+  margin-right: 6px;
+}
+.teacher {
+  color: #2b7cff;
+}
+.child {
+  color: #ff7a2b;
+}
+.speaker-a {
+  color: #2b7cff;
+}
+.speaker-b {
+  color: #ff7a2b;
+}
+button {
+  border: none;
+  background: #eaeaea;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+button:hover {
+  background: #d6d6d6;
+}
+.text {
+  flex: 1;
+}
+.scenario {
+  margin-top: 28px;
+}
+.controls {
+  margin: 22px 0 8px;
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 16px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>German A1-A2 Conversation Practice</h1>
+<p>50 Alltagsszenen mit kurzen einfachen Sätzen und Audio.</p>
+
+<div class="controls">
+  <label for="scenario-select">Choose a conversation</label>
+  <select id="scenario-select"></select>
+</div>
+
+<div id="scenario-root"></div>
+
+<script>
+function speak(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'de-DE';
+  speechSynthesis.speak(utterance);
+}
+
+function buildShopScenario(spec) {
+  return {
+    title: spec.title,
+    lines: [
+      ['speaker-a', spec.seller, 'Guten Tag.'],
+      ['speaker-b', spec.buyer, 'Guten Tag.'],
+      ['speaker-a', spec.seller, 'Was möchten Sie?'],
+      ['speaker-b', spec.buyer, `Ich möchte ${spec.item}.`],
+      ['speaker-a', spec.seller, 'Sonst noch etwas?'],
+      ['speaker-b', spec.buyer, spec.extra],
+      ['speaker-a', spec.seller, 'Sehr gut.'],
+      ['speaker-b', spec.buyer, 'Wie viel kostet das?'],
+      ['speaker-a', spec.seller, `Das kostet ${spec.price}.`],
+      ['speaker-b', spec.buyer, 'Kann ich mit Karte zahlen?'],
+      ['speaker-a', spec.seller, 'Ja, natürlich.'],
+      ['speaker-b', spec.buyer, 'Super.'],
+      ['speaker-a', spec.seller, 'Möchten Sie eine Tüte?'],
+      ['speaker-b', spec.buyer, spec.bagAnswer],
+      ['speaker-a', spec.seller, 'Hier bitte.'],
+      ['speaker-b', spec.buyer, 'Danke schön.'],
+      ['speaker-a', spec.seller, 'Brauchen Sie den Bon?'],
+      ['speaker-b', spec.buyer, 'Nein, danke.'],
+      ['speaker-a', spec.seller, 'Auf Wiedersehen.'],
+      ['speaker-b', spec.buyer, 'Auf Wiedersehen.']
+    ]
+  };
+}
+
+function buildBookingScenario(spec) {
+  return {
+    title: spec.title,
+    lines: [
+      ['speaker-a', spec.clerk, 'Guten Tag.'],
+      ['speaker-b', spec.guest, 'Guten Tag.'],
+      ['speaker-a', spec.clerk, 'Wie kann ich helfen?'],
+      ['speaker-b', spec.guest, `Ich möchte ${spec.booking}.`],
+      ['speaker-a', spec.clerk, 'Für wann?'],
+      ['speaker-b', spec.guest, `Für ${spec.when}.`],
+      ['speaker-a', spec.clerk, 'Für wie viele Personen?'],
+      ['speaker-b', spec.guest, `Für ${spec.people}.`],
+      ['speaker-a', spec.clerk, 'Wie heißen Sie?'],
+      ['speaker-b', spec.guest, `Ich heiße ${spec.name}.`],
+      ['speaker-a', spec.clerk, 'Haben Sie eine Telefonnummer?'],
+      ['speaker-b', spec.guest, 'Ja, natürlich.'],
+      ['speaker-a', spec.clerk, 'Gut. Die Buchung ist fertig.'],
+      ['speaker-b', spec.guest, 'Sehr gut.'],
+      ['speaker-a', spec.clerk, 'Bitte kommen Sie zehn Minuten früher.'],
+      ['speaker-b', spec.guest, 'Ja, das mache ich.'],
+      ['speaker-a', spec.clerk, 'Haben Sie noch Fragen?'],
+      ['speaker-b', spec.guest, 'Nein, danke.'],
+      ['speaker-a', spec.clerk, 'Auf Wiedersehen.'],
+      ['speaker-b', spec.guest, 'Auf Wiedersehen.']
+    ]
+  };
+}
+
+function buildDirectionScenario(spec) {
+  return {
+    title: spec.title,
+    lines: [
+      ['speaker-a', 'Person A', 'Entschuldigung.'],
+      ['speaker-b', 'Person B', 'Ja, bitte.'],
+      ['speaker-a', 'Person A', `Ich suche ${spec.place}.`],
+      ['speaker-b', 'Person B', 'Gehen Sie geradeaus.'],
+      ['speaker-a', 'Person A', 'Ist es weit?'],
+      ['speaker-b', 'Person B', 'Nein, nur fünf Minuten.'],
+      ['speaker-a', 'Person A', 'Muss ich links gehen?'],
+      ['speaker-b', 'Person B', 'Ja, dann links.'],
+      ['speaker-a', 'Person A', 'Gibt es ein Schild?'],
+      ['speaker-b', 'Person B', 'Ja, ein großes Schild.'],
+      ['speaker-a', 'Person A', 'Kann ich auch den Bus nehmen?'],
+      ['speaker-b', 'Person B', `Ja, die Linie ${spec.line}.`],
+      ['speaker-a', 'Person A', 'Wo ist die Haltestelle?'],
+      ['speaker-b', 'Person B', 'Direkt an der Ecke.'],
+      ['speaker-a', 'Person A', 'Sehr gut.'],
+      ['speaker-b', 'Person B', 'Sie finden es leicht.'],
+      ['speaker-a', 'Person A', 'Danke für die Hilfe.'],
+      ['speaker-b', 'Person B', 'Gern geschehen.'],
+      ['speaker-a', 'Person A', 'Schönen Tag noch.'],
+      ['speaker-b', 'Person B', 'Ihnen auch.']
+    ]
+  };
+}
+
+function buildHomeScenario(spec) {
+  return {
+    title: spec.title,
+    lines: [
+      ['speaker-a', spec.personA, 'Hallo.'],
+      ['speaker-b', spec.personB, 'Hallo.'],
+      ['speaker-a', spec.personA, 'Haben Sie einen Moment?'],
+      ['speaker-b', spec.personB, 'Ja, natürlich.'],
+      ['speaker-a', spec.personA, `Ich habe eine Frage zu ${spec.topic}.`],
+      ['speaker-b', spec.personB, 'Ja, was ist los?'],
+      ['speaker-a', spec.personA, spec.problem],
+      ['speaker-b', spec.personB, 'Ich verstehe.'],
+      ['speaker-a', spec.personA, 'Können Sie mir helfen?'],
+      ['speaker-b', spec.personB, 'Ja, gern.'],
+      ['speaker-a', spec.personA, 'Wann haben Sie Zeit?'],
+      ['speaker-b', spec.personB, 'Heute am Abend.'],
+      ['speaker-a', spec.personA, 'Das passt gut.'],
+      ['speaker-b', spec.personB, spec.request],
+      ['speaker-a', spec.personA, 'Ja, mache ich.'],
+      ['speaker-b', spec.personB, 'Dann sehen wir uns später.'],
+      ['speaker-a', spec.personA, 'Vielen Dank.'],
+      ['speaker-b', spec.personB, 'Kein Problem.'],
+      ['speaker-a', spec.personA, 'Bis später.'],
+      ['speaker-b', spec.personB, 'Bis später.']
+    ]
+  };
+}
+
+function buildWorkScenario(spec) {
+  return {
+    title: spec.title,
+    lines: [
+      ['speaker-a', spec.personA, 'Guten Morgen.'],
+      ['speaker-b', spec.personB, 'Guten Morgen.'],
+      ['speaker-a', spec.personA, `Ich brauche Hilfe mit ${spec.task}.`],
+      ['speaker-b', spec.personB, 'Ja, gern.'],
+      ['speaker-a', spec.personA, 'Haben Sie jetzt Zeit?'],
+      ['speaker-b', spec.personB, 'Ja, fünf Minuten.'],
+      ['speaker-a', spec.personA, 'Sehr gut.'],
+      ['speaker-b', spec.personB, 'Was ist das Problem?'],
+      ['speaker-a', spec.personA, spec.problem],
+      ['speaker-b', spec.personB, 'Ich sehe.'],
+      ['speaker-a', spec.personA, 'Können wir das heute machen?'],
+      ['speaker-b', spec.personB, 'Ja, heute am Vormittag.'],
+      ['speaker-a', spec.personA, 'Perfekt.'],
+      ['speaker-b', spec.personB, 'Bitte schicken Sie mir eine E-Mail.'],
+      ['speaker-a', spec.personA, 'Ja, mache ich.'],
+      ['speaker-b', spec.personB, 'Dann komme ich später vorbei.'],
+      ['speaker-a', spec.personA, 'Vielen Dank.'],
+      ['speaker-b', spec.personB, 'Gern.'],
+      ['speaker-a', spec.personA, 'Bis später.'],
+      ['speaker-b', spec.personB, 'Bis später.']
+    ]
+  };
+}
+
+function buildLeisureScenario(spec) {
+  return {
+    title: spec.title,
+    lines: [
+      ['speaker-a', spec.staff, 'Guten Tag.'],
+      ['speaker-b', spec.visitor, 'Guten Tag.'],
+      ['speaker-a', spec.staff, `Möchten Sie heute ${spec.activity}?`],
+      ['speaker-b', spec.visitor, 'Ja, gern.'],
+      ['speaker-a', spec.staff, 'Haben Sie schon ein Ticket?'],
+      ['speaker-b', spec.visitor, 'Nein, noch nicht.'],
+      ['speaker-a', spec.staff, `Ein Ticket kostet ${spec.price}.`],
+      ['speaker-b', spec.visitor, 'Gut.'],
+      ['speaker-a', spec.staff, `Möchten Sie auch ${spec.extra}?`],
+      ['speaker-b', spec.visitor, 'Nein, danke.'],
+      ['speaker-a', spec.staff, 'Dann brauche ich Ihren Namen.'],
+      ['speaker-b', spec.visitor, `Ich heiße ${spec.name}.`],
+      ['speaker-a', spec.staff, 'Sehr gut.'],
+      ['speaker-b', spec.visitor, 'Wo ist der Eingang?'],
+      ['speaker-a', spec.staff, 'Direkt rechts.'],
+      ['speaker-b', spec.visitor, 'Wann beginnt es?'],
+      ['speaker-a', spec.staff, `Um ${spec.time}.`],
+      ['speaker-b', spec.visitor, 'Danke schön.'],
+      ['speaker-a', spec.staff, 'Viel Spaß.'],
+      ['speaker-b', spec.visitor, 'Danke.']
+    ]
+  };
+}
+
+function buildTravelScenario(spec) {
+  return {
+    title: spec.title,
+    lines: [
+      ['speaker-a', spec.staff, 'Guten Tag.'],
+      ['speaker-b', spec.traveler, 'Guten Tag.'],
+      ['speaker-a', spec.staff, 'Wohin möchten Sie?'],
+      ['speaker-b', spec.traveler, `Nach ${spec.destination}.`],
+      ['speaker-a', spec.staff, 'Für wann brauchen Sie es?'],
+      ['speaker-b', spec.traveler, `Für ${spec.time}.`],
+      ['speaker-a', spec.staff, 'Eine Person?'],
+      ['speaker-b', spec.traveler, 'Ja, eine Person.'],
+      ['speaker-a', spec.staff, `Das kostet ${spec.price}.`],
+      ['speaker-b', spec.traveler, 'Gut.'],
+      ['speaker-a', spec.staff, 'Möchten Sie noch etwas?'],
+      ['speaker-b', spec.traveler, 'Nein, danke.'],
+      ['speaker-a', spec.staff, spec.documentLine],
+      ['speaker-b', spec.traveler, 'Vielen Dank.'],
+      ['speaker-a', spec.staff, spec.handoverLine],
+      ['speaker-b', spec.traveler, 'Sehr gut.'],
+      ['speaker-a', spec.staff, 'Haben Sie noch Fragen?'],
+      ['speaker-b', spec.traveler, 'Nein, danke.'],
+      ['speaker-a', spec.staff, 'Gute Reise.'],
+      ['speaker-b', spec.traveler, 'Danke schön.']
+    ]
+  };
+}
+
+function buildHealthScenario(spec) {
+  return {
+    title: spec.title,
+    lines: [
+      ['speaker-a', spec.staff, 'Guten Tag.'],
+      ['speaker-b', spec.patient, 'Guten Tag.'],
+      ['speaker-a', spec.staff, 'Wie kann ich helfen?'],
+      ['speaker-b', spec.patient, spec.problem],
+      ['speaker-a', spec.staff, 'Seit wann?'],
+      ['speaker-b', spec.patient, `Seit ${spec.since}.`],
+      ['speaker-a', spec.staff, 'Haben Sie Schmerzen?'],
+      ['speaker-b', spec.patient, 'Ja, ein bisschen.'],
+      ['speaker-a', spec.staff, 'Haben Sie einen Termin?'],
+      ['speaker-b', spec.patient, spec.appointment],
+      ['speaker-a', spec.staff, 'Bitte warten Sie kurz.'],
+      ['speaker-b', spec.patient, 'Ja, natürlich.'],
+      ['speaker-a', spec.staff, spec.waitLine],
+      ['speaker-b', spec.patient, 'Danke.'],
+      ['speaker-a', spec.staff, 'Brauchen Sie noch etwas?'],
+      ['speaker-b', spec.patient, 'Nein, danke.'],
+      ['speaker-a', spec.staff, 'Bitte setzen Sie sich.'],
+      ['speaker-b', spec.patient, 'Gern.'],
+      ['speaker-a', spec.staff, 'Gute Besserung.'],
+      ['speaker-b', spec.patient, 'Vielen Dank.']
+    ]
+  };
+}
+
+function buildSchoolScenario(spec) {
+  return {
+    title: spec.title,
+    lines: [
+      ['speaker-a', spec.staff, 'Guten Tag.'],
+      ['speaker-b', spec.student, 'Guten Tag.'],
+      ['speaker-a', spec.staff, 'Was brauchen Sie?'],
+      ['speaker-b', spec.student, `Ich brauche Hilfe mit ${spec.topic}.`],
+      ['speaker-a', spec.staff, 'Kein Problem.'],
+      ['speaker-b', spec.student, 'Danke.'],
+      ['speaker-a', spec.staff, `Haben Sie schon ${spec.document}?`],
+      ['speaker-b', spec.student, spec.documentAnswer],
+      ['speaker-a', spec.staff, 'Dann füllen Sie bitte dieses Formular aus.'],
+      ['speaker-b', spec.student, 'Ja, mache ich.'],
+      ['speaker-a', spec.staff, 'Wann brauchen Sie es?'],
+      ['speaker-b', spec.student, `Bis ${spec.when}.`],
+      ['speaker-a', spec.staff, 'Das geht.'],
+      ['speaker-b', spec.student, 'Sehr gut.'],
+      ['speaker-a', spec.staff, 'Kommen Sie morgen noch einmal.'],
+      ['speaker-b', spec.student, 'Ja, gern.'],
+      ['speaker-a', spec.staff, 'Haben Sie noch Fragen?'],
+      ['speaker-b', spec.student, 'Nein, danke.'],
+      ['speaker-a', spec.staff, 'Auf Wiedersehen.'],
+      ['speaker-b', spec.student, 'Auf Wiedersehen.']
+    ]
+  };
+}
+
+function buildExtraScenarios() {
+  return [
+    {
+      title: 'Morning routine before school',
+      lines: [
+        ['speaker-a', 'Mutter', 'Guten Morgen, Lina.'],
+        ['speaker-b', 'Lina', 'Guten Morgen, Mama.'],
+        ['speaker-a', 'Mutter', 'Wie spät ist es?'],
+        ['speaker-b', 'Lina', 'Es ist halb sieben.'],
+        ['speaker-a', 'Mutter', 'Steh bitte auf.'],
+        ['speaker-b', 'Lina', 'Ich bin noch müde.'],
+        ['speaker-a', 'Mutter', 'Heute hast du Mathe.'],
+        ['speaker-b', 'Lina', 'Stimmt, und auch Musik.'],
+        ['speaker-a', 'Mutter', 'Geh zuerst ins Bad.'],
+        ['speaker-b', 'Lina', 'Ich putze gleich meine Zähne.'],
+        ['speaker-a', 'Mutter', 'Vergiss dein Gesicht nicht zu waschen.'],
+        ['speaker-b', 'Lina', 'Ja, mache ich.'],
+        ['speaker-a', 'Mutter', 'Danach zieh dich an.'],
+        ['speaker-b', 'Lina', 'Ich nehme heute den roten Pullover.'],
+        ['speaker-a', 'Mutter', 'Der passt gut zur Jeans.'],
+        ['speaker-b', 'Lina', 'Wo sind meine Socken?'],
+        ['speaker-a', 'Mutter', 'Sie liegen auf dem Stuhl.'],
+        ['speaker-b', 'Lina', 'Danke, ich habe sie.'],
+        ['speaker-a', 'Mutter', 'Super, dann gibt es Frühstück.'],
+        ['speaker-b', 'Lina', 'Ich komme sofort in die Küche.']
+      ]
+    },
+    {
+      title: 'Breakfast at home',
+      lines: [
+        ['speaker-a', 'Vater', 'Guten Morgen, Ben.'],
+        ['speaker-b', 'Ben', 'Guten Morgen, Papa.'],
+        ['speaker-a', 'Vater', 'Möchtest du Brot oder Müsli?'],
+        ['speaker-b', 'Ben', 'Ich möchte Müsli mit Milch.'],
+        ['speaker-a', 'Vater', 'Und eine Banane?'],
+        ['speaker-b', 'Ben', 'Ja, bitte.'],
+        ['speaker-a', 'Vater', 'Hier ist deine Schüssel.'],
+        ['speaker-b', 'Ben', 'Danke schön.'],
+        ['speaker-a', 'Vater', 'Willst du auch Tee?'],
+        ['speaker-b', 'Ben', 'Nein, lieber Wasser.'],
+        ['speaker-a', 'Vater', 'Nimm auch dein Pausenbrot mit.'],
+        ['speaker-b', 'Ben', 'Was ist heute drin?'],
+        ['speaker-a', 'Vater', 'Käse, Gurke und ein Apfel.'],
+        ['speaker-b', 'Ben', 'Lecker, das mag ich.'],
+        ['speaker-a', 'Vater', 'Iss bitte in Ruhe.'],
+        ['speaker-b', 'Ben', 'Ich habe noch zehn Minuten.'],
+        ['speaker-a', 'Vater', 'Dann packen wir gleich den Rucksack.'],
+        ['speaker-b', 'Ben', 'Ja, wir sind fast fertig.'],
+        ['speaker-a', 'Vater', 'Sehr gut gemacht.'],
+        ['speaker-b', 'Ben', 'Danke, Papa.']
+      ]
+    },
+    {
+      title: 'Packing the school bag',
+      lines: [
+        ['speaker-a', 'Mutter', 'Hast du deinen Stundenplan?'],
+        ['speaker-b', 'Kind', 'Ja, er liegt auf dem Tisch.'],
+        ['speaker-a', 'Mutter', 'Welche Fächer hast du heute?'],
+        ['speaker-b', 'Kind', 'Deutsch, Mathe und Sport.'],
+        ['speaker-a', 'Mutter', 'Dann brauchst du drei Hefte.'],
+        ['speaker-b', 'Kind', 'Ich nehme das blaue und das grüne Heft.'],
+        ['speaker-a', 'Mutter', 'Und dein Mathebuch?'],
+        ['speaker-b', 'Kind', 'Das ist hier im Regal.'],
+        ['speaker-a', 'Mutter', 'Bitte steck auch das Federmäppchen ein.'],
+        ['speaker-b', 'Kind', 'Da sind zwei Stifte kaputt.'],
+        ['speaker-a', 'Mutter', 'Dann nimm diese neuen Bleistifte.'],
+        ['speaker-b', 'Kind', 'Super, danke.'],
+        ['speaker-a', 'Mutter', 'Hast du dein Sportzeug?'],
+        ['speaker-b', 'Kind', 'Ja, T-Shirt, Hose und Schuhe.'],
+        ['speaker-a', 'Mutter', 'Auch eine Wasserflasche?'],
+        ['speaker-b', 'Kind', 'Oh, die vergesse ich immer.'],
+        ['speaker-a', 'Mutter', 'Hier, füll sie bitte auf.'],
+        ['speaker-b', 'Kind', 'Jetzt ist alles drin.'],
+        ['speaker-a', 'Mutter', 'Prima, dein Rucksack ist bereit.'],
+        ['speaker-b', 'Kind', 'Dann kann ich losgehen.']
+      ]
+    },
+    {
+      title: 'Walking to school with a friend',
+      lines: [
+        ['speaker-a', 'Emma', 'Hallo Tom, wartest du auf mich?'],
+        ['speaker-b', 'Tom', 'Ja, wir gehen zusammen.'],
+        ['speaker-a', 'Emma', 'Super, dann ist der Weg kürzer.'],
+        ['speaker-b', 'Tom', 'Wie war dein Abend?'],
+        ['speaker-a', 'Emma', 'Ich habe Hausaufgaben gemacht.'],
+        ['speaker-b', 'Tom', 'Ich auch, die Matheaufgabe war schwer.'],
+        ['speaker-a', 'Emma', 'Ja, besonders Nummer vier.'],
+        ['speaker-b', 'Tom', 'Hast du sie gelöst?'],
+        ['speaker-a', 'Emma', 'Mit Hilfe von meiner Schwester.'],
+        ['speaker-b', 'Tom', 'Gut, dann kannst du es mir erklären.'],
+        ['speaker-a', 'Emma', 'Klar, in der Pause.'],
+        ['speaker-b', 'Tom', 'Schau, die Ampel ist rot.'],
+        ['speaker-a', 'Emma', 'Wir warten lieber.'],
+        ['speaker-b', 'Tom', 'Jetzt ist sie grün.'],
+        ['speaker-a', 'Emma', 'Schnell, wir gehen rüber.'],
+        ['speaker-b', 'Tom', 'Heute ist es kalt.'],
+        ['speaker-a', 'Emma', 'Ja, ich habe Handschuhe an.'],
+        ['speaker-b', 'Tom', 'Da vorne ist schon die Schule.'],
+        ['speaker-a', 'Emma', 'Wir sind pünktlich.'],
+        ['speaker-b', 'Tom', 'Perfekt, los in die Klasse.']
+      ]
+    },
+    {
+      title: 'In the school corridor',
+      lines: [
+        ['speaker-a', 'Schüler A', 'Hallo Mia, welche Stunde haben wir jetzt?'],
+        ['speaker-b', 'Schülerin B', 'Jetzt haben wir Deutsch.'],
+        ['speaker-a', 'Schüler A', 'In welchem Raum?'],
+        ['speaker-b', 'Schülerin B', 'Im Raum 2.14 im zweiten Stock.'],
+        ['speaker-a', 'Schüler A', 'Oh, ich dachte im ersten Stock.'],
+        ['speaker-b', 'Schülerin B', 'Nein, dort ist Kunst.'],
+        ['speaker-a', 'Schüler A', 'Danke für die Info.'],
+        ['speaker-b', 'Schülerin B', 'Kein Problem.'],
+        ['speaker-a', 'Schüler A', 'Hast du dein Lesebuch dabei?'],
+        ['speaker-b', 'Schülerin B', 'Ja, es ist im Rucksack.'],
+        ['speaker-a', 'Schüler A', 'Ich habe meins zu Hause vergessen.'],
+        ['speaker-b', 'Schülerin B', 'Du kannst heute mit mir teilen.'],
+        ['speaker-a', 'Schüler A', 'Das ist nett.'],
+        ['speaker-b', 'Schülerin B', 'Die Lehrerin kommt schon.'],
+        ['speaker-a', 'Schüler A', 'Dann gehen wir schnell rein.'],
+        ['speaker-b', 'Schülerin B', 'Warte, ich trinke noch einen Schluck.'],
+        ['speaker-a', 'Schüler A', 'Okay, jetzt los.'],
+        ['speaker-b', 'Schülerin B', 'Ich bin bereit.'],
+        ['speaker-a', 'Schüler A', 'Heute will ich mich oft melden.'],
+        ['speaker-b', 'Schülerin B', 'Ich auch, das schaffen wir.']
+      ]
+    },
+    {
+      title: 'Math homework in the afternoon',
+      lines: [
+        ['speaker-a', 'Mutter', 'Hast du schon mit Mathe angefangen?'],
+        ['speaker-b', 'Kind', 'Noch nicht, ich hole mein Heft.'],
+        ['speaker-a', 'Mutter', 'Wie viele Aufgaben sind es?'],
+        ['speaker-b', 'Kind', 'Sechs Aufgaben auf Seite 35.'],
+        ['speaker-a', 'Mutter', 'Fang mit der ersten an.'],
+        ['speaker-b', 'Kind', 'Hier steht: 24 plus 17.'],
+        ['speaker-a', 'Mutter', 'Was ist das Ergebnis?'],
+        ['speaker-b', 'Kind', 'Das ist 41.'],
+        ['speaker-a', 'Mutter', 'Sehr gut.'],
+        ['speaker-b', 'Kind', 'Die nächste ist eine Textaufgabe.'],
+        ['speaker-a', 'Mutter', 'Lies sie langsam vor.'],
+        ['speaker-b', 'Kind', 'Anna hat 12 Bonbons und bekommt 8 dazu.'],
+        ['speaker-a', 'Mutter', 'Also wie viele hat Anna jetzt?'],
+        ['speaker-b', 'Kind', '20 Bonbons.'],
+        ['speaker-a', 'Mutter', 'Richtig gerechnet.'],
+        ['speaker-b', 'Kind', 'Jetzt verstehe ich es besser.'],
+        ['speaker-a', 'Mutter', 'Möchtest du eine kurze Pause?'],
+        ['speaker-b', 'Kind', 'Ja, fünf Minuten bitte.'],
+        ['speaker-a', 'Mutter', 'Danach machen wir den Rest.'],
+        ['speaker-b', 'Kind', 'Einverstanden.']
+      ]
+    },
+    {
+      title: 'Reading practice in German',
+      lines: [
+        ['speaker-a', 'Lehrerin', 'Heute lesen wir eine kleine Geschichte.'],
+        ['speaker-b', 'Schüler', 'Wie heißt die Geschichte?'],
+        ['speaker-a', 'Lehrerin', 'Sie heißt Der kleine Hund.'],
+        ['speaker-b', 'Schüler', 'Das klingt schön.'],
+        ['speaker-a', 'Lehrerin', 'Wer möchte den ersten Satz lesen?'],
+        ['speaker-b', 'Schüler', 'Ich möchte lesen.'],
+        ['speaker-a', 'Lehrerin', 'Bitte, fang an.'],
+        ['speaker-b', 'Schüler', 'Der kleine Hund läuft in den Park.'],
+        ['speaker-a', 'Lehrerin', 'Sehr gut ausgesprochen.'],
+        ['speaker-b', 'Schüler', 'Danke.'],
+        ['speaker-a', 'Lehrerin', 'Was macht der Hund im Park?'],
+        ['speaker-b', 'Schüler', 'Er spielt mit einem Ball.'],
+        ['speaker-a', 'Lehrerin', 'Richtig.'],
+        ['speaker-b', 'Schüler', 'Darf ich den nächsten Satz lesen?'],
+        ['speaker-a', 'Lehrerin', 'Ja, gern.'],
+        ['speaker-b', 'Schüler', 'Dann trifft er ein Mädchen.'],
+        ['speaker-a', 'Lehrerin', 'Klasse gelesen.'],
+        ['speaker-b', 'Schüler', 'Lesen macht heute Spaß.'],
+        ['speaker-a', 'Lehrerin', 'Das freut mich.'],
+        ['speaker-b', 'Schüler', 'Ich lese zu Hause weiter.']
+      ]
+    },
+    {
+      title: 'Art class with colors',
+      lines: [
+        ['speaker-a', 'Lehrer', 'Heute malen wir einen Garten.'],
+        ['speaker-b', 'Schülerin', 'Welche Farben sollen wir nehmen?'],
+        ['speaker-a', 'Lehrer', 'Grün für das Gras und Blau für den Himmel.'],
+        ['speaker-b', 'Schülerin', 'Kann ich auch Rosa benutzen?'],
+        ['speaker-a', 'Lehrer', 'Ja, für Blumen ist Rosa gut.'],
+        ['speaker-b', 'Schülerin', 'Mein Pinsel ist zu dick.'],
+        ['speaker-a', 'Lehrer', 'Nimm einen dünnen Pinsel aus der Box.'],
+        ['speaker-b', 'Schülerin', 'Danke, jetzt klappt es besser.'],
+        ['speaker-a', 'Lehrer', 'Male zuerst den Hintergrund.'],
+        ['speaker-b', 'Schülerin', 'Okay, ich male den Himmel.'],
+        ['speaker-a', 'Lehrer', 'Sehr schön und sauber.'],
+        ['speaker-b', 'Schülerin', 'Jetzt male ich einen Baum.'],
+        ['speaker-a', 'Lehrer', 'Vergiss den Stamm nicht.'],
+        ['speaker-b', 'Schülerin', 'Der Stamm ist braun.'],
+        ['speaker-a', 'Lehrer', 'Genau.'],
+        ['speaker-b', 'Schülerin', 'Kann ich einen Hund malen?'],
+        ['speaker-a', 'Lehrer', 'Natürlich, das Bild ist dein Bild.'],
+        ['speaker-b', 'Schülerin', 'Super, ich male einen kleinen Hund.'],
+        ['speaker-a', 'Lehrer', 'Dein Garten ist toll geworden.'],
+        ['speaker-b', 'Schülerin', 'Danke, ich bin stolz.']
+      ]
+    },
+    {
+      title: 'Music lesson with instruments',
+      lines: [
+        ['speaker-a', 'Lehrerin', 'Setzt euch bitte in einen Kreis.'],
+        ['speaker-b', 'Schüler', 'Ja, Frau Lange.'],
+        ['speaker-a', 'Lehrerin', 'Heute hören wir verschiedene Instrumente.'],
+        ['speaker-b', 'Schüler', 'Ich mag die Gitarre.'],
+        ['speaker-a', 'Lehrerin', 'Sehr gut, hier ist eine kleine Gitarre.'],
+        ['speaker-b', 'Schüler', 'Darf ich sie ausprobieren?'],
+        ['speaker-a', 'Lehrerin', 'Ja, aber ganz vorsichtig.'],
+        ['speaker-b', 'Schüler', 'Sie klingt hell.'],
+        ['speaker-a', 'Lehrerin', 'Jetzt hören wir die Trommel.'],
+        ['speaker-b', 'Schüler', 'Die ist laut.'],
+        ['speaker-a', 'Lehrerin', 'Wie ist der Rhythmus?'],
+        ['speaker-b', 'Schüler', 'Langsam und dann schnell.'],
+        ['speaker-a', 'Lehrerin', 'Gut gehört.'],
+        ['speaker-b', 'Schüler', 'Ich möchte auch trommeln.'],
+        ['speaker-a', 'Lehrerin', 'Du bist als Nächster dran.'],
+        ['speaker-b', 'Schüler', 'Prima.'],
+        ['speaker-a', 'Lehrerin', 'Zum Schluss singen wir zusammen.'],
+        ['speaker-b', 'Schüler', 'Welches Lied?'],
+        ['speaker-a', 'Lehrerin', 'Alle meine Entchen.'],
+        ['speaker-b', 'Schüler', 'Das kenne ich.']
+      ]
+    },
+    {
+      title: 'Sports lesson in the gym',
+      lines: [
+        ['speaker-a', 'Trainer', 'Guten Morgen, Klasse.'],
+        ['speaker-b', 'Kinder', 'Guten Morgen.'],
+        ['speaker-a', 'Trainer', 'Zieht bitte eure Sportschuhe an.'],
+        ['speaker-b', 'Kind', 'Meine Schuhe sind schon an.'],
+        ['speaker-a', 'Trainer', 'Wir beginnen mit Aufwärmen.'],
+        ['speaker-b', 'Kind', 'Laufen wir im Kreis?'],
+        ['speaker-a', 'Trainer', 'Ja, zwei Runden langsam.'],
+        ['speaker-b', 'Kind', 'Und dann schneller?'],
+        ['speaker-a', 'Trainer', 'Genau, dann eine schnelle Runde.'],
+        ['speaker-b', 'Kind', 'Ich atme tief ein und aus.'],
+        ['speaker-a', 'Trainer', 'Sehr gut.'],
+        ['speaker-b', 'Kind', 'Was machen wir danach?'],
+        ['speaker-a', 'Trainer', 'Wir üben Werfen und Fangen.'],
+        ['speaker-b', 'Kind', 'Ich kann schon gut fangen.'],
+        ['speaker-a', 'Trainer', 'Dann hilfst du deinem Partner.'],
+        ['speaker-b', 'Kind', 'Ja, gern.'],
+        ['speaker-a', 'Trainer', 'Zum Schluss spielen wir ein kleines Spiel.'],
+        ['speaker-b', 'Kind', 'Super, ich freue mich.'],
+        ['speaker-a', 'Trainer', 'Bleibt fair und passt aufeinander auf.'],
+        ['speaker-b', 'Kind', 'Machen wir.']
+      ]
+    },
+    {
+      title: 'Recess on the playground',
+      lines: [
+        ['speaker-a', 'Nora', 'Kommst du mit auf die Schaukel?'],
+        ['speaker-b', 'Lea', 'Ja, gerne.'],
+        ['speaker-a', 'Nora', 'Ich schaukle zuerst, okay?'],
+        ['speaker-b', 'Lea', 'Okay, dann bin ich danach dran.'],
+        ['speaker-a', 'Nora', 'Kannst du mich ein bisschen anschubsen?'],
+        ['speaker-b', 'Lea', 'Ja, aber nicht zu hoch.'],
+        ['speaker-a', 'Nora', 'Danke, so ist gut.'],
+        ['speaker-b', 'Lea', 'Jetzt wechseln wir.'],
+        ['speaker-a', 'Nora', 'Ja, ich halte die Schaukel fest.'],
+        ['speaker-b', 'Lea', 'Super.'],
+        ['speaker-a', 'Nora', 'Willst du später rutschen?'],
+        ['speaker-b', 'Lea', 'Ja, die große Rutsche ist frei.'],
+        ['speaker-a', 'Nora', 'Dann gehen wir gleich dorthin.'],
+        ['speaker-b', 'Lea', 'Ich habe auch ein Springseil dabei.'],
+        ['speaker-a', 'Nora', 'Toll, wir können zusammen springen.'],
+        ['speaker-b', 'Lea', 'Wie lange dauert die Pause noch?'],
+        ['speaker-a', 'Nora', 'Noch fünf Minuten.'],
+        ['speaker-b', 'Lea', 'Dann schnell noch einmal rutschen.'],
+        ['speaker-a', 'Nora', 'Los, wir laufen.'],
+        ['speaker-b', 'Lea', 'Das macht Spaß.']
+      ]
+    },
+    {
+      title: 'Lunch in the school cafeteria',
+      lines: [
+        ['speaker-a', 'Mitarbeiterin', 'Hallo, was möchtest du essen?'],
+        ['speaker-b', 'Schüler', 'Was gibt es heute?'],
+        ['speaker-a', 'Mitarbeiterin', 'Es gibt Nudeln mit Tomatensoße oder Reis mit Gemüse.'],
+        ['speaker-b', 'Schüler', 'Ich nehme Nudeln, bitte.'],
+        ['speaker-a', 'Mitarbeiterin', 'Möchtest du auch Salat?'],
+        ['speaker-b', 'Schüler', 'Ja, ein kleiner Salat.'],
+        ['speaker-a', 'Mitarbeiterin', 'Hier ist dein Tablett.'],
+        ['speaker-b', 'Schüler', 'Danke.'],
+        ['speaker-a', 'Mitarbeiterin', 'Und ein Getränk?'],
+        ['speaker-b', 'Schüler', 'Wasser, bitte.'],
+        ['speaker-a', 'Mitarbeiterin', 'Sehr gut.'],
+        ['speaker-b', 'Schüler', 'Wo kann ich sitzen?'],
+        ['speaker-a', 'Mitarbeiterin', 'Hinten am Fenster sind Plätze frei.'],
+        ['speaker-b', 'Schüler', 'Ich setze mich zu meinen Freunden.'],
+        ['speaker-a', 'Mitarbeiterin', 'Guten Appetit.'],
+        ['speaker-b', 'Schüler', 'Danke schön.'],
+        ['speaker-a', 'Mitarbeiterin', 'Bring das Tablett später zurück.'],
+        ['speaker-b', 'Schüler', 'Ja, mache ich.'],
+        ['speaker-a', 'Mitarbeiterin', 'Und iss langsam.'],
+        ['speaker-b', 'Schüler', 'Okay.']
+      ]
+    },
+    {
+      title: 'Borrowing a book from the school library',
+      lines: [
+        ['speaker-a', 'Bibliothekarin', 'Hallo, kann ich helfen?'],
+        ['speaker-b', 'Kind', 'Ja, ich suche ein Buch über Tiere.'],
+        ['speaker-a', 'Bibliothekarin', 'Für welches Alter?'],
+        ['speaker-b', 'Kind', 'Für neun Jahre.'],
+        ['speaker-a', 'Bibliothekarin', 'Dann ist dieses Buch sehr gut.'],
+        ['speaker-b', 'Kind', 'Oh, mit vielen Bildern.'],
+        ['speaker-a', 'Bibliothekarin', 'Ja, und mit kurzen Texten.'],
+        ['speaker-b', 'Kind', 'Kann ich es ausleihen?'],
+        ['speaker-a', 'Bibliothekarin', 'Hast du deinen Ausweis dabei?'],
+        ['speaker-b', 'Kind', 'Ja, hier ist er.'],
+        ['speaker-a', 'Bibliothekarin', 'Danke, ich scanne ihn kurz.'],
+        ['speaker-b', 'Kind', 'Wie lange darf ich das Buch behalten?'],
+        ['speaker-a', 'Bibliothekarin', 'Zwei Wochen.'],
+        ['speaker-b', 'Kind', 'Kann ich es verlängern?'],
+        ['speaker-a', 'Bibliothekarin', 'Ja, einmal per E-Mail.'],
+        ['speaker-b', 'Kind', 'Super.'],
+        ['speaker-a', 'Bibliothekarin', 'Bitte halte das Buch sauber.'],
+        ['speaker-b', 'Kind', 'Natürlich.'],
+        ['speaker-a', 'Bibliothekarin', 'Viel Spaß beim Lesen.'],
+        ['speaker-b', 'Kind', 'Vielen Dank.']
+      ]
+    },
+    {
+      title: 'Science project in class',
+      lines: [
+        ['speaker-a', 'Lehrer', 'Heute bauen wir einen kleinen Vulkan.'],
+        ['speaker-b', 'Schüler', 'Cool, was brauchen wir?'],
+        ['speaker-a', 'Lehrer', 'Wir brauchen eine Flasche, Essig und Natron.'],
+        ['speaker-b', 'Schüler', 'Und Farbe?'],
+        ['speaker-a', 'Lehrer', 'Ja, rote Farbe für die Lava.'],
+        ['speaker-b', 'Schüler', 'Ich hole die Flasche.'],
+        ['speaker-a', 'Lehrer', 'Gut, stell sie in die Mitte.'],
+        ['speaker-b', 'Schüler', 'Jetzt kommt das Natron hinein.'],
+        ['speaker-a', 'Lehrer', 'Richtig, zwei Löffel sind genug.'],
+        ['speaker-b', 'Schüler', 'Was kommt als Nächstes?'],
+        ['speaker-a', 'Lehrer', 'Jetzt gießen wir den Essig dazu.'],
+        ['speaker-b', 'Schüler', 'Oh, es schäumt!'],
+        ['speaker-a', 'Lehrer', 'Genau, das ist die Reaktion.'],
+        ['speaker-b', 'Schüler', 'Das sieht wie echte Lava aus.'],
+        ['speaker-a', 'Lehrer', 'Sehr gut beobachtet.'],
+        ['speaker-b', 'Schüler', 'Kann ich ein Foto machen?'],
+        ['speaker-a', 'Lehrer', 'Ja, aber ohne Blitz.'],
+        ['speaker-b', 'Schüler', 'Okay, fertig.'],
+        ['speaker-a', 'Lehrer', 'Schreibt jetzt eure Beobachtungen auf.'],
+        ['speaker-b', 'Schüler', 'Machen wir.']
+      ]
+    },
+    {
+      title: 'Preparing a group presentation',
+      lines: [
+        ['speaker-a', 'Mila', 'Unser Thema ist Das Wetter.'],
+        ['speaker-b', 'Noah', 'Ja, ich mache den Teil über Regen.'],
+        ['speaker-a', 'Mila', 'Ich spreche über Sonne und Hitze.'],
+        ['speaker-b', 'Noah', 'Wer macht Wind und Schnee?'],
+        ['speaker-a', 'Mila', 'Das übernimmt Sara.'],
+        ['speaker-b', 'Noah', 'Wie lang soll unser Vortrag sein?'],
+        ['speaker-a', 'Mila', 'Etwa fünf Minuten.'],
+        ['speaker-b', 'Noah', 'Dann spricht jeder ungefähr eine Minute.'],
+        ['speaker-a', 'Mila', 'Genau.'],
+        ['speaker-b', 'Noah', 'Brauchen wir ein Plakat?'],
+        ['speaker-a', 'Mila', 'Ja, mit Bildern von Wolken und Sonne.'],
+        ['speaker-b', 'Noah', 'Ich kann Bilder ausdrucken.'],
+        ['speaker-a', 'Mila', 'Super, ich bringe Kleber mit.'],
+        ['speaker-b', 'Noah', 'Wann üben wir?'],
+        ['speaker-a', 'Mila', 'Heute nach der Schule.'],
+        ['speaker-b', 'Noah', 'Im Musikraum?'],
+        ['speaker-a', 'Mila', 'Ja, dort ist es ruhig.'],
+        ['speaker-b', 'Noah', 'Okay, bis später.'],
+        ['speaker-a', 'Mila', 'Vergiss deine Notizen nicht.'],
+        ['speaker-b', 'Noah', 'Keine Sorge, ich habe sie dabei.']
+      ]
+    },
+    {
+      title: 'Parent and teacher conversation',
+      lines: [
+        ['speaker-a', 'Lehrerin', 'Guten Tag, Frau Meier.'],
+        ['speaker-b', 'Mutter', 'Guten Tag, Frau Schulz.'],
+        ['speaker-a', 'Lehrerin', 'Wir sprechen heute über Jonas.'],
+        ['speaker-b', 'Mutter', 'Ja, gern.'],
+        ['speaker-a', 'Lehrerin', 'Er arbeitet gut im Unterricht.'],
+        ['speaker-b', 'Mutter', 'Das freut mich sehr.'],
+        ['speaker-a', 'Lehrerin', 'In Mathe ist er sehr sicher.'],
+        ['speaker-b', 'Mutter', 'Zu Hause rechnet er gern.'],
+        ['speaker-a', 'Lehrerin', 'Beim Lesen braucht er noch Übung.'],
+        ['speaker-b', 'Mutter', 'Wie können wir helfen?'],
+        ['speaker-a', 'Lehrerin', 'Lesen Sie jeden Abend zehn Minuten mit ihm.'],
+        ['speaker-b', 'Mutter', 'Das machen wir.'],
+        ['speaker-a', 'Lehrerin', 'Er ist freundlich zu anderen Kindern.'],
+        ['speaker-b', 'Mutter', 'Ja, er spielt gern im Team.'],
+        ['speaker-a', 'Lehrerin', 'Nächste Woche schreiben wir einen kleinen Test.'],
+        ['speaker-b', 'Mutter', 'Danke für die Information.'],
+        ['speaker-a', 'Lehrerin', 'Haben Sie noch Fragen?'],
+        ['speaker-b', 'Mutter', 'Nein, das war sehr hilfreich.'],
+        ['speaker-a', 'Lehrerin', 'Dann wünsche ich einen schönen Tag.'],
+        ['speaker-b', 'Mutter', 'Ihnen auch.']
+      ]
+    },
+    {
+      title: 'Inviting a friend to a birthday party',
+      lines: [
+        ['speaker-a', 'Kind A', 'Hallo Leo, hast du am Samstag Zeit?'],
+        ['speaker-b', 'Leo', 'Ja, warum?'],
+        ['speaker-a', 'Kind A', 'Ich habe Geburtstag und mache eine Party.'],
+        ['speaker-b', 'Leo', 'Oh toll, wie spät beginnt sie?'],
+        ['speaker-a', 'Kind A', 'Um drei Uhr nachmittags.'],
+        ['speaker-b', 'Leo', 'Wo ist die Party?'],
+        ['speaker-a', 'Kind A', 'Bei uns zu Hause im Garten.'],
+        ['speaker-b', 'Leo', 'Wie lange dauert sie?'],
+        ['speaker-a', 'Kind A', 'Bis etwa sieben Uhr.'],
+        ['speaker-b', 'Leo', 'Was machen wir dort?'],
+        ['speaker-a', 'Kind A', 'Wir spielen Spiele und essen Kuchen.'],
+        ['speaker-b', 'Leo', 'Super, ich komme gern.'],
+        ['speaker-a', 'Kind A', 'Kannst du auch deine Schwester mitbringen?'],
+        ['speaker-b', 'Leo', 'Ich frage meine Mama.'],
+        ['speaker-a', 'Kind A', 'Okay, gib mir morgen Bescheid.'],
+        ['speaker-b', 'Leo', 'Mache ich.'],
+        ['speaker-a', 'Kind A', 'Ich freue mich schon.'],
+        ['speaker-b', 'Leo', 'Ich mich auch.'],
+        ['speaker-a', 'Kind A', 'Vergiss bitte nicht, pünktlich zu kommen.'],
+        ['speaker-b', 'Leo', 'Keine Sorge.']
+      ]
+    },
+    {
+      title: 'Birthday party games',
+      lines: [
+        ['speaker-a', 'Gastgeberin', 'Willkommen zu meinem Geburtstag.'],
+        ['speaker-b', 'Kinder', 'Alles Gute zum Geburtstag!'],
+        ['speaker-a', 'Gastgeberin', 'Danke, schön, dass ihr da seid.'],
+        ['speaker-b', 'Kind', 'Wann spielen wir Topfschlagen?'],
+        ['speaker-a', 'Gastgeberin', 'Gleich nach dem Saft.'],
+        ['speaker-b', 'Kind', 'Ich möchte zuerst suchen.'],
+        ['speaker-a', 'Gastgeberin', 'Okay, du bekommst die Augenbinde.'],
+        ['speaker-b', 'Kind', 'Ich sehe nichts mehr.'],
+        ['speaker-a', 'Gastgeberin', 'Wir klatschen, wenn du nah bist.'],
+        ['speaker-b', 'Kind', 'Ich höre euch.'],
+        ['speaker-a', 'Gastgeberin', 'Noch ein Schritt nach links.'],
+        ['speaker-b', 'Kind', 'Jetzt?'],
+        ['speaker-a', 'Gastgeberin', 'Ja, genau dort.'],
+        ['speaker-b', 'Kind', 'Ich habe den Topf gefunden!'],
+        ['speaker-a', 'Gastgeberin', 'Super, hier ist deine Überraschung.'],
+        ['speaker-b', 'Kind', 'Danke!'],
+        ['speaker-a', 'Gastgeberin', 'Als Nächstes spielen wir Stopptanz.'],
+        ['speaker-b', 'Kinder', 'Jaaa!'],
+        ['speaker-a', 'Gastgeberin', 'Musik an und los.'],
+        ['speaker-b', 'Kinder', 'Das macht richtig Spaß.']
+      ]
+    },
+    {
+      title: 'Sleepover at a friend house',
+      lines: [
+        ['speaker-a', 'Gastkind', 'Danke, dass ich heute hier schlafen darf.'],
+        ['speaker-b', 'Freundin', 'Gern, ich freue mich.'],
+        ['speaker-a', 'Gastkind', 'Wo kann ich meinen Schlafsack hinlegen?'],
+        ['speaker-b', 'Freundin', 'Neben mein Bett.'],
+        ['speaker-a', 'Gastkind', 'Hast du ein extra Kissen?'],
+        ['speaker-b', 'Freundin', 'Ja, im Schrank ist eins.'],
+        ['speaker-a', 'Gastkind', 'Super, danke.'],
+        ['speaker-b', 'Freundin', 'Wollen wir noch ein Spiel spielen?'],
+        ['speaker-a', 'Gastkind', 'Ja, vielleicht Karten.'],
+        ['speaker-b', 'Freundin', 'Gute Idee.'],
+        ['speaker-a', 'Gastkind', 'Um wie viel Uhr schlafen wir?'],
+        ['speaker-b', 'Freundin', 'Meine Mama sagt um zehn Uhr.'],
+        ['speaker-a', 'Gastkind', 'Okay, das passt.'],
+        ['speaker-b', 'Freundin', 'Willst du vorher noch Zähne putzen?'],
+        ['speaker-a', 'Gastkind', 'Ja, ich gehe jetzt ins Bad.'],
+        ['speaker-b', 'Freundin', 'Ich komme mit.'],
+        ['speaker-a', 'Gastkind', 'Morgen früh frühstücken wir zusammen?'],
+        ['speaker-b', 'Freundin', 'Ja, es gibt Pfannkuchen.'],
+        ['speaker-a', 'Gastkind', 'Lecker!'],
+        ['speaker-b', 'Freundin', 'Gute Nacht gleich.']
+      ]
+    },
+    {
+      title: 'Visiting grandparents',
+      lines: [
+        ['speaker-a', 'Oma', 'Hallo ihr Lieben, kommt rein.'],
+        ['speaker-b', 'Kind', 'Hallo Oma, hallo Opa.'],
+        ['speaker-a', 'Opa', 'Schön, dass ihr da seid.'],
+        ['speaker-b', 'Kind', 'Wir haben Blumen mitgebracht.'],
+        ['speaker-a', 'Oma', 'Wie nett, danke.'],
+        ['speaker-b', 'Kind', 'Dürfen wir im Garten spielen?'],
+        ['speaker-a', 'Opa', 'Ja, aber zieht Jacken an.'],
+        ['speaker-b', 'Kind', 'Es ist heute windig.'],
+        ['speaker-a', 'Oma', 'Ich mache später Kakao für euch.'],
+        ['speaker-b', 'Kind', 'Super!'],
+        ['speaker-a', 'Opa', 'Möchtest du mir beim Pflanzen helfen?'],
+        ['speaker-b', 'Kind', 'Ja, sehr gern.'],
+        ['speaker-a', 'Opa', 'Hier sind kleine Handschuhe.'],
+        ['speaker-b', 'Kind', 'Die passen gut.'],
+        ['speaker-a', 'Oma', 'In zehn Minuten gibt es Kuchen.'],
+        ['speaker-b', 'Kind', 'Ich liebe deinen Apfelkuchen.'],
+        ['speaker-a', 'Oma', 'Dann nehme ich ein großes Stück für dich.'],
+        ['speaker-b', 'Kind', 'Danke, Oma.'],
+        ['speaker-a', 'Opa', 'Der Nachmittag wird schön.'],
+        ['speaker-b', 'Kind', 'Ja, wir bleiben bis Abend.']
+      ]
+    },
+    {
+      title: 'At the zoo with school',
+      lines: [
+        ['speaker-a', 'Lehrerin', 'Kinder, wir sind jetzt im Zoo.'],
+        ['speaker-b', 'Kinder', 'Juhu!'],
+        ['speaker-a', 'Lehrerin', 'Bitte bleibt in eurer Gruppe.'],
+        ['speaker-b', 'Kind', 'Dürfen wir zuerst zu den Affen?'],
+        ['speaker-a', 'Lehrerin', 'Ja, aber langsam gehen.'],
+        ['speaker-b', 'Kind', 'Die Affen sind lustig.'],
+        ['speaker-a', 'Lehrerin', 'Was machen sie gerade?'],
+        ['speaker-b', 'Kind', 'Einer klettert auf den Baum.'],
+        ['speaker-a', 'Lehrerin', 'Sehr gut beobachtet.'],
+        ['speaker-b', 'Kind', 'Danach möchte ich die Giraffen sehen.'],
+        ['speaker-a', 'Lehrerin', 'Die sind auf der rechten Seite.'],
+        ['speaker-b', 'Kind', 'Sie sind wirklich sehr groß.'],
+        ['speaker-a', 'Lehrerin', 'Wer weiß, was Giraffen essen?'],
+        ['speaker-b', 'Kind', 'Blätter von hohen Bäumen.'],
+        ['speaker-a', 'Lehrerin', 'Richtig.'],
+        ['speaker-b', 'Kind', 'Wann machen wir Pause?'],
+        ['speaker-a', 'Lehrerin', 'Um zwölf Uhr beim Spielplatz.'],
+        ['speaker-b', 'Kind', 'Ich habe ein Brot dabei.'],
+        ['speaker-a', 'Lehrerin', 'Sehr gut vorbereitet.'],
+        ['speaker-b', 'Kind', 'Der Ausflug ist toll.']
+      ]
+    },
+    {
+      title: 'At the pet shop',
+      lines: [
+        ['speaker-a', 'Verkäuferin', 'Hallo, kann ich helfen?'],
+        ['speaker-b', 'Kind', 'Ja, wir schauen nach einem Hamster.'],
+        ['speaker-a', 'Verkäuferin', 'Möchtet ihr einen jungen Hamster?'],
+        ['speaker-b', 'Kind', 'Ja, er soll klein und ruhig sein.'],
+        ['speaker-a', 'Verkäuferin', 'Hier sind zwei Hamster.'],
+        ['speaker-b', 'Kind', 'Der braune gefällt mir.'],
+        ['speaker-a', 'Verkäuferin', 'Er ist sehr freundlich.'],
+        ['speaker-b', 'Kind', 'Was frisst ein Hamster?'],
+        ['speaker-a', 'Verkäuferin', 'Spezialfutter, Gemüse und etwas Obst.'],
+        ['speaker-b', 'Kind', 'Brauchen wir einen großen Käfig?'],
+        ['speaker-a', 'Verkäuferin', 'Ja, mit Laufrad und Häuschen.'],
+        ['speaker-b', 'Kind', 'Wie oft muss man sauber machen?'],
+        ['speaker-a', 'Verkäuferin', 'Einmal pro Woche gründlich.'],
+        ['speaker-b', 'Kind', 'Kann ich ihn sofort anfassen?'],
+        ['speaker-a', 'Verkäuferin', 'Besser erst nach zwei Tagen.'],
+        ['speaker-b', 'Kind', 'Okay, dann hat er Ruhe.'],
+        ['speaker-a', 'Verkäuferin', 'Das ist eine gute Idee.'],
+        ['speaker-b', 'Kind', 'Wir denken noch kurz nach.'],
+        ['speaker-a', 'Verkäuferin', 'Nehmt euch Zeit.'],
+        ['speaker-b', 'Kind', 'Danke für die Hilfe.']
+      ]
+    },
+    {
+      title: 'Feeding the family cat',
+      lines: [
+        ['speaker-a', 'Mutter', 'Paul, hast du die Katze schon gefüttert?'],
+        ['speaker-b', 'Paul', 'Noch nicht, ich mache es jetzt.'],
+        ['speaker-a', 'Mutter', 'Das Futter steht im Schrank.'],
+        ['speaker-b', 'Paul', 'Welches soll ich nehmen?'],
+        ['speaker-a', 'Mutter', 'Heute das mit Huhn.'],
+        ['speaker-b', 'Paul', 'Okay, ich öffne die Dose.'],
+        ['speaker-a', 'Mutter', 'Nimm bitte nur eine halbe Dose.'],
+        ['speaker-b', 'Paul', 'Warum nur eine halbe?'],
+        ['speaker-a', 'Mutter', 'Weil sie später noch einmal frisst.'],
+        ['speaker-b', 'Paul', 'Verstanden.'],
+        ['speaker-a', 'Mutter', 'Gib ihr auch frisches Wasser.'],
+        ['speaker-b', 'Paul', 'Der Napf ist jetzt voll.'],
+        ['speaker-a', 'Mutter', 'Sehr gut.'],
+        ['speaker-b', 'Paul', 'Sie miaut ganz laut.'],
+        ['speaker-a', 'Mutter', 'Sie freut sich auf das Essen.'],
+        ['speaker-b', 'Paul', 'Jetzt frisst sie schon.'],
+        ['speaker-a', 'Mutter', 'Du kümmerst dich toll um sie.'],
+        ['speaker-b', 'Paul', 'Danke, ich mag unsere Katze sehr.'],
+        ['speaker-a', 'Mutter', 'Später kannst du noch mit ihr spielen.'],
+        ['speaker-b', 'Paul', 'Ja, mit dem roten Ball.']
+      ]
+    },
+    {
+      title: 'At the playground slide',
+      lines: [
+        ['speaker-a', 'Kind A', 'Die Rutsche ist heute frei.'],
+        ['speaker-b', 'Kind B', 'Dann gehen wir hoch.'],
+        ['speaker-a', 'Kind A', 'Ich klettere über die Leiter.'],
+        ['speaker-b', 'Kind B', 'Ich nehme die Treppe.'],
+        ['speaker-a', 'Kind A', 'Bist du bereit?'],
+        ['speaker-b', 'Kind B', 'Ja, ich rutsche jetzt.'],
+        ['speaker-a', 'Kind A', 'Wow, du warst schnell.'],
+        ['speaker-b', 'Kind B', 'Jetzt bist du dran.'],
+        ['speaker-a', 'Kind A', 'Okay, ich komme.'],
+        ['speaker-b', 'Kind B', 'Warte unten, ich fange dich.'],
+        ['speaker-a', 'Kind A', 'Das brauche ich nicht, aber danke.'],
+        ['speaker-b', 'Kind B', 'Sollen wir ein Rennen machen?'],
+        ['speaker-a', 'Kind A', 'Ja, wer dreimal zuerst unten ist.'],
+        ['speaker-b', 'Kind B', 'Abgemacht.'],
+        ['speaker-a', 'Kind A', 'Eins, zwei, drei, los!'],
+        ['speaker-b', 'Kind B', 'Ich bin Erster.'],
+        ['speaker-a', 'Kind A', 'Nur knapp.'],
+        ['speaker-b', 'Kind B', 'Noch eine Runde?'],
+        ['speaker-a', 'Kind A', 'Ja, die letzte Runde.'],
+        ['speaker-b', 'Kind B', 'Das macht richtig Spaß.']
+      ]
+    },
+    {
+      title: 'Learning to ride a bicycle',
+      lines: [
+        ['speaker-a', 'Vater', 'Bist du bereit fürs Fahrradfahren?'],
+        ['speaker-b', 'Kind', 'Ja, aber ich habe ein bisschen Angst.'],
+        ['speaker-a', 'Vater', 'Keine Sorge, ich halte den Sattel fest.'],
+        ['speaker-b', 'Kind', 'Okay, dann starte ich langsam.'],
+        ['speaker-a', 'Vater', 'Tritt in die Pedale.'],
+        ['speaker-b', 'Kind', 'So?'],
+        ['speaker-a', 'Vater', 'Ja, sehr gut.'],
+        ['speaker-b', 'Kind', 'Ich fahre schon ein paar Meter.'],
+        ['speaker-a', 'Vater', 'Du machst das super.'],
+        ['speaker-b', 'Kind', 'Lässt du schon los?'],
+        ['speaker-a', 'Vater', 'Kurz, aber ich bleibe neben dir.'],
+        ['speaker-b', 'Kind', 'Ich schaffe es!'],
+        ['speaker-a', 'Vater', 'Brems jetzt langsam.'],
+        ['speaker-b', 'Kind', 'Geschafft.'],
+        ['speaker-a', 'Vater', 'Möchtest du noch einmal?'],
+        ['speaker-b', 'Kind', 'Ja, jetzt traue ich mich mehr.'],
+        ['speaker-a', 'Vater', 'Denk an den Helm.'],
+        ['speaker-b', 'Kind', 'Der Helm sitzt fest.'],
+        ['speaker-a', 'Vater', 'Prima, dann weiter.'],
+        ['speaker-b', 'Kind', 'Heute lerne ich es wirklich.']
+      ]
+    },
+    {
+      title: 'First swimming lesson',
+      lines: [
+        ['speaker-a', 'Trainerin', 'Willkommen zum Schwimmkurs.'],
+        ['speaker-b', 'Kind', 'Hallo.'],
+        ['speaker-a', 'Trainerin', 'Hast du schon die Badekappe auf?'],
+        ['speaker-b', 'Kind', 'Ja, und auch die Schwimmbrille.'],
+        ['speaker-a', 'Trainerin', 'Sehr gut.'],
+        ['speaker-b', 'Kind', 'Das Wasser ist kalt.'],
+        ['speaker-a', 'Trainerin', 'Nur am Anfang, dann wird es besser.'],
+        ['speaker-b', 'Kind', 'Okay.'],
+        ['speaker-a', 'Trainerin', 'Wir starten am Beckenrand.'],
+        ['speaker-b', 'Kind', 'Soll ich mich festhalten?'],
+        ['speaker-a', 'Trainerin', 'Ja, und dann Beine bewegen.'],
+        ['speaker-b', 'Kind', 'So wie beim Fahrrad?'],
+        ['speaker-a', 'Trainerin', 'Genau, nur im Wasser.'],
+        ['speaker-b', 'Kind', 'Das klappt schon besser.'],
+        ['speaker-a', 'Trainerin', 'Jetzt üben wir das Atmen.'],
+        ['speaker-b', 'Kind', 'Ich puste Blasen ins Wasser.'],
+        ['speaker-a', 'Trainerin', 'Perfekt.'],
+        ['speaker-b', 'Kind', 'Darf ich mit dem Brett schwimmen?'],
+        ['speaker-a', 'Trainerin', 'Ja, eine Bahn hin und zurück.'],
+        ['speaker-b', 'Kind', 'Ich gebe mein Bestes.']
+      ]
+    },
+    {
+      title: 'At the dentist for checkup',
+      lines: [
+        ['speaker-a', 'Zahnärztin', 'Hallo, komm bitte rein.'],
+        ['speaker-b', 'Kind', 'Hallo.'],
+        ['speaker-a', 'Zahnärztin', 'Setz dich auf den Stuhl.'],
+        ['speaker-b', 'Kind', 'Der Stuhl ist groß.'],
+        ['speaker-a', 'Zahnärztin', 'Er fährt jetzt langsam nach oben.'],
+        ['speaker-b', 'Kind', 'Okay.'],
+        ['speaker-a', 'Zahnärztin', 'Hast du heute schon Zähne geputzt?'],
+        ['speaker-b', 'Kind', 'Ja, nach dem Frühstück.'],
+        ['speaker-a', 'Zahnärztin', 'Sehr gut.'],
+        ['speaker-b', 'Kind', 'Tut die Untersuchung weh?'],
+        ['speaker-a', 'Zahnärztin', 'Nein, ich schaue nur mit dem Spiegel.'],
+        ['speaker-b', 'Kind', 'Dann ist es okay.'],
+        ['speaker-a', 'Zahnärztin', 'Mach den Mund bitte weit auf.'],
+        ['speaker-b', 'Kind', 'Aaaah.'],
+        ['speaker-a', 'Zahnärztin', 'Deine Zähne sehen gut aus.'],
+        ['speaker-b', 'Kind', 'Super.'],
+        ['speaker-a', 'Zahnärztin', 'Putz morgens und abends zwei Minuten.'],
+        ['speaker-b', 'Kind', 'Mache ich.'],
+        ['speaker-a', 'Zahnärztin', 'In sechs Monaten sehen wir uns wieder.'],
+        ['speaker-b', 'Kind', 'Bis dann.']
+      ]
+    },
+    {
+      title: 'At the pediatrician for a cold',
+      lines: [
+        ['speaker-a', 'Ärztin', 'Hallo, was fehlt dir?'],
+        ['speaker-b', 'Kind', 'Ich habe Husten und Schnupfen.'],
+        ['speaker-a', 'Ärztin', 'Seit wann?'],
+        ['speaker-b', 'Kind', 'Seit zwei Tagen.'],
+        ['speaker-a', 'Ärztin', 'Hast du auch Fieber?'],
+        ['speaker-b', 'Kind', 'Gestern ein bisschen.'],
+        ['speaker-a', 'Ärztin', 'Ich höre kurz deine Lunge ab.'],
+        ['speaker-b', 'Kind', 'Okay.'],
+        ['speaker-a', 'Ärztin', 'Bitte tief einatmen.'],
+        ['speaker-b', 'Kind', 'So?'],
+        ['speaker-a', 'Ärztin', 'Ja, sehr gut.'],
+        ['speaker-b', 'Kind', 'Muss ich in der Schule fehlen?'],
+        ['speaker-a', 'Ärztin', 'Morgen bleibst du besser zu Hause.'],
+        ['speaker-b', 'Kind', 'Und danach?'],
+        ['speaker-a', 'Ärztin', 'Wenn kein Fieber mehr da ist, kannst du gehen.'],
+        ['speaker-b', 'Kind', 'Ich trinke viel Tee.'],
+        ['speaker-a', 'Ärztin', 'Sehr gut, und ruh dich aus.'],
+        ['speaker-b', 'Kind', 'Bekomme ich einen Saft gegen Husten?'],
+        ['speaker-a', 'Ärztin', 'Ja, ich schreibe ein Rezept.'],
+        ['speaker-b', 'Kind', 'Danke.']
+      ]
+    },
+    {
+      title: 'Buying vitamins at the pharmacy',
+      lines: [
+        ['speaker-a', 'Apotheker', 'Guten Tag, wie kann ich helfen?'],
+        ['speaker-b', 'Mutter', 'Wir suchen Vitamine für Kinder.'],
+        ['speaker-a', 'Apotheker', 'Für welches Alter?'],
+        ['speaker-b', 'Mutter', 'Für zehn Jahre.'],
+        ['speaker-a', 'Apotheker', 'Diese Kautabletten sind geeignet.'],
+        ['speaker-b', 'Kind', 'Schmecken sie gut?'],
+        ['speaker-a', 'Apotheker', 'Ja, nach Orange.'],
+        ['speaker-b', 'Kind', 'Wie viele darf ich nehmen?'],
+        ['speaker-a', 'Apotheker', 'Eine Tablette pro Tag.'],
+        ['speaker-b', 'Mutter', 'Nach dem Essen?'],
+        ['speaker-a', 'Apotheker', 'Ja, am besten nach dem Frühstück.'],
+        ['speaker-b', 'Kind', 'Sind sie zuckerfrei?'],
+        ['speaker-a', 'Apotheker', 'Ja, sie sind ohne Zucker.'],
+        ['speaker-b', 'Mutter', 'Sehr gut, dann nehmen wir sie.'],
+        ['speaker-a', 'Apotheker', 'Möchten Sie auch einen Messbecher für Saft?'],
+        ['speaker-b', 'Mutter', 'Nein, danke.'],
+        ['speaker-a', 'Apotheker', 'Das macht zwölf Euro.'],
+        ['speaker-b', 'Mutter', 'Hier bitte.'],
+        ['speaker-a', 'Apotheker', 'Vielen Dank.'],
+        ['speaker-b', 'Kind', 'Auf Wiedersehen.']
+      ]
+    },
+    {
+      title: 'Shopping for school supplies',
+      lines: [
+        ['speaker-a', 'Mutter', 'Was brauchst du für die Schule?'],
+        ['speaker-b', 'Kind', 'Ein neues Heft und zwei Stifte.'],
+        ['speaker-a', 'Mutter', 'Nur das?'],
+        ['speaker-b', 'Kind', 'Auch einen Radiergummi.'],
+        ['speaker-a', 'Mutter', 'Dann gehen wir in den Laden.'],
+        ['speaker-b', 'Kind', 'Dort drüben sind die Hefte.'],
+        ['speaker-a', 'Mutter', 'Welche Größe möchtest du?'],
+        ['speaker-b', 'Kind', 'Das A4-Heft mit Linien.'],
+        ['speaker-a', 'Mutter', 'Gut, nimm zwei Stück.'],
+        ['speaker-b', 'Kind', 'Okay.'],
+        ['speaker-a', 'Mutter', 'Jetzt die Stifte.'],
+        ['speaker-b', 'Kind', 'Ich nehme blaue und schwarze.'],
+        ['speaker-a', 'Mutter', 'Brauchen wir noch Kleber?'],
+        ['speaker-b', 'Kind', 'Ja, meiner ist leer.'],
+        ['speaker-a', 'Mutter', 'Dann legen wir einen Klebestift dazu.'],
+        ['speaker-b', 'Kind', 'Super.'],
+        ['speaker-a', 'Mutter', 'Gehen wir zur Kasse.'],
+        ['speaker-b', 'Kind', 'Ich trage den Korb.'],
+        ['speaker-a', 'Mutter', 'Danke für deine Hilfe.'],
+        ['speaker-b', 'Kind', 'Gern.']
+      ]
+    },
+    {
+      title: 'At the toy store choosing a gift',
+      lines: [
+        ['speaker-a', 'Kind', 'Wir brauchen ein Geschenk für Mia.'],
+        ['speaker-b', 'Vater', 'Was mag sie gern?'],
+        ['speaker-a', 'Kind', 'Sie liebt Basteln und Tiere.'],
+        ['speaker-b', 'Vater', 'Dann schauen wir in diese Ecke.'],
+        ['speaker-a', 'Kind', 'Hier ist ein Bastelset mit Perlen.'],
+        ['speaker-b', 'Vater', 'Das sieht gut aus.'],
+        ['speaker-a', 'Kind', 'Und dort ein Puzzle mit Pferden.'],
+        ['speaker-b', 'Vater', 'Was passt besser?'],
+        ['speaker-a', 'Kind', 'Vielleicht das Puzzle.'],
+        ['speaker-b', 'Vater', 'Wie viele Teile hat es?'],
+        ['speaker-a', 'Kind', 'Hundert Teile.'],
+        ['speaker-b', 'Vater', 'Das ist für ihr Alter gut.'],
+        ['speaker-a', 'Kind', 'Können wir es einpacken lassen?'],
+        ['speaker-b', 'Vater', 'Ja, an der Kasse.'],
+        ['speaker-a', 'Kind', 'Ich schreibe noch eine Karte.'],
+        ['speaker-b', 'Vater', 'Sehr gute Idee.'],
+        ['speaker-a', 'Kind', 'Dann nehmen wir das Puzzle.'],
+        ['speaker-b', 'Vater', 'Abgemacht.'],
+        ['speaker-a', 'Kind', 'Mia freut sich bestimmt.'],
+        ['speaker-b', 'Vater', 'Ganz sicher.']
+      ]
+    },
+    {
+      title: 'At the bookstore for a comic',
+      lines: [
+        ['speaker-a', 'Kind', 'Entschuldigung, wo sind die Comics?'],
+        ['speaker-b', 'Verkäufer', 'Hinten links im Regal.'],
+        ['speaker-a', 'Kind', 'Danke.'],
+        ['speaker-b', 'Verkäufer', 'Suchst du etwas Bestimmtes?'],
+        ['speaker-a', 'Kind', 'Ja, den neuen Band von Dino Max.'],
+        ['speaker-b', 'Verkäufer', 'Einen Moment, ich schaue nach.'],
+        ['speaker-a', 'Kind', 'Okay.'],
+        ['speaker-b', 'Verkäufer', 'Hier ist er, ganz neu angekommen.'],
+        ['speaker-a', 'Kind', 'Super!'],
+        ['speaker-b', 'Verkäufer', 'Möchtest du auch eine Schutzhülle?'],
+        ['speaker-a', 'Kind', 'Nein, danke.'],
+        ['speaker-b', 'Verkäufer', 'Dann kommst du mit zur Kasse.'],
+        ['speaker-a', 'Kind', 'Wie viel kostet der Comic?'],
+        ['speaker-b', 'Verkäufer', 'Neun Euro fünfzig.'],
+        ['speaker-a', 'Kind', 'Ich habe zehn Euro dabei.'],
+        ['speaker-b', 'Verkäufer', 'Sehr gut, hier ist dein Rückgeld.'],
+        ['speaker-a', 'Kind', 'Danke schön.'],
+        ['speaker-b', 'Verkäufer', 'Viel Spaß beim Lesen.'],
+        ['speaker-a', 'Kind', 'Danke, ich lese ihn heute Abend.'],
+        ['speaker-b', 'Verkäufer', 'Auf Wiedersehen.']
+      ]
+    },
+    {
+      title: 'Rainy day indoor games',
+      lines: [
+        ['speaker-a', 'Kind A', 'Es regnet den ganzen Tag.'],
+        ['speaker-b', 'Kind B', 'Dann spielen wir drinnen.'],
+        ['speaker-a', 'Kind A', 'Wollen wir ein Brettspiel spielen?'],
+        ['speaker-b', 'Kind B', 'Ja, welches?'],
+        ['speaker-a', 'Kind A', 'Mensch aergere dich nicht.'],
+        ['speaker-b', 'Kind B', 'Gute Idee.'],
+        ['speaker-a', 'Kind A', 'Ich nehme die rote Farbe.'],
+        ['speaker-b', 'Kind B', 'Ich nehme blau.'],
+        ['speaker-a', 'Kind A', 'Wer beginnt?'],
+        ['speaker-b', 'Kind B', 'Der, der eine Sechs wuerfelt.'],
+        ['speaker-a', 'Kind A', 'Ich habe eine Drei.'],
+        ['speaker-b', 'Kind B', 'Ich habe eine Sechs.'],
+        ['speaker-a', 'Kind A', 'Dann startest du.'],
+        ['speaker-b', 'Kind B', 'Danke.'],
+        ['speaker-a', 'Kind A', 'Oh nein, du hast meine Figur geschlagen.'],
+        ['speaker-b', 'Kind B', 'Tut mir leid, so sind die Regeln.'],
+        ['speaker-a', 'Kind A', 'Macht nichts, ich spiele weiter.'],
+        ['speaker-b', 'Kind B', 'Das ist fair.'],
+        ['speaker-a', 'Kind A', 'Wer gewinnt, bekommt den letzten Keks.'],
+        ['speaker-b', 'Kind B', 'Abgemacht.']
+      ]
+    },
+    {
+      title: 'Family train trip on weekend',
+      lines: [
+        ['speaker-a', 'Mutter', 'Kinder, wir fahren heute mit dem Zug.'],
+        ['speaker-b', 'Kind', 'Wohin fahren wir?'],
+        ['speaker-a', 'Mutter', 'In die Stadt am See.'],
+        ['speaker-b', 'Kind', 'Wie lange dauert die Fahrt?'],
+        ['speaker-a', 'Mutter', 'Etwa eine Stunde.'],
+        ['speaker-b', 'Kind', 'Ich sitze gern am Fenster.'],
+        ['speaker-a', 'Mutter', 'Dann gehen wir schnell zum Gleis.'],
+        ['speaker-b', 'Kind', 'Welches Gleis ist es?'],
+        ['speaker-a', 'Mutter', 'Gleis drei, da vorne.'],
+        ['speaker-b', 'Kind', 'Der Zug kommt schon.'],
+        ['speaker-a', 'Mutter', 'Bleibt hinter der gelben Linie.'],
+        ['speaker-b', 'Kind', 'Ja.'],
+        ['speaker-a', 'Mutter', 'Jetzt steigen wir ein.'],
+        ['speaker-b', 'Kind', 'Hier sind noch freie Plaetze.'],
+        ['speaker-a', 'Mutter', 'Setzt euch und legt die Rucksaecke oben hin.'],
+        ['speaker-b', 'Kind', 'Ich habe ein Buch fuer die Fahrt.'],
+        ['speaker-a', 'Mutter', 'Sehr gut.'],
+        ['speaker-b', 'Kind', 'Wann sind wir da?'],
+        ['speaker-a', 'Mutter', 'In 55 Minuten.'],
+        ['speaker-b', 'Kind', 'Ich freue mich auf den See.']
+      ]
+    },
+    {
+      title: 'At the childrens museum',
+      lines: [
+        ['speaker-a', 'Mitarbeiterin', 'Willkommen im Kindermuseum.'],
+        ['speaker-b', 'Kind', 'Hallo, was koennen wir hier machen?'],
+        ['speaker-a', 'Mitarbeiterin', 'Ihr koennt experimentieren und bauen.'],
+        ['speaker-b', 'Kind', 'Gibt es auch einen Roboterraum?'],
+        ['speaker-a', 'Mitarbeiterin', 'Ja, im ersten Stock rechts.'],
+        ['speaker-b', 'Kind', 'Super.'],
+        ['speaker-a', 'Mitarbeiterin', 'Moechtet ihr zuerst eine kurze Fuehrung?'],
+        ['speaker-b', 'Kind', 'Ja, gerne.'],
+        ['speaker-a', 'Mitarbeiterin', 'Die Fuehrung beginnt in zehn Minuten.'],
+        ['speaker-b', 'Kind', 'Wo warten wir?'],
+        ['speaker-a', 'Mitarbeiterin', 'Neben dem grossen Dino-Modell.'],
+        ['speaker-b', 'Kind', 'Der Dino ist riesig.'],
+        ['speaker-a', 'Mitarbeiterin', 'Ja, er ist drei Meter hoch.'],
+        ['speaker-b', 'Kind', 'Duerfen wir Fotos machen?'],
+        ['speaker-a', 'Mitarbeiterin', 'Ja, ohne Blitz.'],
+        ['speaker-b', 'Kind', 'Okay.'],
+        ['speaker-a', 'Mitarbeiterin', 'Nach der Fuehrung gibt es einen Basteltisch.'],
+        ['speaker-b', 'Kind', 'Ich bastle gern Raketen.'],
+        ['speaker-a', 'Mitarbeiterin', 'Dann bist du dort richtig.'],
+        ['speaker-b', 'Kind', 'Danke!']
+      ]
+    },
+    {
+      title: 'Baking cookies with grandma',
+      lines: [
+        ['speaker-a', 'Oma', 'Heute backen wir Kekse.'],
+        ['speaker-b', 'Kind', 'Juhu, Schokokekse?'],
+        ['speaker-a', 'Oma', 'Ja, mit kleinen Schokostuecken.'],
+        ['speaker-b', 'Kind', 'Was brauchen wir zuerst?'],
+        ['speaker-a', 'Oma', 'Mehl, Zucker, Butter und Eier.'],
+        ['speaker-b', 'Kind', 'Ich hole das Mehl.'],
+        ['speaker-a', 'Oma', 'Bitte miss 300 Gramm ab.'],
+        ['speaker-b', 'Kind', 'Fertig.'],
+        ['speaker-a', 'Oma', 'Jetzt ruehren wir alles zusammen.'],
+        ['speaker-b', 'Kind', 'Der Teig ist klebrig.'],
+        ['speaker-a', 'Oma', 'Das ist normal.'],
+        ['speaker-b', 'Kind', 'Kann ich den Teig ausrollen?'],
+        ['speaker-a', 'Oma', 'Ja, mit dem Nudelholz.'],
+        ['speaker-b', 'Kind', 'Ich nehme Sternformen.'],
+        ['speaker-a', 'Oma', 'Sehr schoen.'],
+        ['speaker-b', 'Kind', 'Wie lange muessen sie in den Ofen?'],
+        ['speaker-a', 'Oma', 'Etwa zehn Minuten.'],
+        ['speaker-b', 'Kind', 'Es riecht schon lecker.'],
+        ['speaker-a', 'Oma', 'Nach dem Abkuehlen essen wir zwei.'],
+        ['speaker-b', 'Kind', 'Ich kann kaum warten.']
+      ]
+    },
+    {
+      title: 'Cooking vegetable soup together',
+      lines: [
+        ['speaker-a', 'Vater', 'Heute kochen wir Gemuesesuppe.'],
+        ['speaker-b', 'Kind', 'Welche Gemuese kommen rein?'],
+        ['speaker-a', 'Vater', 'Karotten, Kartoffeln und Lauch.'],
+        ['speaker-b', 'Kind', 'Ich kann die Karotten waschen.'],
+        ['speaker-a', 'Vater', 'Sehr gut, danach schaelen wir sie.'],
+        ['speaker-b', 'Kind', 'Der Schaeler ist hier.'],
+        ['speaker-a', 'Vater', 'Pass auf deine Finger auf.'],
+        ['speaker-b', 'Kind', 'Ja, ich bin vorsichtig.'],
+        ['speaker-a', 'Vater', 'Jetzt schneiden wir alles klein.'],
+        ['speaker-b', 'Kind', 'Die Stuecke sind fast gleich gross.'],
+        ['speaker-a', 'Vater', 'Perfekt, dann garen sie gleichmaessig.'],
+        ['speaker-b', 'Kind', 'Was kommt als Naechstes?'],
+        ['speaker-a', 'Vater', 'Wir geben alles in den Topf mit Wasser.'],
+        ['speaker-b', 'Kind', 'Und Salz?'],
+        ['speaker-a', 'Vater', 'Ja, ein bisschen Salz und Pfeffer.'],
+        ['speaker-b', 'Kind', 'Wie lange kocht die Suppe?'],
+        ['speaker-a', 'Vater', 'Etwa zwanzig Minuten.'],
+        ['speaker-b', 'Kind', 'Darf ich umruehren?'],
+        ['speaker-a', 'Vater', 'Ja, langsam mit dem grossen Loeffel.'],
+        ['speaker-b', 'Kind', 'Das Abendessen wird lecker.']
+      ]
+    },
+    {
+      title: 'Cleaning up the bedroom',
+      lines: [
+        ['speaker-a', 'Mutter', 'Bitte raeum dein Zimmer auf.'],
+        ['speaker-b', 'Kind', 'Jetzt sofort?'],
+        ['speaker-a', 'Mutter', 'Ja, vor dem Abendessen.'],
+        ['speaker-b', 'Kind', 'Okay, ich fange mit den Legosteinen an.'],
+        ['speaker-a', 'Mutter', 'Gute Idee.'],
+        ['speaker-b', 'Kind', 'Die Steine kommen in die blaue Kiste.'],
+        ['speaker-a', 'Mutter', 'Und die Buecher ins Regal.'],
+        ['speaker-b', 'Kind', 'Ich sortiere sie nach Groesse.'],
+        ['speaker-a', 'Mutter', 'Sehr ordentlich.'],
+        ['speaker-b', 'Kind', 'Was mache ich mit den alten Blaettern?'],
+        ['speaker-a', 'Mutter', 'Die kommen in den Papierkorb.'],
+        ['speaker-b', 'Kind', 'Und die schmutzige Waesche?'],
+        ['speaker-a', 'Mutter', 'In den Waeschekorb neben der Tuer.'],
+        ['speaker-b', 'Kind', 'Jetzt ist der Boden frei.'],
+        ['speaker-a', 'Mutter', 'Dann kannst du kurz staubsaugen.'],
+        ['speaker-b', 'Kind', 'Mache ich.'],
+        ['speaker-a', 'Mutter', 'Fertig?'],
+        ['speaker-b', 'Kind', 'Ja, schau mal.'],
+        ['speaker-a', 'Mutter', 'Sehr gut gemacht.'],
+        ['speaker-b', 'Kind', 'Danke.']
+      ]
+    },
+    {
+      title: 'Bedtime routine',
+      lines: [
+        ['speaker-a', 'Vater', 'Es ist Zeit zum Schlafen.'],
+        ['speaker-b', 'Kind', 'Schon?'],
+        ['speaker-a', 'Vater', 'Ja, es ist halb neun.'],
+        ['speaker-b', 'Kind', 'Darf ich noch eine Seite lesen?'],
+        ['speaker-a', 'Vater', 'Ja, eine Seite.'],
+        ['speaker-b', 'Kind', 'Danke.'],
+        ['speaker-a', 'Vater', 'Hast du schon Zaehne geputzt?'],
+        ['speaker-b', 'Kind', 'Noch nicht, ich gehe jetzt.'],
+        ['speaker-a', 'Vater', 'Vergiss auch das Gesicht nicht zu waschen.'],
+        ['speaker-b', 'Kind', 'Mache ich.'],
+        ['speaker-a', 'Vater', 'Soll ich die Nachtlampe anlassen?'],
+        ['speaker-b', 'Kind', 'Ja, bitte ganz schwach.'],
+        ['speaker-a', 'Vater', 'Okay, so ist es gut?'],
+        ['speaker-b', 'Kind', 'Ja.'],
+        ['speaker-a', 'Vater', 'Moechtest du eine Gute-Nacht-Geschichte?'],
+        ['speaker-b', 'Kind', 'Ja, die mit dem kleinen Bären.'],
+        ['speaker-a', 'Vater', 'Gern.'],
+        ['speaker-b', 'Kind', 'Ich liege schon unter der Decke.'],
+        ['speaker-a', 'Vater', 'Schlaf gut und traeum schoen.'],
+        ['speaker-b', 'Kind', 'Gute Nacht, Papa.']
+      ]
+    },
+    {
+      title: 'Planning tomorrow with a calendar',
+      lines: [
+        ['speaker-a', 'Mutter', 'Lass uns den Plan fuer morgen anschauen.'],
+        ['speaker-b', 'Kind', 'Okay, was steht zuerst?'],
+        ['speaker-a', 'Mutter', 'Um sieben Uhr aufstehen.'],
+        ['speaker-b', 'Kind', 'Dann fruehstuecken wir um halb acht.'],
+        ['speaker-a', 'Mutter', 'Richtig.'],
+        ['speaker-b', 'Kind', 'Wann faengt die Schule an?'],
+        ['speaker-a', 'Mutter', 'Um acht Uhr.'],
+        ['speaker-b', 'Kind', 'Und nach der Schule?'],
+        ['speaker-a', 'Mutter', 'Um drei Uhr hast du Fussballtraining.'],
+        ['speaker-b', 'Kind', 'Soll ich Sportsachen vorbereiten?'],
+        ['speaker-a', 'Mutter', 'Ja, heute Abend schon.'],
+        ['speaker-b', 'Kind', 'Mache ich gleich.'],
+        ['speaker-a', 'Mutter', 'Um fuenf besuchen wir Oma.'],
+        ['speaker-b', 'Kind', 'Dann nehme ich ihr Bild mit.'],
+        ['speaker-a', 'Mutter', 'Sehr gut.'],
+        ['speaker-b', 'Kind', 'Wann gibt es Abendessen?'],
+        ['speaker-a', 'Mutter', 'Um halb sieben zu Hause.'],
+        ['speaker-b', 'Kind', 'Der Tag ist voll, aber schoen.'],
+        ['speaker-a', 'Mutter', 'Ja, und wir schaffen alles zusammen.'],
+        ['speaker-b', 'Kind', 'Ich freue mich auf morgen.']
+      ]
+    },
+  ];
+}
+
+const scenarios = [
+  {
+    title: 'At the doctor\'s office',
+    lines: [
+      ['speaker-a', 'Arzt', 'Guten Tag.'],
+      ['speaker-b', 'Patientin', 'Guten Tag.'],
+      ['speaker-a', 'Arzt', 'Wie heißen Sie?'],
+      ['speaker-b', 'Patientin', 'Ich heiße Anna Weber.'],
+      ['speaker-a', 'Arzt', 'Was fehlt Ihnen?'],
+      ['speaker-b', 'Patientin', 'Ich habe Kopfschmerzen.'],
+      ['speaker-a', 'Arzt', 'Seit wann haben Sie das?'],
+      ['speaker-b', 'Patientin', 'Seit gestern Abend.'],
+      ['speaker-a', 'Arzt', 'Haben Sie auch Fieber?'],
+      ['speaker-b', 'Patientin', 'Nein, ich habe kein Fieber.'],
+      ['speaker-a', 'Arzt', 'Haben Sie gut geschlafen?'],
+      ['speaker-b', 'Patientin', 'Nein, ich habe schlecht geschlafen.'],
+      ['speaker-a', 'Arzt', 'Trinken Sie genug Wasser?'],
+      ['speaker-b', 'Patientin', 'Heute nicht so viel.'],
+      ['speaker-a', 'Arzt', 'Ich messe kurz Ihren Blutdruck.'],
+      ['speaker-b', 'Patientin', 'Ja, natürlich.'],
+      ['speaker-a', 'Arzt', 'Sie brauchen etwas Ruhe.'],
+      ['speaker-b', 'Patientin', 'Okay, das mache ich.'],
+      ['speaker-a', 'Arzt', 'Ich schreibe Ihnen ein Rezept.'],
+      ['speaker-b', 'Patientin', 'Vielen Dank.']
+    ]
+  },
+  {
+    title: 'At the supermarket checkout',
+    lines: [
+      ['speaker-a', 'Kassiererin', 'Guten Abend.'],
+      ['speaker-b', 'Kunde', 'Guten Abend.'],
+      ['speaker-a', 'Kassiererin', 'Haben Sie alles gefunden?'],
+      ['speaker-b', 'Kunde', 'Ja, danke.'],
+      ['speaker-a', 'Kassiererin', 'Möchten Sie eine Tüte?'],
+      ['speaker-b', 'Kunde', 'Ja, bitte.'],
+      ['speaker-a', 'Kassiererin', 'Die Äpfel sind heute im Angebot.'],
+      ['speaker-b', 'Kunde', 'Das ist gut.'],
+      ['speaker-a', 'Kassiererin', 'Haben Sie eine Kundenkarte?'],
+      ['speaker-b', 'Kunde', 'Nein, ich habe keine.'],
+      ['speaker-a', 'Kassiererin', 'Das macht zusammen zwölf Euro.'],
+      ['speaker-b', 'Kunde', 'Kann ich mit Karte zahlen?'],
+      ['speaker-a', 'Kassiererin', 'Ja, natürlich.'],
+      ['speaker-b', 'Kunde', 'Einen Moment bitte.'],
+      ['speaker-a', 'Kassiererin', 'Bitte stecken Sie die Karte ein.'],
+      ['speaker-b', 'Kunde', 'Ja, mache ich.'],
+      ['speaker-a', 'Kassiererin', 'Die Zahlung ist fertig.'],
+      ['speaker-b', 'Kunde', 'Super.'],
+      ['speaker-a', 'Kassiererin', 'Hier ist Ihr Bon.'],
+      ['speaker-b', 'Kunde', 'Danke, auf Wiedersehen.']
+    ]
+  },
+  {
+    title: 'At the bakery',
+    lines: [
+      ['speaker-a', 'Verkäuferin', 'Guten Morgen.'],
+      ['speaker-b', 'Kundin', 'Guten Morgen.'],
+      ['speaker-a', 'Verkäuferin', 'Was möchten Sie?'],
+      ['speaker-b', 'Kundin', 'Ich möchte zwei Brötchen.'],
+      ['speaker-a', 'Verkäuferin', 'Sonst noch etwas?'],
+      ['speaker-b', 'Kundin', 'Ja, ein Brot bitte.'],
+      ['speaker-a', 'Verkäuferin', 'Welches Brot möchten Sie?'],
+      ['speaker-b', 'Kundin', 'Das große Bauernbrot.'],
+      ['speaker-a', 'Verkäuferin', 'Möchten Sie auch einen Kuchen?'],
+      ['speaker-b', 'Kundin', 'Nein, heute nicht.'],
+      ['speaker-a', 'Verkäuferin', 'Die Brötchen sind ganz frisch.'],
+      ['speaker-b', 'Kundin', 'Sehr gut.'],
+      ['speaker-a', 'Verkäuferin', 'Soll ich das Brot schneiden?'],
+      ['speaker-b', 'Kundin', 'Ja, bitte.'],
+      ['speaker-a', 'Verkäuferin', 'Gerne.'],
+      ['speaker-b', 'Kundin', 'Wie viel kostet das?'],
+      ['speaker-a', 'Verkäuferin', 'Das kostet fünf Euro zwanzig.'],
+      ['speaker-b', 'Kundin', 'Hier bitte.'],
+      ['speaker-a', 'Verkäuferin', 'Danke schön.'],
+      ['speaker-b', 'Kundin', 'Auf Wiedersehen.']
+    ]
+  },
+  {
+    title: 'At the pharmacy',
+    lines: [
+      ['speaker-a', 'Apothekerin', 'Guten Tag.'],
+      ['speaker-b', 'Kunde', 'Guten Tag.'],
+      ['speaker-a', 'Apothekerin', 'Wie kann ich helfen?'],
+      ['speaker-b', 'Kunde', 'Ich brauche Hustensaft.'],
+      ['speaker-a', 'Apothekerin', 'Ist der Husten stark?'],
+      ['speaker-b', 'Kunde', 'Ja, besonders nachts.'],
+      ['speaker-a', 'Apothekerin', 'Haben Sie auch Halsschmerzen?'],
+      ['speaker-b', 'Kunde', 'Ja, ein bisschen.'],
+      ['speaker-a', 'Apothekerin', 'Haben Sie ein Rezept?'],
+      ['speaker-b', 'Kunde', 'Nein, leider nicht.'],
+      ['speaker-a', 'Apothekerin', 'Dann habe ich etwas ohne Rezept.'],
+      ['speaker-b', 'Kunde', 'Das ist gut.'],
+      ['speaker-a', 'Apothekerin', 'Nehmen Sie den Saft dreimal am Tag.'],
+      ['speaker-b', 'Kunde', 'Vor dem Essen oder danach?'],
+      ['speaker-a', 'Apothekerin', 'Am besten nach dem Essen.'],
+      ['speaker-b', 'Kunde', 'Okay.'],
+      ['speaker-a', 'Apothekerin', 'Trinken Sie auch warmen Tee.'],
+      ['speaker-b', 'Kunde', 'Ja, das mache ich.'],
+      ['speaker-a', 'Apothekerin', 'Das kostet acht Euro.'],
+      ['speaker-b', 'Kunde', 'Danke, auf Wiedersehen.']
+    ]
+  },
+  {
+    title: 'At the bus stop',
+    lines: [
+      ['speaker-a', 'Person A', 'Entschuldigung, fährt der Bus nach Mitte?'],
+      ['speaker-b', 'Person B', 'Ja, der Bus fährt nach Mitte.'],
+      ['speaker-a', 'Person A', 'Kommt der Bus bald?'],
+      ['speaker-b', 'Person B', 'Ich glaube, in fünf Minuten.'],
+      ['speaker-a', 'Person A', 'Danke.'],
+      ['speaker-b', 'Person B', 'Gern.'],
+      ['speaker-a', 'Person A', 'Fahren Sie auch in die Stadt?'],
+      ['speaker-b', 'Person B', 'Ja, ich fahre zur Arbeit.'],
+      ['speaker-a', 'Person A', 'Ich bin heute zum ersten Mal hier.'],
+      ['speaker-b', 'Person B', 'Dann ist diese Linie gut für Sie.'],
+      ['speaker-a', 'Person A', 'Muss ich hier ein Ticket kaufen?'],
+      ['speaker-b', 'Person B', 'Nein, im Bus oder per App.'],
+      ['speaker-a', 'Person A', 'Ah, okay.'],
+      ['speaker-b', 'Person B', 'Dort kommt der Bus schon.'],
+      ['speaker-a', 'Person A', 'Sehr gut.'],
+      ['speaker-b', 'Person B', 'Steigen Sie vorne ein.'],
+      ['speaker-a', 'Person A', 'Hat der Bus viele Haltestellen?'],
+      ['speaker-b', 'Person B', 'Nicht so viele.'],
+      ['speaker-a', 'Person A', 'Danke für die Hilfe.'],
+      ['speaker-b', 'Person B', 'Kein Problem.']
+    ]
+  },
+  {
+    title: 'At the airport',
+    lines: [
+      ['speaker-a', 'Mitarbeiterin', 'Guten Tag. Ihren Pass bitte.'],
+      ['speaker-b', 'Reisender', 'Guten Tag. Hier ist mein Pass.'],
+      ['speaker-a', 'Mitarbeiterin', 'Wohin fliegen Sie heute?'],
+      ['speaker-b', 'Reisender', 'Ich fliege nach Berlin.'],
+      ['speaker-a', 'Mitarbeiterin', 'Haben Sie Gepäck?'],
+      ['speaker-b', 'Reisender', 'Ja, einen Koffer.'],
+      ['speaker-a', 'Mitarbeiterin', 'Stellen Sie den Koffer bitte hierhin.'],
+      ['speaker-b', 'Reisender', 'Ja, gern.'],
+      ['speaker-a', 'Mitarbeiterin', 'Der Koffer ist in Ordnung.'],
+      ['speaker-b', 'Reisender', 'Sehr gut.'],
+      ['speaker-a', 'Mitarbeiterin', 'Möchten Sie am Fenster sitzen?'],
+      ['speaker-b', 'Reisender', 'Ja, bitte.'],
+      ['speaker-a', 'Mitarbeiterin', 'Ihr Flug geht um zehn Uhr.'],
+      ['speaker-b', 'Reisender', 'Wann beginnt das Boarding?'],
+      ['speaker-a', 'Mitarbeiterin', 'Um neun Uhr dreißig.'],
+      ['speaker-b', 'Reisender', 'An welchem Gate?'],
+      ['speaker-a', 'Mitarbeiterin', 'Am Gate A zwölf.'],
+      ['speaker-b', 'Reisender', 'Danke schön.'],
+      ['speaker-a', 'Mitarbeiterin', 'Hier ist Ihre Bordkarte.'],
+      ['speaker-b', 'Reisender', 'Vielen Dank.']
+    ]
+  },
+  {
+    title: 'At school in the classroom',
+    lines: [
+      ['speaker-a', 'Lehrerin', 'Guten Morgen zusammen.'],
+      ['speaker-b', 'Schüler', 'Guten Morgen.'],
+      ['speaker-a', 'Lehrerin', 'Bitte setzt euch.'],
+      ['speaker-b', 'Schüler', 'Ja, Frau Becker.'],
+      ['speaker-a', 'Lehrerin', 'Habt ihr die Hausaufgaben?'],
+      ['speaker-b', 'Schüler', 'Ja, ich habe sie.'],
+      ['speaker-a', 'Lehrerin', 'Sehr gut.'],
+      ['speaker-b', 'Schüler', 'Darf ich etwas fragen?'],
+      ['speaker-a', 'Lehrerin', 'Ja, natürlich.'],
+      ['speaker-b', 'Schüler', 'Was machen wir heute?'],
+      ['speaker-a', 'Lehrerin', 'Wir lesen einen kurzen Text.'],
+      ['speaker-b', 'Schüler', 'Okay.'],
+      ['speaker-a', 'Lehrerin', 'Bitte öffnet eure Bücher.'],
+      ['speaker-b', 'Schüler', 'Auf welcher Seite?'],
+      ['speaker-a', 'Lehrerin', 'Auf Seite zwölf.'],
+      ['speaker-b', 'Schüler', 'Ich habe die Seite.'],
+      ['speaker-a', 'Lehrerin', 'Lies bitte den ersten Satz.'],
+      ['speaker-b', 'Schüler', 'Ja, ich lese.'],
+      ['speaker-a', 'Lehrerin', 'Sehr schön gelesen.'],
+      ['speaker-b', 'Schüler', 'Danke.']
+    ]
+  },
+  {
+    title: 'At a restaurant',
+    lines: [
+      ['speaker-a', 'Kellner', 'Guten Abend.'],
+      ['speaker-b', 'Gast', 'Guten Abend.'],
+      ['speaker-a', 'Kellner', 'Haben Sie reserviert?'],
+      ['speaker-b', 'Gast', 'Nein, leider nicht.'],
+      ['speaker-a', 'Kellner', 'Das ist kein Problem.'],
+      ['speaker-b', 'Gast', 'Haben Sie einen Tisch für zwei?'],
+      ['speaker-a', 'Kellner', 'Ja, dort am Fenster.'],
+      ['speaker-b', 'Gast', 'Danke.'],
+      ['speaker-a', 'Kellner', 'Hier ist die Speisekarte.'],
+      ['speaker-b', 'Gast', 'Danke schön.'],
+      ['speaker-a', 'Kellner', 'Möchten Sie schon etwas trinken?'],
+      ['speaker-b', 'Gast', 'Ja, ein Wasser bitte.'],
+      ['speaker-a', 'Kellner', 'Und was möchten Sie essen?'],
+      ['speaker-b', 'Gast', 'Ich nehme die Suppe.'],
+      ['speaker-a', 'Kellner', 'Möchten Sie auch einen Salat?'],
+      ['speaker-b', 'Gast', 'Nein, danke.'],
+      ['speaker-a', 'Kellner', 'Kommt sofort.'],
+      ['speaker-b', 'Gast', 'Vielen Dank.'],
+      ['speaker-a', 'Kellner', 'Später bringe ich die Rechnung.'],
+      ['speaker-b', 'Gast', 'Sehr gut.']
+    ]
+  },
+  {
+    title: 'At a hotel reception',
+    lines: [
+      ['speaker-a', 'Rezeptionistin', 'Guten Abend.'],
+      ['speaker-b', 'Gast', 'Guten Abend.'],
+      ['speaker-a', 'Rezeptionistin', 'Haben Sie eine Reservierung?'],
+      ['speaker-b', 'Gast', 'Ja, auf den Namen Klein.'],
+      ['speaker-a', 'Rezeptionistin', 'Einen Moment bitte.'],
+      ['speaker-b', 'Gast', 'Ja, gern.'],
+      ['speaker-a', 'Rezeptionistin', 'Ja, ich habe Ihre Reservierung.'],
+      ['speaker-b', 'Gast', 'Super.'],
+      ['speaker-a', 'Rezeptionistin', 'Wie viele Nächte bleiben Sie?'],
+      ['speaker-b', 'Gast', 'Zwei Nächte.'],
+      ['speaker-a', 'Rezeptionistin', 'Möchten Sie Frühstück?'],
+      ['speaker-b', 'Gast', 'Ja, bitte.'],
+      ['speaker-a', 'Rezeptionistin', 'Ihr Zimmer ist im zweiten Stock.'],
+      ['speaker-b', 'Gast', 'Hat das Zimmer WLAN?'],
+      ['speaker-a', 'Rezeptionistin', 'Ja, natürlich.'],
+      ['speaker-b', 'Gast', 'Sehr gut.'],
+      ['speaker-a', 'Rezeptionistin', 'Hier ist Ihr Schlüssel.'],
+      ['speaker-b', 'Gast', 'Danke schön.'],
+      ['speaker-a', 'Rezeptionistin', 'Der Aufzug ist rechts.'],
+      ['speaker-b', 'Gast', 'Vielen Dank.']
+    ]
+  },
+  {
+    title: 'At the library',
+    lines: [
+      ['speaker-a', 'Bibliothekarin', 'Guten Tag.'],
+      ['speaker-b', 'Besucher', 'Guten Tag.'],
+      ['speaker-a', 'Bibliothekarin', 'Kann ich Ihnen helfen?'],
+      ['speaker-b', 'Besucher', 'Ja, ich suche ein deutsches Buch.'],
+      ['speaker-a', 'Bibliothekarin', 'Für Anfänger oder für Fortgeschrittene?'],
+      ['speaker-b', 'Besucher', 'Für Anfänger, bitte.'],
+      ['speaker-a', 'Bibliothekarin', 'Dann ist dieses Buch gut.'],
+      ['speaker-b', 'Besucher', 'Das sieht gut aus.'],
+      ['speaker-a', 'Bibliothekarin', 'Haben Sie schon einen Ausweis?'],
+      ['speaker-b', 'Besucher', 'Nein, noch nicht.'],
+      ['speaker-a', 'Bibliothekarin', 'Dann brauchen Sie ein Formular.'],
+      ['speaker-b', 'Besucher', 'Wo ist das Formular?'],
+      ['speaker-a', 'Bibliothekarin', 'Hier auf dem Tisch.'],
+      ['speaker-b', 'Besucher', 'Danke.'],
+      ['speaker-a', 'Bibliothekarin', 'Sie können das Buch drei Wochen behalten.'],
+      ['speaker-b', 'Besucher', 'Das ist prima.'],
+      ['speaker-a', 'Bibliothekarin', 'Bitte bringen Sie es pünktlich zurück.'],
+      ['speaker-b', 'Besucher', 'Ja, natürlich.'],
+      ['speaker-a', 'Bibliothekarin', 'Dann wünsche ich viel Spaß beim Lesen.'],
+      ['speaker-b', 'Besucher', 'Vielen Dank.']
+    ]
+  },
+  ...buildExtraScenarios()
+];
+
+function createScenario(title, lines) {
+  const section = document.createElement('section');
+  section.className = 'scenario';
+
+  const heading = document.createElement('h2');
+  heading.textContent = title;
+  section.appendChild(heading);
+
+  const list = document.createElement('ul');
+
+  lines.forEach(([speakerClass, speakerLabel, text]) => {
+    const item = document.createElement('li');
+
+    const textWrapper = document.createElement('div');
+    textWrapper.className = 'text';
+
+    const speaker = document.createElement('span');
+    speaker.className = `speaker ${speakerClass}`;
+    speaker.textContent = `${speakerLabel}:`;
+
+    textWrapper.appendChild(speaker);
+    textWrapper.append(` ${text}`);
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = '▶️';
+    button.addEventListener('click', () => speak(text));
+
+    item.appendChild(textWrapper);
+    item.appendChild(button);
+    list.appendChild(item);
+  });
+
+  section.appendChild(list);
+  return section;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const select = document.getElementById('scenario-select');
+  const root = document.getElementById('scenario-root');
+
+  scenarios.forEach((scenario, index) => {
+    const option = document.createElement('option');
+    option.value = String(index);
+    option.textContent = scenario.title;
+    select.appendChild(option);
+  });
+
+  function renderScenario(index) {
+    root.innerHTML = '';
+    root.appendChild(createScenario(scenarios[index].title, scenarios[index].lines));
+  }
+
+  select.addEventListener('change', (event) => {
+    renderScenario(Number(event.target.value));
+  });
+
+  select.value = '0';
+  renderScenario(0);
+});
+</script>
+</div>
+</body>
+</html>
