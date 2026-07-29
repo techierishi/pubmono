@@ -1,0 +1,39 @@
+# Cyclist
+Deno port of https://github.com/mafintosh/cyclist
+
+Cyclist is an efficient [cyclic list](http://en.wikipedia.org/wiki/Circular_buffer) implemention for Javascript(Deno).
+It is available through deno land
+https://deno.land/x/cyclist
+## What?
+
+Cyclist allows you to create a list of fixed size that is cyclic.
+In a cyclist list the element following the last one is the first one.
+This property can be really useful when for example trying to order data
+packets that can arrive out of order over a network stream.
+
+## Usage
+
+``` typescript
+import { Cyclist } from "https://deno.land/x/cyclist@v1.0.2/mod.ts"
+
+const list = new Cyclist(4)
+
+list.put(42, 'hello 42') // store something and index 42
+list.put(43, 'hello 43') // store something and index 43
+
+console.log(list.get(42)) // prints hello 42
+console.log(list.get(46)) // prints hello 42 again since 46 - 42 == list.size
+```
+
+## API
+
+* `cyclist(size)` creates a new buffer
+* `cyclist#get(index)` get an object stored in the buffer
+* `cyclist#put(index,value)` insert an object into the buffer
+* `cyclist#del(index)` delete an object from an index
+* `cyclist#size` property containing current size of buffer
+
+## License
+
+MIT
+
