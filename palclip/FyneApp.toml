@@ -1,0 +1,6 @@
+[Details]
+  Icon = "appicon.png"
+  Name = "palclip"
+  ID = "com.palclip.app"
+  Version = "0.1.1"
+  Build = 4
