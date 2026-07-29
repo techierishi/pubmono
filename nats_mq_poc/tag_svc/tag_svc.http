@@ -1,0 +1,7 @@
+
+### This file works with "REST Client VS Code extentsion"
+
+GET http://localhost:5001/api/tags
+
+###
+GET http://localhost:5001/api/tags/1
