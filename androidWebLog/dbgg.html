@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Debug Result</title>
+
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	
+
+  <div id="window">
+    <div id="toolbar">
+      <div class="top">
+        <div id="lights">
+          <div class="light red">
+            <div class="glyph">×</div>
+            <div class="shine"></div>
+            <div class="glow"></div>
+          </div>        
+          <div class="light yellow">
+            <div class="glyph">-</div>
+            <div class="shine"></div>
+            <div class="glow"></div>
+          </div>
+          <div class="light green">
+            <div class="glyph">+</div>
+            <div class="shine"></div>
+            <div class="glow"></div>
+          </div>
+        </div>
+        <div id="title">
+          <div class="folder">
+            <div class="tab"></div>
+            <div class="body"></div>
+          </div>
+          Debug Result
+        </div>
+        <div id="bubble">
+          <div class="shine"></div>
+          <div class="glow"></div>
+        </div>
+      </div>
+    </div>
+    <div id="body">
+
+      <form action="" id="horizontalForm">
+        <fieldset>
+          <legend>
+            Filter
+          </legend>
+          
+          <label for="timeAfter">
+            Time After
+            <input type="text" value="" name="timeAfter" id="timeAfter">
+          </label>
+          <label for="tagName">
+            Tag name
+            <input type="text" value="" name="tagName" id="tagName">
+          </label>
+
+          <input type="button" class="submit" value="Clear All">
+        </fieldset>
+      </form>
+      <!--Table Start -->
+      <table class="search-table">
+        <thead>
+          <th>TIME</th>
+          <th>TAG</th>
+          <th colspan="1">CONTENT</th>
+        </tr>
+      </thead>
+      <tbody class="result">
+
+      </tbody>
+    </table>
+    <!--Table Ends -->
+  </div>  
+</div>
+
+</body>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+
+  $('.submit').click(function(){
+    $.ajax({
+      url: 'show_debug.php',
+      data:'clear=true',
+      success: function(data) {
+      },
+      complete: function() {
+      }
+    });
+
+  });
+
+  (function worker() {
+    var tagFilter = $('#tagName').val();
+
+    $.ajax({
+     url: 'show_debug.php',
+     data:'tagName='+tagFilter,
+     success: function(data) {
+
+      
+      data = JSON.parse(data);
+      var str = '';
+      var len = data.length;
+      for (var i = 0; i < len; i++) {
+        str += '<tr> <td class="action" > '+timeConverter(data[i].TIMESTAMP)+' </td> <td class="action"> '+data[i].TAG+' </td> <td class="content" >'+data[i].CONTENT+'</td> </tr>';
+      }
+
+      $('.result').html(str);
+
+
+				//window.scrollTo(0,document.body.scrollHeight);
+			},
+			complete: function() {
+      // Schedule the next request when the current one's complete
+      setTimeout(worker, 1000);
+    }
+  });
+
+    
+
+    function timeConverter(UNIX_timestamp){
+      var a = new Date(UNIX_timestamp * 1000);
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var year = a.getFullYear();
+      var month = months[a.getMonth()];
+      var date = a.getDate();
+      var hour = a.getHours();
+      var min = a.getMinutes();
+      var sec = a.getSeconds();
+      var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+      return time;
+    }
+
+
+  })();
+</script>
+</html>
+
