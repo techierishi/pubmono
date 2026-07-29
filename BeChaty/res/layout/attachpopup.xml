@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llStatusChangePopup"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:background="#242424"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/llGallery"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:addStatesFromChildren="true"
+        android:background="@drawable/attachment_menu_bg"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:weightSum="100" >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="11dp"
+            android:layout_weight="30"
+            android:src="@drawable/gallery" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="70"
+            android:gravity="center_vertical"
+            android:paddingTop="5dp"
+            android:text="Gallery"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="1px"
+        android:background="#343434" />
+
+    <LinearLayout
+        android:id="@+id/llCamera"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:addStatesFromChildren="true"
+        android:background="@drawable/attachment_menu_bg"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:weightSum="100" >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="11dp"
+            android:layout_weight="30"
+            android:src="@drawable/video" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="70"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:text="Camera"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>
