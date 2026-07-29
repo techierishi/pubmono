@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib  
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"  
+        "http://java.sun.com/j2ee/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>ekart</short-name>
+	<uri>http://tomcat.apache.org/example-taglib</uri>
+	<description>Custom Tags</description>
+
+	<tag>
+		<name>form</name>
+		<tag-class>com.ekart.util.FormTag</tag-class>
+		<attribute>
+			<name>css_class</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>method</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>action</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>isToken</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+</taglib>  

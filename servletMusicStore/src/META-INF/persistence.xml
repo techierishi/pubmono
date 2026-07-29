@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+	<persistence-unit name="MusicStorePU"
+		transaction-type="RESOURCE_LOCAL">
+		<class>com.pavitra.business.Address</class>
+		<class>com.pavitra.business.CardType</class>
+		<class>com.pavitra.business.Cart</class>
+		<class>com.pavitra.business.CreditCard</class>
+		<class>com.pavitra.business.Customer</class>
+		<class>com.pavitra.business.Download</class>
+		<class>com.pavitra.business.Invoice</class>
+		<class>com.pavitra.business.LineItem</class>
+		<class>com.pavitra.business.Product</class>
+		<class>com.pavitra.business.Subscriber</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/music_store" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="" />
+			<!-- EclipseLink should create the database schema automatically -->
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode"
+				value="database" />
+		</properties>
+	</persistence-unit>
+</persistence>

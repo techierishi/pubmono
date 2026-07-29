@@ -1,0 +1,8 @@
+/** Your theme modifications here **/
+.details_a {
+	display: block;
+	height: 40px;
+	padding: 10px;
+	text-align: center;
+	width: 100%;
+}
