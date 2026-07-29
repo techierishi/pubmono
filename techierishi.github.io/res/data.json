@@ -1,0 +1,101 @@
+{
+    "name": "RISHIKESH ANAND JHA",
+    "role": "Senior FullStack & Platform Engineer",
+    "place": "India/Germany",
+    "email": "techierishi@gmail.com",
+    "skills": {
+        "programming": [
+            {
+                "name": "Go",
+                "icon": "Go",
+                "proficiency": "90%"
+            },
+            {
+                "name": "JS",
+                "icon": "JS",
+                "proficiency": "90%"
+            },
+            {
+                "name": "Python",
+                "icon": "Python",
+                "proficiency": "75%"
+            },
+            {
+                "name": "Java",
+                "icon": "Java",
+                "proficiency": "90%"
+            }
+        ],
+        "tools": [
+            {
+                "name": "Kubernetes",
+                "icon": "K8s",
+                "proficiency": "80%"
+            },
+            {
+                "name": "Jenkins",
+                "icon": "Jk",
+                "proficiency": "90%"
+            },
+            {
+                "name": "Terraform",
+                "icon": "tf",
+                "proficiency": "90%"
+            },
+            {
+                "name": "AWS",
+                "icon": "AWS",
+                "proficiency": "80%"
+            },
+            {
+                "name": "Postgres",
+                "icon": "PG",
+                "proficiency": "70%"
+            },
+            {
+                "name": "Redis",
+                "icon": "rd",
+                "proficiency": "70%"
+            },
+            {
+                "name": "Linux",
+                "icon": "rd",
+                "proficiency": "70%"
+            },
+            {
+                "name": "React",
+                "icon": "rct",
+                "proficiency": "90%"
+            }
+        ]
+    },
+    "projects": [
+        {
+            "name": "Github Repos",
+            "Link": "https://github.com/techierishi?tab=repositories"
+        }
+    ],
+    "career": [
+        {
+            "name": "FREENOW"
+        },
+        {
+            "name": "IBM"
+        },
+        {
+            "name": "Deloitte"
+        },
+        {
+            "name": "DXC"
+        },
+        {
+            "name": "HCL"
+        }
+    ],
+    "education": [
+        {
+            "name": "Bsc(PHYA)",
+            "institution": "University of Calcutta"
+        }
+    ]
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="res/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="res/style.css">
+<style>
+  html,
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Roboto", sans-serif
+  }
+</style>
+<script defer src="res/alpinejs.min.js"></script>
+
+<body class="w3-light-grey">
+
+  <!-- Page Container -->
+  <div class="w3-content w3-margin-top" style="max-width:1400px;" x-data="{ resume: {} }"
+    x-init="resume = await (await fetch('/res/data.json')).json()">
+
+    <!-- The Grid -->
+    <div class="w3-row-padding">
+
+      <!-- Left Column -->
+      <div class="w3-third">
+
+        <div class="w3-white w3-text-grey w3-card-4">
+          <div class="w3-display-container">
+            <img src="res/ppic.jpg" class="ppic" style="width:100%" alt="Avatar">
+            <div class="w3-display-bottomleft w3-container w3-text-black">
+              <h2 class="person-name" x-text="resume.name"> </h2>
+            </div>
+          </div>
+          <div class="w3-container">
+            <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i><span
+                x-text="resume.role"></span></p>
+            <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i><span x-text="resume.place"></span>
+            </p>
+            <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i><span
+                x-text="resume.email"></span></p>
+            <hr>
+
+            <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Skills</b></p>
+
+            <template x-for="program in resume.skills.programming">
+              <div class="skills">
+                <span>💻</span>
+                <span x-text="program.name"></span>
+                <div class="w3-light-grey w3-round-xlarge w3-small">
+                  <div class="w3-container w3-center w3-round-xlarge w3-teal" :style="{ width: program.proficiency }">
+                    <span x-text="program.proficiency"></span>
+                  </div>
+                </div>
+              </div>
+
+            </template>
+
+            <template x-for="tool in resume.skills.tools">
+              <div class="skills">
+                <span>🛠</span>
+                <span x-text="tool.name"></span>
+                <div class="w3-light-grey w3-round-xlarge w3-small">
+                  <div class="w3-container w3-center w3-round-xlarge w3-teal" :style="{ width: tool.proficiency }"><span
+                      x-text="tool.proficiency"></span></div>
+                </div>
+              </div>
+
+            </template>
+
+            <br>
+
+            <p class="w3-large w3-text-theme"><b><i
+                  class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Languages</b></p>
+            <p>English</p>
+            <div class="w3-light-grey w3-round-xlarge">
+              <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>
+            </div>
+            <p>Hindi</p>
+            <div class="w3-light-grey w3-round-xlarge">
+              <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>
+            </div>
+            <p>German</p>
+            <div class="w3-light-grey w3-round-xlarge">
+              <div class="w3-round-xlarge w3-teal" style="height:24px;width:25%"></div>
+            </div>
+            <br>
+          </div>
+        </div><br>
+
+        <!-- End Left Column -->
+      </div>
+
+      <!-- Right Column -->
+      <div class="w3-twothird">
+        <div class="w3-container w3-card w3-white w3-margin-bottom">
+          <h2 class="w3-text-grey w3-padding-16"><i
+              class="fa fa-laptop fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Projects</h2>
+          <div class="w3-container">
+
+            <hr>
+          </div>
+
+        </div>
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom">
+          <h2 class="w3-text-grey w3-padding-16"><i
+              class="fa fa-rss fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Blogs</h2>
+          <div class="w3-container">
+
+            <hr>
+          </div>
+
+        </div>
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom">
+          <h2 class="w3-text-grey w3-padding-16"><i
+              class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Work Experience</h2>
+          <div class="w3-container">
+            <template x-for="career in resume.career">
+              <h6 class="w3-text-teal">
+                <span class="w3-tag w3-teal w3-round custom-tag" x-text="career.name"></span>
+              </h6>
+            </template>
+            <hr>
+          </div>
+
+        </div>
+
+        <div class="w3-container w3-card w3-white">
+          <h2 class="w3-text-grey w3-padding-16"><i
+              class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Education</h2>
+          <div class="w3-container">
+            <template x-for="education in resume.education">
+              <h6 class="w3-text-teal">
+                <span class="w3-tag w3-teal w3-round custom-tag" x-text="education.name"></span>
+              </h6>
+            </template>
+            <hr>
+          </div>
+
+        </div>
+
+        <!-- End Right Column -->
+      </div>
+
+      <!-- End Grid -->
+    </div>
+
+    <!-- End Page Container -->
+  </div>
+
+  <footer class="w3-container w3-teal w3-center w3-margin-top">
+    <p>Find me on social media.</p>
+    <a href="https://twitter.com/techierishi"><i class="fa fa-twitter w3-hover-opacity"></i></a>
+    <a href="https://github.com/techierishi"><i class="fa fa-github w3-hover-opacity"></i></a>
+    <a href="https://twitter.com/techierishi"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
+
+    <p>Thank you :)</p>
+
+  </footer>
+</body>
+
+</html>

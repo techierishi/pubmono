@@ -1,0 +1,13 @@
+img.ppic {
+    border-radius: 5px 5px 0 0;
+}
+
+h2.person-name {color: white;text-shadow: 0 0 20px black;}
+
+.skills {
+    margin: 10px 0px;
+}
+
+.custom-tag {
+    margin: 5px;
+}
