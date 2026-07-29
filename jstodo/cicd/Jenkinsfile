@@ -1,0 +1,48 @@
+node {
+    stage('Preparation') {
+        git 'https://github.com/techierishi/jstodo.git'
+        sh '''
+        pwd
+        ls -lrt
+        '''
+    }
+    stage('Clean Up') {
+        sh '''
+        pwd
+        ls -lrt
+        docker stop jstodo-container || true
+        docker rm jstodo-container || true
+        docker rmi --force techierishi/jstodo:latest || true
+        '''
+    }
+    stage('Build') {
+        withCredentials([string(credentialsId: 'DOCKER_SECRET', variable: 'DOCKER_PASS')]) {
+            sh '''
+            pwd
+            ls -lrt
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker build --rm -t techierishi/jstodo:latest .
+            docker push techierishi/jstodo
+            docker images
+            '''
+        }
+    }
+    stage('Deploy') {
+        sh '''
+        pwd
+        ls -lrt
+        kubectl config set-context jstodo-cluster
+
+        kubectl get nodes
+        kubectl get deployment
+        kubectl delete deployment jstodo-deployment || true
+        kubectl get deployment
+        kubectl apply -f cicd/yamls/config.yaml
+        kubectl apply -f cicd/yamls/webapp.yaml
+        sleep 20
+        kubectl get pods
+
+        kubectl port-forward service/jstodo-service 5001:5000
+        '''
+    }
+}

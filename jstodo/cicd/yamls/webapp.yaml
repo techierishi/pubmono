@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jstodo-deployment
+  labels:
+    app: jstodo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jstodo
+  template:
+    metadata:
+      labels:
+        app: jstodo
+    spec:
+      containers:
+      - name: jstodo
+        image: techierishi/jstodo:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: TEST_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: testKey
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jstodo-service
+spec:
+  type: ClusterIP
+  selector:
+    app: jstodo
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
