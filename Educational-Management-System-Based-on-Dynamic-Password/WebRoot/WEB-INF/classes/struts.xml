@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+
+
+<struts>
+	<!--action的name一定要和你的Action中的@controller中的名字保持一致 spring容器就可以帮助你注入你想要的那个bean过来 -->
+	<package name="hustwb"  extends="struts-default">
+		
+		<action name="User"  class="user">
+			<result name="registersuccess">/registerSuccess.jsp</result>
+			<result name="registerfail">/registerFail.jsp</result>
+			<result name="register">/register.jsp</result>
+			<result name="login">/login2.jsp</result>
+			<result name= "loginSuccess" >/admin.jsp</result>
+			<result name= "loginSuccesst" >/tadmin.jsp</result>
+			<result name= "loginSuccesss" >/sadmin.jsp</result>
+			<result name= "loginFalse" >/loginFail.jsp</result>
+			<result name= "list" >/userlist.jsp</result>
+			<result name= "success" >/login2.jsp</result>
+			<result name= "update" >/userupdateSuccess.jsp</result>
+			<result name= "updateme" >/userupdateekey.jsp</result>
+			<result name= "updatepwd" >/userupdatepwd.jsp</result>
+			<result name= "updatepwdfalse" >/userupdatepwd.jsp</result>
+			<result name= "delete" >/userupdateSuccess.jsp</result>
+			
+		</action>
+		
+		<action name="Student" class="student">
+			<result name= "list" >/studentlist.jsp</result>
+			<result name= "find" >/studenteditor.jsp</result>
+			<result name= "success" >/login2.jsp</result>
+			<result name= "delete" >/studentdelete.jsp</result>
+		</action>
+		
+		<action name="Teacher" class="teacher"> 
+			<result name= "list" >/teacherlist.jsp</result>
+			<result name= "find" >/teachereditor.jsp</result>
+			<result name= "success" >/login2.jsp</result>
+			<result name= "delete" >/teacherdelete.jsp</result>
+		</action>
+		
+		<action name="News" class="news"> 
+			<result name= "writeSuccess" >/writenews.jsp</result>
+			<result name= "success" >/login2.jsp</result>
+			<result name= "list" >/newslist.jsp</result>
+			<result name= "look">/newscontent.jsp</result>
+			<result name= "delete">/newsdelete.jsp</result>
+		</action>
+		<action name="Course" class="course"> 
+			<result name= "add" >/courseadd.jsp</result>
+			<result name= "list" >/courselist.jsp</result>
+			<result name= "delete" >/coursedelete.jsp</result>
+		</action>
+		<action name="Score" class="score"> 
+			<result name= "add" >/scoreadd.jsp</result>
+			<result name= "list" >/scorelist.jsp</result>
+			<result name= "me" >/scoreme.jsp</result>
+		</action>
+	</package>
+</struts>    
