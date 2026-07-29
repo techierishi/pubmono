@@ -1,0 +1,121 @@
+name: Release
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+      - name: Create release draft
+        run: |
+          type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && sudo apt update \
+          && sudo apt install gh -y
+          gh --version
+          VERSION=$(git describe --tags --abbrev=0)
+          echo ${{ secrets.PAL_PAT }} | gh auth login --with-token
+          gh release create $VERSION -t "Release $VERSION" --notes "Release $VERSION" --draft
+
+  release:
+    needs: build
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    name: Release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+      - name: Setup Go
+        uses: actions/setup-go@v5          
+        with:
+          go-version: '1.22.0-rc.1'
+          go-version-file: go.mod
+          check-latest: true
+          
+      - name: Install dependencies on Ubuntu
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+          type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && sudo apt update \
+          && sudo apt install gh -y
+          gh --version
+      
+      - name: Install dependencies on Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install gh
+          gh --version
+
+
+      - name: Generate binary on Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          $AppName = "pal"
+          $Version = git describe --tags --abbrev=0
+          $OutputDir = "build"
+          Remove-Item -Recurse -Force $OutputDir -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Path $OutputDir | Out-Null
+          & go build -o "$OutputDir\$AppName-arm64.exe" -tags netgo -ldflags "-s -w" -pkgdir $env:GOPATH/pkg/windows_amd64/netgo
+          & go build -o "$OutputDir\$AppName-amd64.exe" -tags netgo -ldflags "-s -w" -pkgdir $env:GOPATH/pkg/windows_amd64/netgo
+          cd $OutputDir
+          Compress-Archive -Path "$AppName-amd64.exe" -DestinationPath "$AppName-$Version-win-amd64.zip"
+          Compress-Archive -Path "$AppName-arm64.exe" -DestinationPath "$AppName-$Version-win-arm64.zip"
+          ls
+          cd ..
+          echo ${{ secrets.PAL_PAT }} | gh auth login --with-token
+          gh release upload $Version "$OutputDir\$AppName-$Version-win-amd64.zip"
+          gh release upload $Version "$OutputDir\$AppName-$Version-win-arm64.zip"
+
+  
+      - name: Generate binary on Ubuntu
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+          APP_NAME="pal"
+          VERSION=$(git describe --tags --abbrev=0)
+          OUTPUT_DIR="build"
+          rm -rf $OUTPUT_DIR
+          mkdir -p $OUTPUT_DIR
+          env GOARCH=arm64 GOOS=linux go build -ldflags="-s -w" -o $OUTPUT_DIR/$APP_NAME-linux-arm64
+          env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o $OUTPUT_DIR/$APP_NAME-linux-amd64
+          cd $OUTPUT_DIR
+          zip $APP_NAME-$VERSION-linux-amd64.zip $APP_NAME-linux-amd64
+          zip $APP_NAME-$VERSION-linux-arm64.zip $APP_NAME-linux-amd64
+          ls -lart
+          cd ..
+          echo ${{ secrets.PAL_PAT }} | gh auth login --with-token
+          gh release upload $VERSION $OUTPUT_DIR/$APP_NAME-$VERSION-linux-amd64.zip
+          gh release upload $VERSION $OUTPUT_DIR/$APP_NAME-$VERSION-linux-arm64.zip
+
+      - name: Generate binary on Mac
+        if: matrix.os == 'macos-latest'
+        run: |
+          APP_NAME="pal"
+          VERSION=$(git describe --tags --abbrev=0)
+          OUTPUT_DIR="build"
+          rm -rf $OUTPUT_DIR
+          mkdir -p "$OUTPUT_DIR"
+          env GOARCH=arm64 GOOS=darwin go build -ldflags="-s -w" -o $OUTPUT_DIR/$APP_NAME-darwin-arm64
+          env GOARCH=amd64 GOOS=darwin go build -ldflags="-s -w" -o $OUTPUT_DIR/$APP_NAME-darwin-amd64
+          cd $OUTPUT_DIR
+          zip $APP_NAME-$VERSION-darwin-amd64.zip $APP_NAME-darwin-amd64
+          zip $APP_NAME-$VERSION-darwin-arm64.zip $APP_NAME-darwin-amd64
+          ls -lart
+          cd ..
+          echo ${{ secrets.PAL_PAT }} | gh auth login --with-token
+          gh release upload $VERSION $OUTPUT_DIR/$APP_NAME-$VERSION-darwin-amd64.zip
+          gh release upload $VERSION $OUTPUT_DIR/$APP_NAME-$VERSION-darwin-arm64.zip
