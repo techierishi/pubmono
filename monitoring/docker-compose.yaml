@@ -1,0 +1,96 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./rules.yml:/etc/prometheus/rules.yml"
+    networks:
+      - monitoring-network
+    ports:
+      - 9090:9090
+  node-exporter:
+    image: prom/node-exporter
+    networks:
+      - monitoring-network
+    ports:
+      - 9100:9100
+  alert-manager:
+    image: prom/alertmanager
+    volumes:
+      - "./alertmanager.yml:/alertmanager/alertmanager.yml"
+    networks:
+      - monitoring-network
+    ports:
+      - 9093:9093
+
+  jmx-exporter:
+    build: sample-app
+    networks:
+      - monitoring-network
+    ports:
+      - "9010:9010"
+      - "5005:5005"
+      - "12345:12345"
+  
+  grafana:
+    image: grafana/grafana:10.0.10
+    volumes:
+      - "./grafana.ini:/etc/grafana/grafana.ini"
+      - "./grafana/provisioning/:/etc/grafana/provisioning/"
+      - "grafana-storage:/var/lib/grafana"
+    environment:
+      - GF_INSTALL_PLUGINS=simpod-json-datasource,grafana-clock-panel,volkovlabs-form-panel
+      - GF_DATABASE_TYPE=postgres
+      - GF_DATABASE_NAME=grafana
+      - GF_DATABASE_USER=grafana
+      - GF_DATABASE_PASSWORD=grafana
+      - GF_DATABASE_HOST=pgdb:5432
+      - GF_DATABASE_SSL_MODE=disable
+      - GF_SESSION_PROVIDER=postgres
+      - GF_SESSION_PROVIDER_CONFIG=user=grafana password=grafana host=pgdb port=5432 dbname=grafana sslmode=disable
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks:
+      - monitoring-network
+    depends_on:
+      pgdb:
+        condition: service_healthy
+  pgdb:
+    image: postgres:16.1
+    command: -c shared_preload_libraries='pg_stat_statements' -c pg_stat_statements.max=10000 -c pg_stat_statements.track=all
+    environment:
+      TZ: UTC
+      POSTGRES_DATABASE: grafana
+      POSTGRES_USER: grafana
+      POSTGRES_PASSWORD: grafana
+    networks:
+      - monitoring-network
+    volumes:
+      - pgdb-storage:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d grafana -U grafana"]
+      timeout: 10s
+      retries: 10
+  dbgate:
+    image: dbgate/dbgate:alpine
+    restart: always
+    networks:
+      - monitoring-network
+    volumes:
+      - dbgate-data:/root/.dbgate
+    ports:
+      - 3100:3000
+  
+volumes:
+  pgdb-storage:
+    driver: local
+  grafana-storage:
+    driver: local
+  dbgate-data:
+    driver: local
+
+networks:
+  monitoring-network:
+    driver: bridge
