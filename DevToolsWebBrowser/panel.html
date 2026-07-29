@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DevTools WebView</title>
+	<style>
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body h2 {
+			text-align: center;
+			margin: 5px 0 0 0;
+			color: #555;
+		}
+
+		.browser-window-osx {
+			box-shadow: 0px 2px 3px 0px rgb(50 50 50 / 11%);
+			border: 1px solid #c3c3c3;
+			width: 98%;
+			height: 97vh;
+			margin: 1% auto;
+			padding: 0;
+			border-radius: 5px;
+			position: relative;
+		}
+
+		.browser-window-osx .header {
+			background: #e8e8e8;
+			height: 45px;
+			border-radius: 5px 5px 0 0;
+			padding: 10px 10px 0 10px;
+			display: flex;
+		}
+
+		.browser-window-osx .header .menu {
+			width: 70px;
+			display: inline-block;
+			height: 25px;
+		}
+
+		@media (max-width: 750px) {
+			.browser-window-osx .header .menu {
+				display: none;
+			}
+		}
+
+		.browser-window-osx .header .menu span {
+			margin: 6px 4px;
+			padding: 0;
+			height: 12px;
+			width: 12px;
+			display: block;
+			float: left;
+			border-radius: 50%;
+		}
+
+		.browser-window-osx .header .menu span.close {
+			background: #df7065;
+		}
+
+		.browser-window-osx .header .menu span.minimize {
+			background: #e6bb46;
+		}
+
+		.browser-window-osx .header .menu span.maximize {
+			background: #5bcc8b;
+		}
+
+		.browser-window-osx .header .search {
+			background: white;
+			width: 50%;
+			display: inline-block;
+			height: 25px;
+			border-radius: 5px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		@media (max-width: 750px) {
+			.browser-window-osx .header .search {
+				width: 100%;
+			}
+		}
+
+		.browser-window-osx .header .search {
+			width: 70%;
+			display: flex;
+			height: 25px;
+			border-radius: 5px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.browser-window-osx .header .search p span {
+			color: #7ED321;
+		}
+
+		.browser-window-osx .window {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			transform: scale(1);
+			border-radius: 0 0 5px 5px;
+		}
+
+		.browser-window-osx .window iframe {
+			width: 100%;
+			height: 92vh;
+			border: 0;
+			margin: 0 0 -4px 0;
+		}
+
+
+
+
+		.search {
+			width: 100%;
+			position: relative;
+			display: flex;
+		}
+
+		.searchURL {
+			width: 100%;
+			border: 2px solid #00B4CC;
+			border-right: none;
+			padding: 5px;
+			height: 25px;
+			border-radius: 5px 0 0 5px;
+			outline: none;
+			color: #9DBFAF;
+		}
+
+		.searchURL:focus {
+			color: #00B4CC;
+		}
+
+		.searchButton {
+			width: 50px;
+			border: 1px solid #00B4CC;
+			background: #00B4CC;
+			text-align: center;
+			color: #fff;
+			border-radius: 0 5px 5px 0;
+			cursor: pointer;
+			font-size: 15px;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+
+	<div class="browser-window-osx">
+		<div class="header">
+			<div class="menu">
+				<span class="close"></span>
+				<span class="minimize"></span>
+				<span class="maximize"></span>
+			</div>
+			<div class="search">
+				<input type="text" class="searchURL" value="http://www.bing.com/" placeholder="Enter a URL...">
+				<button type="submit" class="searchButton">
+					Go
+				</button>
+			</div>
+		</div>
+		<div class="window">
+			<iframe class="iframePage" src="http://www.bing.com/" frameborder="0"></iframe>
+		</div>
+	</div>
+
+
+
+	<script src="panel.js"></script>
+</body>
+
+</html>

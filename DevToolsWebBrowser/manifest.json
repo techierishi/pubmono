@@ -1,0 +1,24 @@
+{
+    "name": "DevToolsWebBrowser",
+    "version": "0.1",
+    "description": "An iframe based browser to help open any website in DevTools",
+    "devtools_page": "devtools.html",
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": [
+        "tabs",
+        "declarativeNetRequestWithHostAccess",
+        "webRequest"
+    ],
+    "host_permissions": [
+        "*://*/*"
+    ],
+    "manifest_version": 3,
+    "icons": {
+        "16": "res/dbrowser16.png",
+        "32": "res/dbrowser32.png",
+        "48": "res/dbrowser48.png",
+        "128": "res/dbrowser128.png"
+    }
+}
