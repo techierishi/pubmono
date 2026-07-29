@@ -1,0 +1,16 @@
+{
+  "name": "nodychat",
+  "version": "0.0.1",
+  "description": "Chat app using nodejs and socket.io",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+ 
+  "dependencies": {
+      "socket.io": "~1.0"
+   },
+  "engines": {
+    "node": ">=0.8.x"
+  }
+}
