@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pytodo-deployment
+  labels:
+    app: pytodo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pytodo
+  template:
+    metadata:
+      labels:
+        app: pytodo
+    spec:
+      containers:
+      - name: pytodo
+        image: techierishi/pytodo:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: TEST_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: testKey
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pytodo-service
+spec:
+  type: ClusterIP
+  selector:
+    app: pytodo
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
