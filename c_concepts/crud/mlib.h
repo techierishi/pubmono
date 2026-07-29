@@ -1,0 +1,1 @@
+char* varconcat( char* fmt, ...);
