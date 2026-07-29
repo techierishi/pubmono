@@ -1,0 +1,371 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:orientation="vertical">
+    
+        <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="5dp"
+        android:textStyle="bold"
+        android:background="#ddd"
+        android:textIsSelectable="true"
+        android:gravity="right"
+        android:text="@string/emptystring"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <View android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:drawable/divider_horizontal_dark"/>
+
+<ScrollView android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+        tools:context=".GTAcalC" >
+
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="vertical">
+ 	
+
+   <LinearLayout android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    
+       
+        <Button
+        android:id="@+id/num1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:padding = "5dp"
+		android:layout_margin="15dp"
+		android:layout_weight="1"
+        android:background="@drawable/calcbuttonstyle"
+        android:text="@string/one"/>
+
+   		<Button
+        android:id="@+id/num2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding = "5dp"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/calcbuttonstyle"
+        android:text="@string/two"/>
+
+    
+   	    <Button
+        android:id="@+id/num3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:padding = "5dp"
+		android:layout_margin="15dp"
+		android:layout_weight="1"
+        android:background="@drawable/calcbuttonstyle"
+        android:text="@string/three"/>
+	</LinearLayout>
+
+   
+   <LinearLayout android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+   
+    <Button
+        android:id="@+id/num4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding = "5dp"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/calcbuttonstyle"
+        android:text="@string/four"/>
+        
+    <Button
+        android:id="@+id/num5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding = "5dp"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/calcbuttonstyle"
+        android:text="@string/five"/>
+    
+         <Button
+        android:id="@+id/num6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding = "5dp"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/calcbuttonstyle"
+        android:text="@string/six" />
+    </LinearLayout>	
+    
+   <LinearLayout android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+         
+        <Button
+        android:id="@+id/num7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding = "5dp"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/calcbuttonstyle"
+        android:text="@string/seven" />
+        
+            <Button
+        android:id="@+id/num8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding = "5dp"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/calcbuttonstyle"
+        android:text="@string/eight" />
+            
+    <Button
+        android:id="@+id/num9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding = "5dp"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/calcbuttonstyle"
+        android:text="@string/nine" />
+    
+    </LinearLayout>
+    
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+<Button
+    android:id="@+id/clear"
+    android:layout_width="100dp"
+    android:layout_height="60dp"
+    android:layout_margin="15dp"
+    android:layout_marginTop="12dp"
+    android:layout_weight="2.10"
+    android:background="@drawable/rect"
+    android:padding="5dp"
+    android:text="@string/ac"
+    android:textColor="#FFFFFF"
+    android:textStyle="bold" />
+    
+    <Button
+        android:id="@+id/num0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_weight="0.01"
+        android:background="@drawable/calcbuttonstyle"
+        android:padding="5dp"
+        android:text="@string/zero" />
+
+    <Button
+        android:id="@+id/equal"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:padding = "5dp"
+        android:layout_margin="15dp"
+        android:layout_weight="2.26"
+        android:background="@drawable/rect"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/equal" />
+
+    </LinearLayout>
+
+
+   <LinearLayout android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    
+       
+    <Button
+        android:id="@+id/add"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/plus" />
+    
+    
+    <Button
+        android:id="@+id/sub"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/subtract" />
+
+    <Button
+        android:id="@+id/mul"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/multiply" />
+
+    <Button
+        android:id="@+id/div"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/slash" />
+    
+    </LinearLayout>
+    
+   <LinearLayout android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    
+       
+
+    <Button
+        android:id="@+id/decimal"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/decimal" />
+    
+    <Button
+        android:id="@+id/gcd"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/gcd" />
+
+    <Button
+        android:id="@+id/sqrt"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/sqrt"/>
+
+    
+
+        <Button
+        android:id="@+id/exp"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/exponent" />
+        
+        </LinearLayout>
+    
+
+       <LinearLayout android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    
+    <Button
+        android:id="@+id/log"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/log"/>
+     
+
+     <Button
+        android:id="@+id/sin"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/sin" />
+
+
+
+    <Button
+        android:id="@+id/cos"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/cos" />
+
+    <Button
+        android:id="@+id/tan"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/myshape"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/tan" />
+    
+</LinearLayout>
+
+ </LinearLayout></ScrollView></LinearLayout>
