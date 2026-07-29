@@ -1,0 +1,1 @@
+A Simple app to demonstrate Web Service and JSON parsing in Android
