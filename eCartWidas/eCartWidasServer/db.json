@@ -1,0 +1,1 @@
+{"_default": {}, "product": {"1": {"_id": "qhACtVZ7zX7Qeo7RRaRLzSPK4RCYx0uy", "product_name": "Product1", "purchased": true, "price": "45", "tags": ["Shampoo", "Soap"]}, "2": {"_id": "3dndY0BWfJsai7JTvqmTjYkyozhmAibP", "product_name": "Product2", "purchased": true, "price": "60", "tags": ["Gadget"]}}}
