@@ -134,6 +134,9 @@ class ReviewApp:
         saved = self.image_service._save_image(url, image_path)
         if saved:
             self.decisions[term] = "fixed"
+            for c in self.cards:
+                if c["search_term"] == term:
+                    c["image"] = f"/images/{fname}"
             self._save_state()
             return True
         return False
@@ -144,19 +147,30 @@ class ReviewApp:
             status = self.decisions.get(card["search_term"])
             if status in counts:
                 counts[status] += 1
+
+        cards = []
+        for c in self.cards:
+            image = c["image"]
+            if image:
+                # Cache-bust so the browser refetches after we overwrite a file.
+                fname = image.rsplit("/", 1)[-1]
+                ipath = self.images_dir / fname
+                if ipath.is_file():
+                    image = f"/images/{fname}?v={int(ipath.stat().st_mtime_ns)}"
+            cards.append(
+                {
+                    "question": c["question"],
+                    "search_term": c["search_term"],
+                    "image": image,
+                    "status": self.decisions.get(c["search_term"]),
+                }
+            )
+
         return {
             "total": len(self.cards),
             "decided": sum(counts.values()),
             "counts": counts,
-            "cards": [
-                {
-                    "question": c["question"],
-                    "search_term": c["search_term"],
-                    "image": c["image"],
-                    "status": self.decisions.get(c["search_term"]),
-                }
-                for c in self.cards
-            ],
+            "cards": cards,
         }
 
     def export_fix_yaml(self) -> tuple[int, Path]:
