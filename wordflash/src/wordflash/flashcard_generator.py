@@ -15,15 +15,27 @@ class FlashcardGenerator:
         source_lang: str = "de",
         target_lang: str = "en",
         clipboard_only: bool = False,
+        request_delay: float = 1.0,
+        image_provider: str = "auto",
+        force: bool = False,
     ):
         self.output_dir = Path(output_dir)
         self.deck_name = deck_name
         self.source_lang = source_lang
         self.target_lang = target_lang
         self.clipboard_only = clipboard_only
+        self.request_delay = request_delay
+        self.image_provider = image_provider
+        self.force = force
 
         self.word_loader = WordLoader(source_lang, target_lang)
-        self.image_service = ImageService(self.output_dir, clipboard_only=clipboard_only)
+        self.image_service = ImageService(
+            self.output_dir,
+            clipboard_only=clipboard_only,
+            request_delay=request_delay,
+            image_provider=image_provider,
+            force=force,
+        )
         self.audio_service = AudioService(self.output_dir, source_lang)
         self.anki_generator = AnkiGenerator(deck_name)
 

@@ -20,6 +20,9 @@ class QuizFlashcardGenerator:
         answer_lang: str = "en",
         manual_image_approval: bool = True,
         clipboard_only: bool = False,
+        request_delay: float = 1.0,
+        image_provider: str = "auto",
+        force: bool = False,
     ):
         self.output_dir = Path(output_dir)
         self.deck_name = deck_name
@@ -27,9 +30,18 @@ class QuizFlashcardGenerator:
         self.answer_lang = answer_lang
         self.manual_image_approval = manual_image_approval
         self.clipboard_only = clipboard_only
+        self.request_delay = request_delay
+        self.image_provider = image_provider
+        self.force = force
 
         self.quiz_loader = QuizLoader()
-        self.image_service = ImageService(self.output_dir, clipboard_only=clipboard_only)
+        self.image_service = ImageService(
+            self.output_dir,
+            clipboard_only=clipboard_only,
+            request_delay=request_delay,
+            image_provider=image_provider,
+            force=force,
+        )
         self.audio_service = AudioService(self.output_dir, language=question_lang)
         self.anki_generator = AnkiGenerator(deck_name, card_type="quiz")
 
@@ -88,7 +100,9 @@ class QuizFlashcardGenerator:
                     if a_lang == self.question_lang
                     else AudioService(self.output_dir, language=a_lang)
                 )
-                audio_text = quiz_data.get("answer_audio_text", answer)
+                # answer_audio_text may be present-but-None in the loader, so
+                # fall back to the answer text whenever it is empty/None.
+                audio_text = quiz_data.get("answer_audio_text") or answer
                 answer_audio_path = audio_service.generate_audio(audio_text)
                 if answer_audio_path:
                     print(f"  ✓ Answer audio generated")

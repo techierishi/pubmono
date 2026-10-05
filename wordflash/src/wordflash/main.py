@@ -75,6 +75,27 @@ def main():
         action="store_true",
         help="Only use clipboard for image input (skip Pixabay and Wikipedia)",
     )
+    parser.add_argument(
+        "--request-delay",
+        type=float,
+        default=1.0,
+        help="Delay in seconds between image API requests (default: 1.0). "
+        "Increase to be gentler on image providers.",
+    )
+    parser.add_argument(
+        "--image-provider",
+        choices=["auto", "duckduckgo", "wikimedia", "bing", "pixabay"],
+        default="auto",
+        help="Image source. 'auto' tries DuckDuckGo, then Wikimedia Commons, "
+        "then Bing, then Pixabay. 'duckduckgo' falls back if rate-limited "
+        "(default: auto).",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Ignore cached images and re-download every image. "
+        "Useful with manual review to re-select all images.",
+    )
 
     args = parser.parse_args()
 
@@ -101,6 +122,9 @@ def main():
                 answer_lang=args.answer_lang,
                 manual_image_approval=not args.no_image_approval,
                 clipboard_only=args.clipboard_only,
+                request_delay=args.request_delay,
+                image_provider=args.image_provider,
+                force=args.force,
             )
         else:  # vocab
             generator = FlashcardGenerator(
@@ -109,6 +133,9 @@ def main():
                 source_lang=args.source_lang,
                 target_lang=args.target_lang,
                 clipboard_only=args.clipboard_only,
+                request_delay=args.request_delay,
+                image_provider=args.image_provider,
+                force=args.force,
             )
 
         generator.generate_from_yaml(input_path)

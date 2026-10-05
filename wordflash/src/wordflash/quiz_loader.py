@@ -65,11 +65,16 @@ class QuizLoader:
                     # This is a quiz with questions
                     category = quiz_item.get("category", "Uncategorized")
                     questions = quiz_item.get("questions", [])
+                    # Category-level defaults (can be overridden per question)
+                    defaults = {
+                        "question_lang": quiz_item.get("question_lang"),
+                        "answer_lang": quiz_item.get("answer_lang"),
+                    }
                     
                     for question_data in questions:
                         if isinstance(question_data, dict):
                             processed = self._process_question(
-                                question_data, category
+                                question_data, category, defaults
                             )
                             if processed:
                                 quizzes.append(processed)
@@ -80,11 +85,16 @@ class QuizLoader:
         return quizzes
 
     def _process_question(
-        self, question_data: Dict, category: str = "Uncategorized"
+        self,
+        question_data: Dict,
+        category: str = "Uncategorized",
+        defaults: Optional[Dict] = None,
     ) -> Optional[Dict]:
         """Process individual question and validate structure."""
         if "question" not in question_data or "answer" not in question_data:
             return None
+
+        defaults = defaults or {}
 
         # Default media configuration (all false except text)
         default_media = {"text": True, "audio": False, "image": False}
@@ -112,9 +122,19 @@ class QuizLoader:
             "question_image_search_term": question_data.get(
                 "question_image_search_term", question_data["question"]
             ),
-            # Store original language configuration if specified
-            "question_lang": question_data.get("question_lang", "en"),
-            "answer_lang": question_data.get("answer_lang", "en"),
+            # Store original language configuration if specified.
+            # Per-question value wins; otherwise use category-level default;
+            # otherwise fall back to English.
+            "question_lang": (
+                question_data.get("question_lang")
+                or defaults.get("question_lang")
+                or "en"
+            ),
+            "answer_lang": (
+                question_data.get("answer_lang")
+                or defaults.get("answer_lang")
+                or "en"
+            ),
             # Separate text for audio pronunciation (when different from answer display text)
             "answer_audio_text": question_data.get("answer_audio_text"),
         }

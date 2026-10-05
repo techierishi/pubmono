@@ -25,6 +25,8 @@ dependencies = [
 [project.scripts]
 wordflash = "wordflash.main:main"
 wordflash-analyze = "wordflash.analyze_vocabulary:main"
+wordflash-review = "wordflash.review_server:main"
+wordflash-web = "wordflash.webapp:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/wordflash"]
