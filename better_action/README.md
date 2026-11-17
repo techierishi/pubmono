@@ -1,6 +1,6 @@
 # Technical Specification: Better Action Chrome Extension
 
-**Better Action** is a developer-focused productivity Chrome Extension that replaces the rigid, 5-element constraint of the native GitHub Actions `workflow_dispatch` web form with an advanced, developer-friendly interface in your **browser sidebar**. Forms are defined via SurveyJS JSON files in your repository and rendered using Preact & SurveyJS.
+**Better Action** is a developer-focused productivity Chrome Extension that replaces the rigid, 5-element constraint of the native GitHub Actions `workflow_dispatch` web form with an advanced, developer-friendly interface in your **browser sidebar**. Forms are defined using standard **JSON Schema** ([React JSON Schema Form - RJSF](https://rjsf-team.github.io/react-jsonschema-form/)) and rendered natively in Preact.
 
 ## Features
 
@@ -8,11 +8,12 @@
 - **GitHub OAuth Login:** Native OAuth 2.0 Device Flow authorization so users can log in directly without having to copy-paste tokens. (PAT fallback also supported).
 - **Two-Page Sidebar Experience:**
   - **Page 1 (Workflows & Jobs):** When viewing GitHub Actions pages (`/:owner/:repo/actions[/*]`), displays all workflows and recent runs with real-time quick search.
-  - **Page 2 (Advanced Form View):** Clicking "Run workflow" transitions the sidebar into the SurveyJS dynamic form interface for interactive parameter entry and dispatching.
+  - **Page 2 (Advanced Form View):** Clicking "Run workflow" transitions the sidebar into the RJSF dynamic form interface for interactive parameter entry and dispatching.
+- **Industry-Standard JSON Schema:** Uses `@rjsf/core` with `@rjsf/validator-ajv8` for clean, standard JSON Schema validation and custom GitHub Primer styling.
 - **Standalone `dist/` Build:** Self-contained Chrome Extension built into the `dist/` directory ready for "Load unpacked".
 
 ## Tech-Stack
-Preact, survey-core, survey-js-ui, Vite, esbuild
+Preact (`preact/compat`), `@rjsf/core`, `@rjsf/validator-ajv8`, Vite, esbuild
 
 ---
 
@@ -20,7 +21,7 @@ Preact, survey-core, survey-js-ui, Vite, esbuild
 
 To prevent GitHub from rejecting your workflow files, this architecture exploits a native feature of GitHub's YAML parser: **GitHub ignores custom properties it doesn't understand.**
 
-All advanced form layouts are defined in a standalone SurveyJS JSON file (e.g., `.github/better_action/sample_form.json`) and referenced by the `better_action_form` input's `default` value.
+All advanced form layouts are defined in a standalone JSON Schema file (e.g., `.github/better_action/sample_form.json`) and referenced by the `better_action_form` input's `default` value.
 
 ### Production-Ready Workflow Template
 ```yaml
@@ -47,49 +48,60 @@ on:
         default: .github/better_action/sample_form.json
 ```
 
-### SurveyJS Form Definition (`sample_form.json`)
+### JSON Schema Form Definition (`sample_form.json`)
 ```json
 {
-  "showQuestionNumbers": false,
-  "completeText": "Dispatch Workflow ⚡",
-  "pages": [{
-    "elements": [
-      {
-        "type": "comment",
-        "name": "deploy_notes_custom",
-        "title": "Deploy Notes",
-        "placeholder": "Enter markdown release logs here...",
-        "rows": 6
+  "schema": {
+    "title": "Application Deployment Form",
+    "description": "Configure deployment parameters and target services.",
+    "type": "object",
+    "required": ["environment", "release_version"],
+    "properties": {
+      "environment": {
+        "type": "string",
+        "title": "Deployment Environment",
+        "enum": ["development", "staging", "production"],
+        "default": "staging"
       },
-      {
-        "type": "tagbox",
-        "name": "target_microservices_custom",
+      "release_version": {
+        "type": "string",
+        "title": "Release Version",
+        "default": "v1.2.0"
+      },
+      "deploy_notes": {
+        "type": "string",
+        "title": "Release Notes",
+        "description": "Changelog or release summary"
+      },
+      "target_services": {
+        "type": "array",
         "title": "Target Microservices",
-        "choicesByUrl": {
-          "url": "https://company.com",
-          "path": "data.services",
-          "valueName": "service_id",
-          "titleName": "display_name"
+        "items": {
+          "type": "string",
+          "enum": ["auth-service", "billing-service", "api-gateway", "notifications-worker"]
         },
-        "fetchConfig": {
-          "method": "GET",
-          "headers": {
-            "Authorization": "Bearer ${SETTINGS_INTERNAL_TOKEN}"
-          }
-        }
+        "uniqueItems": true,
+        "default": ["auth-service", "api-gateway"]
       },
-      {
-        "type": "tagbox",
-        "name": "feature_flags_custom",
-        "title": "Feature Flags",
-        "choices": [
-          "beta-dashboard",
-          "new-payment-gateway",
-          "performance-logs"
-        ]
+      "dry_run": {
+        "type": "boolean",
+        "title": "Dry Run Mode",
+        "default": false
       }
-    ]
-  }]
+    }
+  },
+  "uiSchema": {
+    "deploy_notes": {
+      "ui:widget": "textarea",
+      "ui:options": {
+        "rows": 4,
+        "placeholder": "Enter release notes..."
+      }
+    },
+    "target_services": {
+      "ui:widget": "checkboxes"
+    }
+  }
 }
 ```
 
@@ -104,7 +116,7 @@ on:
                                                                  ▼
 [ GitHub REST API ] <--(Dispatches via API)-- [ Chrome Browser Sidebar ]
                                                  ├─ Page 1: Jobs & Workflows List (Search)
-                                                 └─ Page 2: Advanced SurveyJS Form View
+                                                 └─ Page 2: Advanced RJSF Form View
                                                                  ▲
                                                                  │
                                                  [ OAuth Vault / Local Storage ]
@@ -114,8 +126,8 @@ on:
 1. **Sidebar Activation:** Clicking the extension toolbar icon opens the browser's native right sidebar (`chrome.sidePanel`).
 2. **Page 1 - Workflows & Jobs:** Sidebar connects with active tab, fetches repository workflows and runs via GitHub API, and renders them with a top search bar for quick filtering.
 3. **Trigger Transition:** Clicking "⚡ Run workflow" on any card (or GitHub's native Run Workflow button) transitions the sidebar to **Page 2**.
-4. **Page 2 - Form Construction:** Sidebar fetches the YAML, reads `better_action_form`'s default path, loads the SurveyJS definition, resolves dynamic datasources, and renders interactive inputs.
-5. **Submission:** User fills out parameters and submits; extension maps inputs and dispatches via GitHub API `POST /repos/{owner}/{repo}/actions/workflows/{workflowId}/dispatches`.
+4. **Page 2 - Form Construction:** Sidebar fetches the YAML, reads `better_action_form`'s default path, loads the JSON Schema definition, resolves dynamic datasources, and renders interactive inputs with GitHub Primer Dark styling.
+5. **Submission:** User fills out parameters and submits; extension validates inputs with AJV v8, maps inputs, and dispatches via GitHub API `POST /repos/{owner}/{repo}/actions/workflows/{workflowId}/dispatches`.
 
 ---
 

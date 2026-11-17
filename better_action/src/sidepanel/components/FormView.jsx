@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { Model } from 'survey-core';
-import { renderSurvey } from 'survey-js-ui';
+import Form from '@rjsf/core';
+import validator from '@rjsf/validator-ajv8';
+import { customTemplates, customWidgets } from '../rjsf-theme/index.js';
 import { extractBetterActionFromInput } from '../../utils/yaml-parser.js';
 import { resolve, resolveObject } from '../../utils/interpolate.js';
 
@@ -12,13 +13,10 @@ export function FormView({
   const [selectedBranch, setSelectedBranch] = useState(workflowInfo?.ref || 'master');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [survey, setSurvey] = useState(null);
-  const [standardInputs, setStandardInputs] = useState(null);
-  const [standardFormValues, setStandardFormValues] = useState({});
+  const [schemaData, setSchemaData] = useState(null); // { schema, uiSchema, formData }
   const [submitting, setSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState(null);
 
-  const containerRef = useRef(null);
   const standardInputsRef = useRef([]);
   const formKeyRef = useRef('better_action_form');
 
@@ -27,15 +25,6 @@ export function FormView({
   useEffect(() => {
     loadWorkflowForm();
   }, [owner, repo, workflowPath, selectedBranch]);
-
-  useEffect(() => {
-    if (survey && containerRef.current) {
-      renderSurvey(survey, containerRef.current);
-      return () => {
-        try { survey.dispose(); } catch (_) {}
-      };
-    }
-  }, [survey]);
 
   async function loadWorkflowForm() {
     if (!owner || !repo || !workflowPath) {
@@ -46,8 +35,7 @@ export function FormView({
 
     setLoading(true);
     setError(null);
-    setSurvey(null);
-    setStandardInputs(null);
+    setSchemaData(null);
     setSubmitResult(null);
 
     try {
@@ -70,7 +58,7 @@ export function FormView({
       formKeyRef.current = parsed?.formKey || 'better_action_form';
 
       if (parsed?.formFileRef) {
-        // Advanced SurveyJS Form found
+        // Advanced Form definition found
         const formResp = await sendMsg('FETCH_WORKFLOW', {
           owner,
           repo,
@@ -79,62 +67,28 @@ export function FormView({
         });
 
         if (!formResp.success) {
-          throw new Error('Failed to fetch advanced form: ' + formResp.error);
+          throw new Error('Failed to fetch form definition: ' + formResp.error);
         }
 
-        const model = new Model(JSON.parse(formResp.content));
-        model.showCompletedPage = false;
+        const rawJson = JSON.parse(formResp.content);
+        const { schema, uiSchema, formData } = normalizeRjsfSchema(rawJson);
 
-        await preloadDatasources(model, secrets);
+        // Resolve any dynamic datasources (choicesByUrl)
+        const resolvedSchema = await resolveDynamicDatasources(schema, uiSchema, secrets);
 
-        model.onCompleting.add(async (sender, options) => {
-          options.allowComplete = false;
-          setSubmitting(true);
-          setSubmitResult(null);
-
-          try {
-            const data = sender.data;
-            const result = {};
-            const customValues = {};
-
-            for (const [key, val] of Object.entries(data)) {
-              const strVal = Array.isArray(val) ? val.join(',') : String(val ?? '');
-              if (standardInputsRef.current.includes(key)) {
-                result[key] = strVal;
-              } else {
-                customValues[key] = strVal;
-              }
-            }
-
-            if (Object.keys(customValues).length > 0) {
-              result[formKeyRef.current] = JSON.stringify(customValues);
-            }
-
-            const resp = await sendMsg('DISPATCH_WORKFLOW', {
-              owner,
-              repo,
-              workflowId: workflowFilename,
-              ref: selectedBranch,
-              inputs: result
-            });
-
-            if (resp.success) {
-              model.doComplete();
-              setSubmitResult({ type: 'success', message: 'Workflow dispatched successfully! ⚡' });
-            } else {
-              setSubmitResult({ type: 'error', message: resp.error || 'Dispatch failed' });
-            }
-          } catch (e) {
-            setSubmitResult({ type: 'error', message: e.message });
-          } finally {
-            setSubmitting(false);
-          }
+        setSchemaData({
+          schema: resolvedSchema,
+          uiSchema: uiSchema || {},
+          formData: formData || {}
         });
-
-        setSurvey(model);
       } else {
-        // Fallback: Standard GitHub workflow inputs
-        setStandardInputs(parsed?.standardInputs || []);
+        // Fallback: Generate a standard JSON Schema from GitHub inputs
+        const standardSchema = generateStandardSchema(parsed?.standardInputs || []);
+        setSchemaData({
+          schema: standardSchema,
+          uiSchema: {},
+          formData: {}
+        });
       }
     } catch (err) {
       setError(err.message);
@@ -143,18 +97,34 @@ export function FormView({
     }
   }
 
-  async function handleStandardSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit({ formData }) {
     setSubmitting(true);
     setSubmitResult(null);
 
     try {
+      const data = formData || {};
+      const result = {};
+      const customValues = {};
+
+      for (const [key, val] of Object.entries(data)) {
+        const strVal = Array.isArray(val) ? val.join(',') : String(val ?? '');
+        if (standardInputsRef.current.includes(key)) {
+          result[key] = strVal;
+        } else {
+          customValues[key] = strVal;
+        }
+      }
+
+      if (Object.keys(customValues).length > 0) {
+        result[formKeyRef.current] = JSON.stringify(customValues);
+      }
+
       const resp = await sendMsg('DISPATCH_WORKFLOW', {
         owner,
         repo,
         workflowId: workflowFilename,
         ref: selectedBranch,
-        inputs: standardFormValues
+        inputs: result
       });
 
       if (resp.success) {
@@ -162,8 +132,8 @@ export function FormView({
       } else {
         setSubmitResult({ type: 'error', message: resp.error || 'Dispatch failed' });
       }
-    } catch (err) {
-      setSubmitResult({ type: 'error', message: err.message });
+    } catch (e) {
+      setSubmitResult({ type: 'error', message: e.message });
     } finally {
       setSubmitting(false);
     }
@@ -196,7 +166,7 @@ export function FormView({
       </div>
 
       <div class="sp-form-scroll">
-        <div style="margin-bottom: 12px;">
+        <div style="margin-bottom: 14px;">
           <h2 style="font-size: 15px; font-weight: 600; color: var(--text-primary);">
             {workflowInfo?.workflowName || workflowFilename}
           </h2>
@@ -209,7 +179,7 @@ export function FormView({
         {loading && (
           <div class="sp-empty-state">
             <div class="sp-spinner"></div>
-            <span style="font-size: 12px;">Loading form definition...</span>
+            <span style="font-size: 12px;">Loading form schema...</span>
           </div>
         )}
 
@@ -242,10 +212,21 @@ export function FormView({
           </div>
         )}
 
-        {/* Advanced SurveyJS Form */}
-        {!loading && !error && survey && (
-          <div class="sp-survey-container">
-            <div ref={containerRef}></div>
+        {/* RJSF Form Rendering */}
+        {!loading && !error && schemaData && (
+          <div class="rjsf-form-container">
+            <Form
+              schema={schemaData.schema}
+              uiSchema={schemaData.uiSchema}
+              formData={schemaData.formData}
+              validator={validator}
+              templates={customTemplates}
+              widgets={customWidgets}
+              onSubmit={handleSubmit}
+              disabled={submitting}
+              showErrorList={false}
+            />
+
             {submitting && (
               <div class="sp-empty-state" style="padding: 16px;">
                 <div class="sp-spinner"></div>
@@ -254,50 +235,151 @@ export function FormView({
             )}
           </div>
         )}
-
-        {/* Fallback Standard Form */}
-        {!loading && !error && !survey && standardInputs && (
-          <form onSubmit={handleStandardSubmit} style="display:flex; flex-direction:column; gap:12px;">
-            <div class="sp-alert warning" style="font-size: 11px;">
-              <span>💡 Standard workflow detected without a custom SurveyJS form file.</span>
-            </div>
-
-            {standardInputs.length === 0 ? (
-              <p style="font-size: 12px; color: var(--text-secondary);">
-                This workflow takes no additional inputs. Click below to trigger execution.
-              </p>
-            ) : (
-              standardInputs.map(inputName => (
-                <div key={inputName} style="display:flex; flex-direction:column; gap:4px;">
-                  <label style="font-size: 12px; font-weight: 600; color: var(--text-primary);">
-                    {inputName}
-                  </label>
-                  <input
-                    type="text"
-                    class="sp-search-input"
-                    value={standardFormValues[inputName] || ''}
-                    onInput={(e) => setStandardFormValues({
-                      ...standardFormValues,
-                      [inputName]: e.target.value
-                    })}
-                  />
-                </div>
-              ))
-            )}
-
-            <button
-              type="submit"
-              class="sp-btn-run"
-              disabled={submitting}
-              style="margin-top: 8px; justify-content: center;"
-            >
-              {submitting ? '⚡ Dispatching...' : '⚡ Run workflow'}
-            </button>
-          </form>
-        )}
       </div>
     </div>
   );
+}
+
+/**
+ * Normalizes input JSON into standard RJSF { schema, uiSchema, formData }
+ */
+function normalizeRjsfSchema(json) {
+  if (json.schema && typeof json.schema === 'object') {
+    return {
+      schema: json.schema,
+      uiSchema: json.uiSchema || {},
+      formData: json.formData || json.data || {}
+    };
+  }
+
+  // If json is a direct JSON Schema (root type is object or properties exist)
+  if (json.type === 'object' || json.properties) {
+    return {
+      schema: json,
+      uiSchema: json.uiSchema || {},
+      formData: json.formData || {}
+    };
+  }
+
+  // Fallback / legacy converter if old SurveyJS format is encountered
+  if (json.elements || json.pages) {
+    return convertLegacySurveyToSchema(json);
+  }
+
+  return { schema: { type: 'object', properties: {} }, uiSchema: {}, formData: {} };
+}
+
+/**
+ * Converts legacy SurveyJS elements to JSON Schema for backwards compatibility
+ */
+function convertLegacySurveyToSchema(surveyJson) {
+  const elements = surveyJson.elements || (surveyJson.pages?.[0]?.elements) || [];
+  const properties = {};
+  const uiSchema = {};
+
+  for (const el of elements) {
+    const name = el.name;
+    if (!name) continue;
+
+    if (el.type === 'comment') {
+      properties[name] = { type: 'string', title: el.title || name };
+      uiSchema[name] = { 'ui:widget': 'textarea' };
+    } else if (el.type === 'tagbox') {
+      properties[name] = {
+        type: 'array',
+        title: el.title || name,
+        items: { type: 'string', enum: el.choices || [] },
+        uniqueItems: true
+      };
+      uiSchema[name] = { 'ui:widget': 'checkboxes' };
+      if (el.choicesByUrl) {
+        uiSchema[name]['choicesByUrl'] = el.choicesByUrl;
+        uiSchema[name]['fetchConfig'] = el.fetchConfig;
+      }
+    } else if (el.type === 'dropdown') {
+      properties[name] = {
+        type: 'string',
+        title: el.title || name,
+        enum: el.choices || []
+      };
+      uiSchema[name] = { 'ui:widget': 'select' };
+    } else if (el.type === 'boolean') {
+      properties[name] = { type: 'boolean', title: el.title || name, default: false };
+    } else {
+      properties[name] = { type: 'string', title: el.title || name, default: el.defaultValue || '' };
+    }
+  }
+
+  return {
+    schema: {
+      type: 'object',
+      title: surveyJson.title || 'Workflow Form',
+      description: surveyJson.description || '',
+      properties
+    },
+    uiSchema,
+    formData: {}
+  };
+}
+
+/**
+ * Generates standard JSON Schema from GitHub Actions native workflow inputs
+ */
+function generateStandardSchema(inputsList) {
+  const properties = {};
+  for (const inputName of inputsList) {
+    properties[inputName] = {
+      type: 'string',
+      title: inputName
+    };
+  }
+  return {
+    type: 'object',
+    title: 'Standard Workflow Inputs',
+    description: inputsList.length ? 'Fill in workflow dispatch inputs below:' : 'This workflow takes no additional inputs.',
+    properties
+  };
+}
+
+/**
+ * Resolves external API datasources defined in schema or uiSchema
+ */
+async function resolveDynamicDatasources(schema, uiSchema, secrets) {
+  const cloneSchema = JSON.parse(JSON.stringify(schema));
+  if (!cloneSchema.properties) return cloneSchema;
+
+  for (const [propName, propDef] of Object.entries(cloneSchema.properties)) {
+    const uiDef = uiSchema?.[propName] || {};
+    const cbu = uiDef.choicesByUrl || propDef.choicesByUrl || uiDef['ui:dataSource'];
+    if (!cbu?.url) continue;
+
+    try {
+      const fetchConfig = uiDef.fetchConfig || propDef.fetchConfig || {};
+      const method = fetchConfig.method || 'GET';
+      const headers = fetchConfig.headers ? await resolveObject(fetchConfig.headers, secrets) : {};
+      const resolvedUrl = await resolve(cbu.url, secrets);
+
+      const resp = await sendMsg('FETCH_DATASOURCE', { url: resolvedUrl, method, headers });
+      if (resp.success) {
+        const data = getByPath(resp.data, cbu.path);
+        const list = Array.isArray(data) ? data : [];
+        const values = list.map(item => String(cbu.valueName ? item[cbu.valueName] : item));
+        const labels = list.map(item => String(cbu.titleName ? item[cbu.titleName] : item));
+
+        if (propDef.type === 'array' && propDef.items) {
+          propDef.items.enum = values;
+          propDef.items.enumNames = labels;
+        } else {
+          propDef.enum = values;
+          propDef.enumNames = labels;
+        }
+      }
+    } catch (e) {
+      console.warn(`Could not resolve dynamic datasource for ${propName}:`, e);
+    }
+  }
+
+  return cloneSchema;
 }
 
 function sendMsg(type, payload) {
@@ -309,31 +391,4 @@ function sendMsg(type, payload) {
 function getByPath(obj, path) {
   if (!path) return obj;
   return path.split('.').reduce((acc, key) => acc?.[key], obj);
-}
-
-async function preloadDatasources(model, secrets) {
-  const fetches = [];
-  for (const question of model.getAllQuestions()) {
-    const cbu = question.choicesByUrl;
-    if (!cbu?.url) continue;
-
-    const fetchConfig = question.getPropertyValue('fetchConfig') || {};
-    const method = fetchConfig.method || 'GET';
-    const headers = fetchConfig.headers ? await resolveObject(fetchConfig.headers, secrets) : {};
-    const resolvedUrl = await resolve(cbu.url, secrets);
-
-    const promise = sendMsg('FETCH_DATASOURCE', { url: resolvedUrl, method, headers })
-      .then(resp => {
-        if (resp.success) {
-          const data = getByPath(resp.data, cbu.path);
-          question.choices = (Array.isArray(data) ? data : []).map(item => ({
-            value: String(cbu.valueName ? item[cbu.valueName] : item),
-            text: String(cbu.titleName ? item[cbu.titleName] : item)
-          }));
-        }
-        question.choicesByUrl = null;
-      });
-    fetches.push(promise);
-  }
-  await Promise.all(fetches);
 }

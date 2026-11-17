@@ -15,8 +15,9 @@
   },
   "dependencies": {
     "@preact/preset-vite": "^2.10.5",
-    "preact": "^10.29.3",
-    "survey-core": "^2.5.31",
-    "survey-js-ui": "^2.5.31"
+    "@rjsf/core": "^6.11.1",
+    "@rjsf/utils": "^6.11.1",
+    "@rjsf/validator-ajv8": "^6.11.1",
+    "preact": "^10.29.3"
   }
 }
