@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Better Action Settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="settings-container">
+    <header>
+      <h1>Better Action ⚡ Configurations</h1>
+      <p class="subtitle">Manage authentication, OAuth, and API secrets</p>
+    </header>
+
+    <!-- Account & OAuth Status Section -->
+    <section class="card">
+      <h2>GitHub Authentication</h2>
+      <p class="hint">Authenticate via GitHub OAuth (Device Flow) or Personal Access Token.</p>
+
+      <div id="auth-status-box" style="margin-bottom: 14px;"></div>
+
+      <div class="oauth-section" style="margin-top: 10px;">
+        <label for="oauth-client-id" style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 4px;">
+          OAuth App Client ID
+        </label>
+        <div class="input-group">
+          <input type="text" id="oauth-client-id" placeholder="GitHub OAuth App Client ID" autocomplete="off">
+          <button id="save-oauth-btn" class="btn-primary" style="padding: 6px 14px;">Save</button>
+        </div>
+        <p class="hint" style="margin-top: 4px;">
+          Create a free OAuth App under GitHub Settings &gt; Developer Settings with "Enable Device Flow" checked.
+        </p>
+      </div>
+    </section>
+
+    <!-- PAT Fallback Section -->
+    <section class="card">
+      <h2>Personal Access Token (PAT) Fallback</h2>
+      <p class="hint">Required scope: <code>workflow</code> and <code>repo</code></p>
+      <div class="input-group">
+        <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+        <button id="toggle-token" class="btn-icon" title="Toggle visibility">👁</button>
+      </div>
+      <div id="token-status" class="status"></div>
+    </section>
+
+    <!-- Secrets Vault -->
+    <section class="card">
+      <h2>External API Secrets Vault</h2>
+      <p class="hint">Key-value pairs used for <code>${SETTINGS_*}</code> interpolation in datasource URLs.</p>
+      <div id="secrets-list"></div>
+      <div class="secret-row add-row">
+        <input type="text" id="new-secret-key" placeholder="SETTINGS_INTERNAL_TOKEN" autocomplete="off">
+        <input type="password" id="new-secret-value" placeholder="Secret value" autocomplete="off">
+        <button id="add-secret" class="btn-primary">Add</button>
+      </div>
+    </section>
+
+    <div id="save-status" class="save-status"></div>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>
