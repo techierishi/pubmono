@@ -3,6 +3,7 @@ import { Model } from 'survey-core';
 import { renderSurvey } from 'survey-js-ui';
 import { extractBetterActionFromInput } from '../../utils/yaml-parser.js';
 import { resolve, resolveObject } from '../../utils/interpolate.js';
+import { githubDarkTheme } from '../github-theme.js';
 
 export function FormView({
   workflowInfo,
@@ -83,6 +84,7 @@ export function FormView({
         }
 
         const model = new Model(JSON.parse(formResp.content));
+        model.applyTheme(githubDarkTheme);
         model.showCompletedPage = false;
 
         await preloadDatasources(model, secrets);

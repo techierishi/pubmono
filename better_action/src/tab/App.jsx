@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { Model } from 'survey-core';
 import { renderSurvey } from 'survey-js-ui';
 import 'survey-core/survey-core.fontless.min.css';
+import '../sidepanel/survey-github.css';
 import { extractBetterActionFromInput } from '../utils/yaml-parser.js';
 import { resolve, resolveObject } from '../utils/interpolate.js';
+import { githubDarkTheme } from '../sidepanel/github-theme.js';
 
 export function App() {
   const [loading, setLoading] = useState(true);
@@ -38,6 +40,7 @@ export function App() {
         if (!formResp.success) throw new Error('Failed to fetch form: ' + formResp.error);
 
         const model = new Model(JSON.parse(formResp.content));
+        model.applyTheme(githubDarkTheme);
         model.showCompletedPage = false;
 
         await preloadDatasources(model, secrets);
