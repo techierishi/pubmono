@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/build.js",
+    "build": "node scripts/build.js",
     "build:content": "esbuild src/content/content.js --bundle --outfile=dist/content/content.js --format=iife",
     "preview": "vite preview"
   },

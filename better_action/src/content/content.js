@@ -1,234 +1,170 @@
-const BAR_ID = 'ba-bar';
-const DRAWER_ID = 'ba-drawer';
-let injected = false;
+// Better Action Content Script
+// Observes GitHub Actions pages and provides sidebar integration
+
+let lastUrl = location.href;
 
 function init() {
-  if (!isActionsPage()) return;
-  observePage();
-  tryInject();
+  checkAndNotifyPage();
+  observePageChanges();
+  attachRunWorkflowHooks();
 }
 
 function isActionsPage() {
-  return /^\/[^/]+\/[^/]+\/actions/.test(location.pathname);
+  return /^\/[^/]+\/[^/]+\/actions(?:\/.*)?$/.test(location.pathname);
 }
 
-function getRepoInfo() {
-  const p = location.pathname.split('/');
-  return { owner: p[1], repo: p[2] };
+function getRepoCoordinates() {
+  const parts = location.pathname.split('/').filter(Boolean);
+  if (parts.length >= 2) {
+    return { owner: parts[0], repo: parts[1] };
+  }
+  return null;
 }
 
-function observePage() {
-  const obs = new MutationObserver(() => {
-    clearTimeout(obs._t);
-    obs._t = setTimeout(tryInject, 400);
-  });
-  obs.observe(document.body, { childList: true, subtree: true });
-}
-
-function tryInject() {
-  if (injected) return;
-  if (!isActionsPage()) return;
-
-  const file = getWorkflowFile();
-  if (!file) return;
-
-  injected = true;
-  doInject(file);
-}
-
-function getWorkflowFile() {
-  const m = location.pathname.match(/\/workflows\/([^/]+\.(?:yml|yaml))/i);
-  if (m) return m[1];
+function getWorkflowFilename() {
+  const match = location.pathname.match(/\/workflows\/([^/]+\.(?:ya?ml))/i);
+  if (match) return match[1];
 
   const params = new URLSearchParams(location.search);
   const qp = params.get('workflow');
-  if (qp) return /\.(yml|yaml)$/i.test(qp) ? qp : `${qp}.yml`;
+  if (qp) return /\.(ya?ml)$/i.test(qp) ? qp : `${qp}.yaml`;
 
   return null;
 }
 
-function getRef() {
-  const picker = document.querySelector(
-    '[data-menu-trigger="branch-picker"], [data-testid="branch-picker"], ' +
-    '#branch-picker-repos-header-ref-selector, summary[aria-label*="branch"], ' +
-    '[id*="branch-picker"] summary, [data-targets*="branch"]'
-  );
-  if (picker) {
-    const text = picker.textContent?.trim().split(/\s+/)[0];
+function getActiveBranch() {
+  // Try branch picker button or selectors
+  const selectors = [
+    '[data-menu-trigger="branch-picker"] span',
+    '[data-testid="branch-picker"] span',
+    '#branch-picker-repos-header-ref-selector span',
+    'summary[aria-label*="branch"] span',
+    '[class*="branch"] [class*="name"]',
+    '[data-testid*="branch"] span'
+  ];
+
+  for (const s of selectors) {
+    const el = document.querySelector(s);
+    const text = el?.textContent?.trim();
     if (text && text.length < 50) return text;
   }
 
-  const branchLabel = document.querySelector('[class*="branch"] [class*="name"], [data-testid*="branch"] span');
-  if (branchLabel) {
-    const text = branchLabel.textContent?.trim();
-    if (text && text.length < 50) return text;
-  }
+  const branchMatch = location.pathname.match(/\/tree\/([^/]+)/);
+  if (branchMatch) return decodeURIComponent(branchMatch[1]);
 
-  const m = location.pathname.match(/\/tree\/(.+?)(?:\/|$)/);
-  if (m) return decodeURIComponent(m[1]);
-
-  const params = new URLSearchParams(location.search);
-  const queryBranch = params.get('branch');
+  const queryBranch = new URLSearchParams(location.search).get('branch');
   if (queryBranch) return queryBranch;
 
   return 'master';
 }
 
-function doInject(filename) {
-  if (document.getElementById(BAR_ID)) return;
+function checkAndNotifyPage() {
+  if (!isActionsPage()) return;
 
-  const { owner, repo } = getRepoInfo();
-  const ref = getRef();
-  const path = `.github/workflows/${filename}`;
+  const repo = getRepoCoordinates();
+  if (!repo) return;
 
-  injectStyles();
+  const filename = getWorkflowFilename();
+  const branch = getActiveBranch();
 
-  const bar = document.createElement('div');
-  bar.id = BAR_ID;
-  bar.style.cssText =
-    'display:flex;flex-direction:column;align-items:stretch;gap:8px;' +
-    'position:fixed;right:0;top:50%;transform:translateY(-50%);' +
-    'z-index:99997;padding:12px 8px;';
-
-  const btn = document.createElement('button');
-  btn.textContent = '⚡';
-  btn.title = 'Open Better Action';
-  btn.style.cssText =
-    'display:block;background:linear-gradient(135deg,#238636,#2ea043);' +
-    'color:#fff;border:1px solid #2ea043;border-radius:6px 0 0 6px;padding:12px 8px;' +
-    'font-size:16px;cursor:pointer;line-height:1;font-family:inherit;';
-
-  btn.addEventListener('click', () => openDrawer(owner, repo, ref, path, filename));
-
-  bar.appendChild(btn);
-  document.body.appendChild(bar);
+  chrome.runtime.sendMessage({
+    type: 'PAGE_CONTEXT_CHANGED',
+    payload: {
+      owner: repo.owner,
+      repo: repo.repo,
+      ref: branch,
+      workflowFilename: filename,
+      workflowPath: filename ? `.github/workflows/${filename}` : null,
+      isActionsPage: true
+    }
+  }).catch(() => {});
 }
 
-function injectStyles() {
-  if (document.getElementById('ba-styles')) return;
+function attachRunWorkflowHooks() {
+  if (!isActionsPage()) return;
 
-  const style = document.createElement('style');
-  style.id = 'ba-styles';
-  style.textContent = `
-    .ba-btn, .bd-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: linear-gradient(135deg,#238636,#2ea043);
-      color: #fff; border: 1px solid #2ea043;
-      border-radius: 6px; padding: 6px 16px;
-      font-size: 13px; font-weight: 500;
-      cursor: pointer; line-height: 20px;
-      font-family: inherit;
-    }
-    .ba-btn:hover, .bd-btn:hover { opacity: 0.9; }
-    #${DRAWER_ID}-backdrop {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 99998;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    #${DRAWER_ID}-backdrop.open { opacity: 1; }
-    #${DRAWER_ID}-panel {
-      position: fixed; top: 0; right: 0; bottom: 0;
-      width: 640px; max-width: 90vw;
-      background: #0d1117;
-      border-left: 1px solid #30363d;
-      z-index: 99999;
-      display: flex; flex-direction: column;
-      transform: translateX(100%);
-      transition: transform 0.25s ease;
-      box-shadow: -8px 0 24px rgba(0,0,0,0.3);
-    }
-    #${DRAWER_ID}-panel.open { transform: translateX(0); }
-    #${DRAWER_ID}-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 16px;
-      border-bottom: 1px solid #30363d;
-      background: #161b22;
-    }
-    #${DRAWER_ID}-header span {
-      font-size: 14px; font-weight: 600; color: #e6edf3;
-    }
-    #${DRAWER_ID}-close {
-      background: none; border: none; color: #8b949e;
-      font-size: 20px; cursor: pointer; padding: 4px 8px;
-      line-height: 1; font-family: inherit;
-    }
-    #${DRAWER_ID}-close:hover { color: #f0f6fc; }
-    #${DRAWER_ID}-body {
-      flex: 1; overflow: hidden;
-    }
-    #${DRAWER_ID}-body iframe {
-      width: 100%; height: 100%; border: none;
-    }
-  `;
-  document.head.appendChild(style);
-}
+  // Look for GitHub's native "Run workflow" button or menu
+  const runWorkflowTriggers = document.querySelectorAll(
+    'summary[data-menu-trigger="run-workflow-menu"], ' +
+    'button[data-testid="run-workflow-button"], ' +
+    'details.details-reset.details-overlay button'
+  );
 
-function openDrawer(owner, repo, ref, path, filename) {
-  if (document.getElementById(DRAWER_ID)) return;
+  runWorkflowTriggers.forEach((trigger) => {
+    if (trigger.dataset.baHooked) return;
+    trigger.dataset.baHooked = 'true';
 
-  const tabUrl = chrome.runtime.getURL('tab/index.html') +
-    `?owner=${encodeURIComponent(owner)}` +
-    `&repo=${encodeURIComponent(repo)}` +
-    `&ref=${encodeURIComponent(ref)}` +
-    `&workflowPath=${encodeURIComponent(path)}` +
-    `&workflowFilename=${encodeURIComponent(filename)}`;
-
-  const backdrop = document.createElement('div');
-  backdrop.id = DRAWER_ID + '-backdrop';
-  backdrop.addEventListener('click', closeDrawer);
-
-  const panel = document.createElement('div');
-  panel.id = DRAWER_ID + '-panel';
-
-  panel.innerHTML = `
-    <div id="${DRAWER_ID}-header">
-      <span>Better Action ⚡</span>
-      <button id="${DRAWER_ID}-close" class="${DRAWER_ID}-close-btn">&times;</button>
-    </div>
-    <div id="${DRAWER_ID}-body">
-      <iframe src="${tabUrl}"></iframe>
-    </div>
-  `;
-
-  document.body.appendChild(backdrop);
-  document.body.appendChild(panel);
-
-  panel.querySelector('.' + DRAWER_ID + '-close-btn').addEventListener('click', closeDrawer);
-
-  requestAnimationFrame(() => {
-    backdrop.classList.add('open');
-    panel.classList.add('open');
+    // When the user clicks "Run workflow", also inject our Better Action button in the dropdown
+    trigger.addEventListener('click', () => {
+      setTimeout(injectSidebarButtonIntoDropdown, 100);
+    });
   });
 }
 
-function closeDrawer() {
-  const backdrop = document.getElementById(DRAWER_ID + '-backdrop');
-  const panel = document.getElementById(DRAWER_ID + '-panel');
+function injectSidebarButtonIntoDropdown() {
+  const dropdown = document.querySelector(
+    'details[data-menu-trigger="run-workflow-menu"] .SelectMenu-list, ' +
+    'details.details-reset.details-overlay .SelectMenu-list, ' +
+    'div[data-testid="run-workflow-dialog"], ' +
+    'form[action*="/dispatches"]'
+  );
 
-  if (backdrop) backdrop.classList.remove('open');
-  if (panel) panel.classList.remove('open');
+  if (!dropdown || dropdown.querySelector('.ba-open-sidebar-btn')) return;
 
-  setTimeout(() => {
-    backdrop?.remove();
-    panel?.remove();
-  }, 250);
+  const repo = getRepoCoordinates();
+  const filename = getWorkflowFilename();
+  const branch = getActiveBranch();
+
+  const container = document.createElement('div');
+  container.className = 'ba-dropdown-addon';
+  container.style.cssText = 'padding: 10px 16px; border-bottom: 1px solid #30363d; background: #161b22;';
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'ba-open-sidebar-btn';
+  btn.innerHTML = '⚡ Open in Better Action Sidebar';
+  btn.style.cssText =
+    'display: flex; align-items: center; justify-content: center; width: 100%; ' +
+    'gap: 8px; background: linear-gradient(135deg, #238636, #2ea043); color: #fff; ' +
+    'border: 1px solid #2ea043; border-radius: 6px; padding: 6px 12px; font-size: 13px; ' +
+    'font-weight: 600; cursor: pointer; transition: opacity 0.2s; font-family: inherit;';
+
+  btn.addEventListener('mouseenter', () => { btn.style.opacity = '0.9'; });
+  btn.addEventListener('mouseleave', () => { btn.style.opacity = '1'; });
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    chrome.runtime.sendMessage({
+      type: 'OPEN_SIDEBAR',
+      payload: {
+        owner: repo?.owner,
+        repo: repo?.repo,
+        ref: branch,
+        workflowFilename: filename,
+        workflowPath: filename ? `.github/workflows/${filename}` : null
+      }
+    });
+  });
+
+  container.appendChild(btn);
+  dropdown.prepend(container);
 }
 
-let lastUrl = location.href;
-const urlObs = new MutationObserver(() => {
-  if (location.href !== lastUrl) {
-    lastUrl = location.href;
-    document.getElementById(BAR_ID)?.remove();
-    document.getElementById(DRAWER_ID)?.remove();
-    document.getElementById(DRAWER_ID + '-backdrop')?.remove();
-    injected = false;
-    if (isActionsPage()) setTimeout(tryInject, 800);
-  }
-});
-urlObs.observe(document.body, { subtree: true, childList: true });
+function observePageChanges() {
+  const observer = new MutationObserver(() => {
+    if (location.href !== lastUrl) {
+      lastUrl = location.href;
+      checkAndNotifyPage();
+    }
+    attachRunWorkflowHooks();
+  });
 
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+// Start observing when document is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {

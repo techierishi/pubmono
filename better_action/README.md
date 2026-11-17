@@ -1,9 +1,18 @@
 # Technical Specification: Better Action Chrome Extension
 
-**Better Action** is a developer-focused productivity Chrome Extension that replaces the rigid, 5-element constraint of the native GitHub Actions `workflow_dispatch` web form with an advanced, developer-friendly interface. Forms are defined via SurveyJS JSON files in your repository and rendered using SurveyJS's vanilla JS renderer.
+**Better Action** is a developer-focused productivity Chrome Extension that replaces the rigid, 5-element constraint of the native GitHub Actions `workflow_dispatch` web form with an advanced, developer-friendly interface in your **browser sidebar**. Forms are defined via SurveyJS JSON files in your repository and rendered using Preact & SurveyJS.
+
+## Features
+
+- **Lives in Chrome Browser Sidebar:** Uses the Manifest V3 Side Panel API (`chrome.sidePanel`), seamlessly available alongside GitHub without interfering with page DOM.
+- **GitHub OAuth Login:** Native OAuth 2.0 Device Flow authorization so users can log in directly without having to copy-paste tokens. (PAT fallback also supported).
+- **Two-Page Sidebar Experience:**
+  - **Page 1 (Workflows & Jobs):** When viewing GitHub Actions pages (`/:owner/:repo/actions[/*]`), displays all workflows and recent runs with real-time quick search.
+  - **Page 2 (Advanced Form View):** Clicking "Run workflow" transitions the sidebar into the SurveyJS dynamic form interface for interactive parameter entry and dispatching.
+- **Standalone `dist/` Build:** Self-contained Chrome Extension built into the `dist/` directory ready for "Load unpacked".
 
 ## Tech-Stack
-Preact, survey-core, survey-js-ui
+Preact, survey-core, survey-js-ui, Vite, esbuild
 
 ---
 
@@ -86,72 +95,46 @@ on:
 
 ---
 
-## 2. Architecture & Workflow Topology
+## 2. Architecture & Sidebar Flow
 
-### Core Component Interaction
 ```
-[ GitHub Actions UI ] --(Scrapes DOM/Detects workflow file)--> [ Content Script ]
-                                                                    │ (Injects Button)
-                                                                    ▼
-[ Native API Run ] <--(Dispatches JSON via REST API)-- [ Extension Tab: SurveyJS (Preact) ]
-                                                                    ▲
-                                                                    │ (Reads Token)
-                                                           [ Settings Storage ]
+[ GitHub Actions UI ] --(Detects active repo & branch)--> [ Content Script ]
+                                                                 │
+                                                       (Opens side panel)
+                                                                 ▼
+[ GitHub REST API ] <--(Dispatches via API)-- [ Chrome Browser Sidebar ]
+                                                 ├─ Page 1: Jobs & Workflows List (Search)
+                                                 └─ Page 2: Advanced SurveyJS Form View
+                                                                 ▲
+                                                                 │
+                                                 [ OAuth Vault / Local Storage ]
 ```
 
-### End-to-End Operational Lifecycle
-1. **Detection:** A background content script monitors repository paths (`github.com*`).
-2. **Parsing:** When the manual trigger panel is opened, the script fetches the workflow YAML via the GitHub REST API, reads the `better_action_form` input's default value to locate the form definition file, then fetches that file.
-3. **UI Mutation:** If detected, a custom action button styled as **"Better Action ⚡"** is appended alongside the native "Run workflow" trigger button.
-4. **Context Handoff:** Clicking the button passes repository coordinates (`owner`, `repo`, `ref`) to a new extension workspace tab.
-5. **Dynamic Form Construction:** The workspace creates a SurveyJS model (`survey-core`) from the JSON, pre-fetches any datasources via the extension's background script (bypassing CORS), and renders using `survey-js-ui` (Preact-based renderer).
-6. **Submission:** SurveyJS validates the input, then the extension maps question values to GitHub inputs (standard names go directly, custom names are packed into `better_action_form` as JSON) and dispatches via the GitHub API.
+### Operational Lifecycle
+1. **Sidebar Activation:** Clicking the extension toolbar icon opens the browser's native right sidebar (`chrome.sidePanel`).
+2. **Page 1 - Workflows & Jobs:** Sidebar connects with active tab, fetches repository workflows and runs via GitHub API, and renders them with a top search bar for quick filtering.
+3. **Trigger Transition:** Clicking "⚡ Run workflow" on any card (or GitHub's native Run Workflow button) transitions the sidebar to **Page 2**.
+4. **Page 2 - Form Construction:** Sidebar fetches the YAML, reads `better_action_form`'s default path, loads the SurveyJS definition, resolves dynamic datasources, and renders interactive inputs.
+5. **Submission:** User fills out parameters and submits; extension maps inputs and dispatches via GitHub API `POST /repos/{owner}/{repo}/actions/workflows/{workflowId}/dispatches`.
 
 ---
 
-## 3. SurveyJS Component Mapping
+## 3. Building the Extension
 
-Better Action uses SurveyJS element types mapped to GitHub Actions form needs:
-
-| SurveyJS Type | GitHub Use | Description |
-|--------------|------------|-------------|
-| `comment` | Textarea | Multi-line text input for notes, configs, logs |
-| `tagbox` | Multi-Select | Searchable tag-pill selector with dynamic or static choices |
-| `dropdown` | Single-Select | Searchable dropdown (via `searchEnabled: true`) |
-| `text` | Text Input | Single-line text input |
-| `boolean` | Checkbox | True/false toggle |
-
-### Dynamic Choices via `choicesByUrl`
-SurveyJS's `choicesByUrl` defines the URL, JSON path, and label/value mapping. The extension intercepts these fetches via the background script to handle custom headers and CORS. Additional fetch configuration (method, headers) is placed in a custom `fetchConfig` property on the question.
-
----
-
-## 4. Extension Subsystems & Layouts
-
-### Content Script (DOM Mutator)
-* **Target Scope:** Matches URLs matching `github.com*`.
-* **Behavior:** Observes the native overlay wrapper via a `MutationObserver`. It fetches raw file data using the GitHub REST API to find the workflow file.
-
-### Settings Workspace Vault
-The dedicated settings options page handles sensitive configurations using `chrome.storage.local`:
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│ Better Action ⚡ Configurations                               │
-├─────────────────────────────────────────────────────────────┤
-│ GitHub Personal Access Token (PAT):                         │
-│ [ ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ] (Encrypted)    │
-│ Scope Required: 'workflow' or 'actions:write'              │
-│                                                             │
-│ External API Secrets Vault:                                 │
-│ Key: SETTINGS_INTERNAL_TOKEN                                │
-│ Value: [ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... ]          │
-└─────────────────────────────────────────────────────────────┘
+Run the build command:
+```bash
+npm run build
 ```
 
----
+This generates the complete, self-contained Chrome Extension in the `dist/` folder:
+- `dist/manifest.json`: Manifest V3 configuration
+- `dist/sidepanel/`: Browser sidebar HTML, Preact bundle, and CSS
+- `dist/background/`: Background service worker with OAuth & API proxies
+- `dist/content/`: Content script with page hooks
+- `dist/icons/`: Generated icons in all required sizes (16, 32, 48, 128)
+- `dist/settings/`: Options & secrets management page
 
-## 5. Security & Isolation Matrix
-* **Token Access Framework:** GitHub Personal Access Tokens are held locally via Chrome's sandboxed storage instance. They are only injected into API outbound headers communicating strictly with `github.com`.
-* **CORS Management:** Datasource requests are proxied through the extension's background script, bypassing cross-origin restrictions without weakening browser security layers.
-* **Content Security Policy (CSP):** Form processing code runs detached inside the extension tab context rather than as directly embedded scripts on GitHub's active pages.
+To load into Chrome:
+1. Open `chrome://extensions/`
+2. Enable "Developer mode" (top right)
+3. Click "Load unpacked" and select the `better_action/dist` folder.

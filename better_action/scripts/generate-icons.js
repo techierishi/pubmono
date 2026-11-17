@@ -70,7 +70,7 @@ function createPNG(size) {
   ]);
 }
 
-for (const size of [16, 48, 128]) {
+for (const size of [16, 32, 48, 128]) {
   const png = createPNG(size);
   writeFileSync(resolve(iconsDir, `icon${size}.png`), png);
   console.log(`Generated icon${size}.png`);
