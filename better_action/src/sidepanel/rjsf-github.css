@@ -1,0 +1,247 @@
+/* ==========================================================================
+   React JSON Schema Form (RJSF) GitHub Primer Dark Styles
+   ========================================================================== */
+
+.rjsf-form-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 12px;
+}
+
+/* Field Containers */
+.rjsf-field {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rjsf-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f0f6fc;
+  margin-bottom: 4px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.rjsf-required {
+  color: #f85149;
+  margin-left: 3px;
+  font-weight: 700;
+}
+
+.rjsf-description {
+  font-size: 11px;
+  color: #8b949e;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.rjsf-control {
+  width: 100%;
+}
+
+/* Inputs */
+.rjsf-input {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #f0f6fc;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 20px;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rjsf-input:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.25);
+  outline: none;
+}
+
+.rjsf-input-error {
+  border-color: #f85149 !important;
+}
+
+/* Textarea */
+.rjsf-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #f0f6fc;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  resize: vertical;
+  min-height: 72px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rjsf-textarea:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.25);
+  outline: none;
+}
+
+/* Select */
+.rjsf-select {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #f0f6fc;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rjsf-select:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.25);
+  outline: none;
+}
+
+.rjsf-select option {
+  background-color: #161b22;
+  color: #f0f6fc;
+}
+
+/* Checkboxes & Radios */
+.rjsf-checkbox-label,
+.rjsf-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #f0f6fc;
+  margin: 3px 0;
+}
+
+.rjsf-checkbox,
+.rjsf-radio {
+  accent-color: #1f6feb;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.rjsf-checkboxes-group,
+.rjsf-radios-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Object Fields */
+.rjsf-object-field {
+  width: 100%;
+}
+
+.rjsf-object-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f0f6fc;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #30363d;
+}
+
+.rjsf-properties-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Array Fields */
+.rjsf-array-field {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.rjsf-array-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.rjsf-array-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #161b22;
+  padding: 6px 8px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+}
+
+.rjsf-array-item-content {
+  flex: 1;
+}
+
+/* Buttons */
+.rjsf-btn-secondary {
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.rjsf-btn-secondary:hover {
+  background: #30363d;
+  color: #f0f6fc;
+}
+
+.rjsf-btn-danger {
+  background: none;
+  border: 1px solid rgba(248, 81, 73, 0.4);
+  color: #f85149;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.rjsf-btn-danger:hover {
+  background: rgba(248, 81, 73, 0.15);
+}
+
+.rjsf-submit-container {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #30363d;
+}
+
+/* Validation Errors */
+.rjsf-errors {
+  color: #f85149;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.rjsf-errors li {
+  list-style: none;
+}
+
+.rjsf-help {
+  color: #8b949e;
+  font-size: 11px;
+  margin-top: 3px;
+}

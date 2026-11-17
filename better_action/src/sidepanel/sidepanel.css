@@ -415,46 +415,6 @@ body {
   padding: 14px;
 }
 
-/* SurveyJS Container Overrides for Dark Sidebar */
-.sp-survey-container {
-  color: var(--text-primary);
-}
-
-.sp-survey-container .sd-root-modern {
-  background: transparent !important;
-  color: var(--text-primary) !important;
-}
-
-.sp-survey-container .sd-container-modern {
-  padding: 0 !important;
-}
-
-.sp-survey-container .sd-title {
-  color: var(--text-primary) !important;
-}
-
-.sp-survey-container .sd-question__title {
-  color: var(--text-primary) !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-}
-
-.sp-survey-container .sd-input {
-  background: var(--bg-secondary) !important;
-  border-color: var(--border-color) !important;
-  color: var(--text-primary) !important;
-  border-radius: 6px !important;
-}
-
-.sp-survey-container .sd-btn {
-  background: linear-gradient(135deg, #238636, #2ea043) !important;
-  color: #fff !important;
-  border-radius: 6px !important;
-  font-weight: 600 !important;
-  padding: 8px 16px !important;
-  border: 1px solid #2ea043 !important;
-}
-
 /* Empty, Loading, and Alert States */
 .sp-empty-state {
   display: flex;
