@@ -1,7 +1,7 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const { type, payload } = message;
 
-  if (type === 'OPEN_BETTER_DISPATCH') {
+  if (type === 'OPEN_BETTER_ACTION' || type === 'OPEN_BETTER_DISPATCH') {
     const { owner, repo, ref, workflowPath, workflowFilename, config } = payload;
     const tabUrl = chrome.runtime.getURL('tab/index.html') +
       `?owner=${encodeURIComponent(owner)}` +
@@ -71,7 +71,7 @@ async function fetchWorkflowContent(owner, repo, path, ref) {
 
 async function dispatchWorkflow(owner, repo, workflowId, ref, inputs) {
   const { github_token } = await chrome.storage.local.get(['github_token']);
-  if (!github_token) throw new Error('GitHub PAT not configured. Open Better Dispatch settings.');
+  if (!github_token) throw new Error('GitHub PAT not configured. Open Better Action settings.');
 
   const url = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowId}/dispatches`;
   const headers = {

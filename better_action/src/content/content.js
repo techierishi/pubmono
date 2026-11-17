@@ -1,5 +1,5 @@
-const BAR_ID = 'bd-bar';
-const DRAWER_ID = 'bd-drawer';
+const BAR_ID = 'ba-bar';
+const DRAWER_ID = 'ba-drawer';
 let injected = false;
 
 function init() {
@@ -92,7 +92,7 @@ function doInject(filename) {
 
   const btn = document.createElement('button');
   btn.textContent = '⚡';
-  btn.title = 'Open Better Dispatch';
+  btn.title = 'Open Better Action';
   btn.style.cssText =
     'display:block;background:linear-gradient(135deg,#238636,#2ea043);' +
     'color:#fff;border:1px solid #2ea043;border-radius:6px 0 0 6px;padding:12px 8px;' +
@@ -105,12 +105,12 @@ function doInject(filename) {
 }
 
 function injectStyles() {
-  if (document.getElementById('bd-styles')) return;
+  if (document.getElementById('ba-styles')) return;
 
   const style = document.createElement('style');
-  style.id = 'bd-styles';
+  style.id = 'ba-styles';
   style.textContent = `
-    .bd-btn {
+    .ba-btn, .bd-btn {
       display: inline-flex; align-items: center; gap: 6px;
       background: linear-gradient(135deg,#238636,#2ea043);
       color: #fff; border: 1px solid #2ea043;
@@ -119,7 +119,7 @@ function injectStyles() {
       cursor: pointer; line-height: 20px;
       font-family: inherit;
     }
-    .bd-btn:hover { opacity: 0.9; }
+    .ba-btn:hover, .bd-btn:hover { opacity: 0.9; }
     #${DRAWER_ID}-backdrop {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.5);
@@ -184,7 +184,7 @@ function openDrawer(owner, repo, ref, path, filename) {
 
   panel.innerHTML = `
     <div id="${DRAWER_ID}-header">
-      <span>Better Dispatch ⚡</span>
+      <span>Better Action ⚡</span>
       <button id="${DRAWER_ID}-close" class="${DRAWER_ID}-close-btn">&times;</button>
     </div>
     <div id="${DRAWER_ID}-body">

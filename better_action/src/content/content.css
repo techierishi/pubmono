@@ -1,3 +1,4 @@
+.ba-button,
 .bd-button {
   display: inline-flex;
   align-items: center;
@@ -16,10 +17,12 @@
   line-height: 20px;
 }
 
+.ba-button:hover,
 .bd-button:hover {
   background: linear-gradient(135deg, #2ea043, #3fb950);
 }
 
+.ba-button .ba-icon,
 .bd-button .bd-icon {
   font-size: 16px;
 }

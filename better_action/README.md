@@ -1,6 +1,6 @@
-# Technical Specification: Better Dispatch Chrome Extension
+# Technical Specification: Better Action Chrome Extension
 
-**Better Dispatch** is a developer-focused productivity Chrome Extension that replaces the rigid, 5-element constraint of the native GitHub Actions `workflow_dispatch` web form with an advanced, developer-friendly interface. Forms are defined via SurveyJS JSON files in your repository and rendered using SurveyJS's vanilla JS renderer.
+**Better Action** is a developer-focused productivity Chrome Extension that replaces the rigid, 5-element constraint of the native GitHub Actions `workflow_dispatch` web form with an advanced, developer-friendly interface. Forms are defined via SurveyJS JSON files in your repository and rendered using SurveyJS's vanilla JS renderer.
 
 ## Tech-Stack
 Preact, survey-core, survey-js-ui
@@ -11,7 +11,7 @@ Preact, survey-core, survey-js-ui
 
 To prevent GitHub from rejecting your workflow files, this architecture exploits a native feature of GitHub's YAML parser: **GitHub ignores custom properties it doesn't understand.**
 
-All advanced form layouts are defined in a standalone SurveyJS JSON file (e.g., `.github/better_dispatch/sample_form.json`) and referenced by the `better_dispatch_form` input's `default` value.
+All advanced form layouts are defined in a standalone SurveyJS JSON file (e.g., `.github/better_action/sample_form.json`) and referenced by the `better_action_form` input's `default` value.
 
 ### Production-Ready Workflow Template
 ```yaml
@@ -32,10 +32,10 @@ on:
         description: "Selected flags (Fallback text box for standard GitHub UI)"
 
 # 2. Custom input safely ignored by GitHub, parsed by your extension
-      better_dispatch_form:
+      better_action_form:
         type: string
         required: false
-        default: .github/better_dispatch/sample_form.json
+        default: .github/better_action/sample_form.json
 ```
 
 ### SurveyJS Form Definition (`sample_form.json`)
@@ -101,17 +101,17 @@ on:
 
 ### End-to-End Operational Lifecycle
 1. **Detection:** A background content script monitors repository paths (`github.com*`).
-2. **Parsing:** When the manual trigger panel is opened, the script fetches the workflow YAML via the GitHub REST API, reads the `better_dispatch_form` input's default value to locate the form definition file, then fetches that file.
-3. **UI Mutation:** If detected, a custom action button styled as **"Better Dispatch ⚡"** is appended alongside the native "Run workflow" trigger button.
+2. **Parsing:** When the manual trigger panel is opened, the script fetches the workflow YAML via the GitHub REST API, reads the `better_action_form` input's default value to locate the form definition file, then fetches that file.
+3. **UI Mutation:** If detected, a custom action button styled as **"Better Action ⚡"** is appended alongside the native "Run workflow" trigger button.
 4. **Context Handoff:** Clicking the button passes repository coordinates (`owner`, `repo`, `ref`) to a new extension workspace tab.
 5. **Dynamic Form Construction:** The workspace creates a SurveyJS model (`survey-core`) from the JSON, pre-fetches any datasources via the extension's background script (bypassing CORS), and renders using `survey-js-ui` (Preact-based renderer).
-6. **Submission:** SurveyJS validates the input, then the extension maps question values to GitHub inputs (standard names go directly, custom names are packed into `better_dispatch_form` as JSON) and dispatches via the GitHub API.
+6. **Submission:** SurveyJS validates the input, then the extension maps question values to GitHub inputs (standard names go directly, custom names are packed into `better_action_form` as JSON) and dispatches via the GitHub API.
 
 ---
 
 ## 3. SurveyJS Component Mapping
 
-Better Dispatch uses SurveyJS element types mapped to GitHub Actions form needs:
+Better Action uses SurveyJS element types mapped to GitHub Actions form needs:
 
 | SurveyJS Type | GitHub Use | Description |
 |--------------|------------|-------------|
@@ -137,7 +137,7 @@ The dedicated settings options page handles sensitive configurations using `chro
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ Better Dispatch ⚡ Configurations                             │
+│ Better Action ⚡ Configurations                               │
 ├─────────────────────────────────────────────────────────────┤
 │ GitHub Personal Access Token (PAT):                         │
 │ [ ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ] (Encrypted)    │

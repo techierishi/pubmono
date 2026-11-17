@@ -1,11 +1,18 @@
-export function extractBetterDispatchFromInput(yamlText) {
+export function extractBetterActionFromInput(yamlText) {
   const parsed = parseYaml(yamlText);
   const inputs = parsed?.on?.workflow_dispatch?.inputs;
   if (!inputs) return null;
 
   let formFileRef = null;
+  let formKey = 'better_action_form';
 
-  const enhancedInput = inputs['better_dispatch_form'];
+  const enhancedInput = inputs['better_action_form'] || inputs['better_dispatch_form'];
+  if (inputs['better_action_form']) {
+    formKey = 'better_action_form';
+  } else if (inputs['better_dispatch_form']) {
+    formKey = 'better_dispatch_form';
+  }
+
   if (enhancedInput) {
     const defaultStr = enhancedInput.default || enhancedInput['default'];
     if (defaultStr && typeof defaultStr === 'string' && /\.(ya?ml|json)$/i.test(defaultStr.trim())) {
@@ -13,9 +20,11 @@ export function extractBetterDispatchFromInput(yamlText) {
     }
   }
 
-  const standardNames = Object.keys(inputs).filter(k => k !== 'better_dispatch_form');
-  return { standardInputs: standardNames, formFileRef };
+  const standardNames = Object.keys(inputs).filter(k => k !== 'better_action_form' && k !== 'better_dispatch_form');
+  return { standardInputs: standardNames, formFileRef, formKey };
 }
+
+export const extractBetterDispatchFromInput = extractBetterActionFromInput;
 
 export function parseYaml(text) {
   const lines = text.split('\n');

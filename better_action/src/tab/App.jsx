@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { Model } from 'survey-core';
 import { renderSurvey } from 'survey-js-ui';
 import 'survey-core/survey-core.fontless.min.css';
-import { extractBetterDispatchFromInput } from '../utils/yaml-parser.js';
+import { extractBetterActionFromInput } from '../utils/yaml-parser.js';
 import { resolve, resolveObject } from '../utils/interpolate.js';
 
 export function App() {
@@ -30,8 +30,8 @@ export function App() {
         const workflowResp = await sendMsg('FETCH_WORKFLOW', { owner, repo, path: workflowPath, ref });
         if (!workflowResp.success) throw new Error(workflowResp.error);
 
-        const parsed = extractBetterDispatchFromInput(workflowResp.content);
-        if (!parsed?.formFileRef) throw new Error('No Better Dispatch form reference found.');
+        const parsed = extractBetterActionFromInput(workflowResp.content);
+        if (!parsed?.formFileRef) throw new Error('No Better Action form reference found.');
         standardInputsRef.current = parsed.standardInputs || [];
 
         const formResp = await sendMsg('FETCH_WORKFLOW', { owner, repo, path: parsed.formFileRef, ref });
@@ -61,7 +61,7 @@ export function App() {
             }
 
             if (Object.keys(customValues).length > 0) {
-              result['better_dispatch_form'] = JSON.stringify(customValues);
+              result[parsed.formKey || 'better_action_form'] = JSON.stringify(customValues);
             }
 
             const resp = await sendMsg('DISPATCH_WORKFLOW', { owner, repo, workflowId: workflowFilename, ref, inputs: result });

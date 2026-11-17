@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Better Dispatch",
+  "name": "Better Action",
   "version": "1.0.0",
   "description": "Advanced workflow_dispatch UI for GitHub Actions with SurveyJS-powered dynamic forms.",
   "permissions": [

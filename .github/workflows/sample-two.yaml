@@ -4,14 +4,14 @@ name: Sample Workflow Two
 on:
   workflow_dispatch:
     inputs:
-      better_dispatch_form:
+      better_action_form:
         type: string
         required: false
-        default: .github/better_dispatch/sample_form_two.json
+        default: .github/better_action/sample_form_two.json
 jobs:
   log-form-data:
     runs-on: ubuntu-latest
     steps:
       - name: Display Form Output
         run: |
-          echo "Form file: ${{ inputs.better_dispatch_form }}"
+          echo "Form file: ${{ inputs.better_action_form }}"
